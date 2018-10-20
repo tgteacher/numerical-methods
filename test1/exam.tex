@@ -1,0 +1,662 @@
+\documentclass{llncs}
+
+\usepackage{amsmath} % for equation*
+\usepackage{wasysym} % for \Box
+\usepackage{tipa} % for |
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{minted}
+\definecolor{darkgreen}{rgb}{0,0.7,0}
+
+% Fix link colors
+\hypersetup{
+    colorlinks = true,
+    linkcolor=red,
+    citecolor=red,
+    urlcolor=blue,
+    linktocpage % so that page numbers are clickable in toc
+}
+
+\pagestyle{plain}
+
+\newcounter{ques}
+\setcounter{ques}{1}
+
+\newcommand{\todo}[1]{\color{blue}\textbf{TODO:} #1\color{black}}
+\newcommand{\myspace}[0]{\vspace*{0.25cm}}
+
+\renewcommand{\question}[1]{\paragraph{}\textbf{Q\theques} - #1\stepcounter{ques} }
+
+\newcommand{\answer}[1]{\color{red}\textbf{Solution:}\\#1\color{black}}
+\title{COMP 361/5611, Elementary Numerical Methods \\ Test 1 \\ Fall 2018 \\ Friday, October 19, 2018 \\ Duration: 150 minutes}
+
+%\def\arraystretch{2}
+
+\author{Tristan Glatard\\
+  \href{mailto:tristan.glatard@concordia.ca}{tristan.glatard@concordia.ca}\\
+  \vspace*{0.3cm}
+  }
+
+\institute{Concordia University\\
+  Department of Computer Science and Software Engineering}
+
+\begin{document}
+
+\maketitle
+
+\section*{Instructions}
+\begin{itemize}
+\item All questions will receive equal points.
+\item Answer all questions on these sheets in the space provided.
+\item No books, notes or extra paper (except draft paper received from the instructor).
+\item No cell phones, laptops or any other electronic devices except ENCS calculators.
+\item This exam is 13 pages long, including the cover page. It has
+  12 questions labeled from \textbf{Q1} to \textbf{Q12}. Check that your copy
+  is complete.
+%~ \item Grading scheme:
+%~ \begin{itemize}
+%~ \item Good method, good result: 4pts
+%~ \item Good method, wrong result (e.g., calculation error): 3pts
+%~ \item Wrong method, good result: 2pts
+%~ \item Wrong method, wrong result: 0pts
+%~ \end{itemize}
+\end{itemize}
+
+\myspace
+
+\myspace
+
+\hrulefill\\
+
+\myspace
+
+Consistent with the university regulations concerning cheating and plagiarism I will not cheat during this examination:
+
+\myspace
+
+\myspace
+
+Student ID: \dotfill
+
+\myspace
+
+\myspace
+
+First Name / Last Name: \dotfill
+
+\myspace
+
+\myspace
+
+Signature: \dotfill
+
+\myspace
+
+\myspace
+
+\hrulefill
+
+\newpage
+%%% Chapter 2 (x2)
+% 0. Conditioning
+\question{By evaluating the determinant, determine if the following matrix is singular, ill-conditioned, or well-conditioned:
+$$
+\textbf{A}= 
+\begin{bmatrix}
+4 & 6 & -2 \\
+1 & 9 & 4 \\
+-1 & 1 & 7
+\end{bmatrix}
+$$
+}
+\answer{
+$$
+det\left( \textbf{A} \right) = 4 \left| 
+\begin{tabular}{cc}
+9 & 4 \\
+1 & 7
+\end{tabular}
+ \right|
+ - 6 \left| \begin{tabular}{cc}
+ 1 & 4 \\
+ -1 & 7
+ \end{tabular}
+ \right|
+ - 2 \left| \begin{tabular}{cc}
+ 1 & 9 \\
+ -1 & 1
+ \end{tabular}
+ \right|
+ = 4 \times (63 - 4) - 6 \times (7 + 4) -2 \times (1 + 9)
+ = 4 \times 59 - 6 \times 11 - 2 \times 10 = 150
+$$
+The determinant is large compared to the matrix coefficients: the matrix
+is well-conditioned.
+
+Grading:
+\begin{itemize}
+\item 1pt for determinant calculation (partial mark if good method but calculation error),
+\item 1pt for conclusion on conditioning (no partial mark).
+\end{itemize}
+}
+
+
+
+\newpage
+% 1. Gauss elimination
+\question{Use Gauss elimination to solve the equations $\textbf{Ax}=\textbf{b}$, where:
+$$
+\textbf{A}= 
+\begin{bmatrix}
+1 & 3 & 4 \\
+3 & 6 & 14 \\
+3 & -6 & 7
+\end{bmatrix}
+\quad
+\textbf{b}= 
+\begin{bmatrix}
+3  \\
+9  \\
+0  \\
+\end{bmatrix}
+$$
+}
+
+\answer{
+Elimination phase:
+
+\noindent (2) $\leftarrow$ (2) - 3 $\times$ (1)\\
+(3) $\leftarrow$ (3) - 3 $\times$ (1):\\
+$$
+\left(
+\begin{array}{ccc|c}
+1 & 3   & 4  & 3 \\
+0 & -3  & 2  & 0 \\
+0 & -15 & -5 & -9 
+\end{array}
+\right)
+$$
+
+\noindent (3) $\leftarrow$ (3) - 5 $\times$ (2):
+$$
+\left(
+\begin{array}{ccc|c}
+1 & 3   & 4  & 3 \\
+0 & -3  & 2  & 0 \\
+0 & 0 & -15 & -9 
+\end{array}
+\right)
+$$
+
+Backsubstitution gives:
+$$
+x_1 = -3/5 \quad ; \quad x_2 = 2/5 \quad ; \quad x_3 = 3/5
+$$
+
+Grading:
+\begin{itemize}
+\item 1pt for the method (no partial marks).
+\item 1pt for the numerical result (partial marks if some iterations are correct).
+\end{itemize}
+}
+
+\newpage
+% 2. LU decomposition
+\question{Use Doolittle's decomposition to find $\textbf{L}$ and $\textbf{U}$ such that:
+$$
+\textbf{A}=\textbf{LU}= 
+\begin{bmatrix}
+2 & 1 & 0 \\
+3 & 8 & 1 \\
+5 & 9 & 3
+\end{bmatrix}
+$$
+}
+
+\answer{
+We perform Gauss elimination and store the multipliers ($\lambda$) in place
+of the zeros of the matrix:
+
+\noindent (2) $\leftarrow$ (2) - 3/2 $\times$ (1)\\
+(3) $\leftarrow$ (3) - 5/2 $\times$ (1):
+$$
+\left[ \textbf{L} \backslash \textbf{U} \right] = 
+\begin{bmatrix}
+2 & 1 & 0 \\
+\frac{3}{2} & \frac{13}{2} & 1 \\
+\frac{5}{2} & \frac{13}{2} & 3
+\end{bmatrix}
+$$
+
+\noindent (3) $\leftarrow$ (3) - (2):
+$$
+\left[ \textbf{L} \backslash \textbf{U} \right] = 
+\begin{bmatrix}
+2 & 1 & 0 \\
+\frac{3}{2} & \frac{13}{2} & 1 \\
+\frac{5}{2} & 1 & 2
+\end{bmatrix}
+$$
+
+Finally:
+$$
+\textbf{L} =
+\begin{bmatrix}
+1 & 0 & 0 \\
+\frac{3}{2} & 1 & 0 \\
+\frac{5}{2} & 1 & 1
+\end{bmatrix}
+$$
+and
+$$
+\textbf{U} = 
+\begin{bmatrix}
+2 & 1 & 0 \\
+0 & \frac{13}{2} & 1 \\
+0 & 0 & 2
+\end{bmatrix}
+$$
+
+Grading:
+\begin{itemize}
+\item 1pt for the method (no partial mark).
+\item 1pt for the numerical result (partial marks if some iterations are correct).
+\end{itemize}
+}
+
+
+\newpage
+% 3. Gauss elimination (with pivoting)
+\question{Use the results of LU decomposition 
+$$
+\textbf{A}=\textbf{LU}= 
+\begin{bmatrix}
+1 & 0 & 0 \\
+-3 & 1 & 0 \\
+6 & 1 & 1
+\end{bmatrix}
+\begin{bmatrix}
+-2 & 0 & 0 \\
+0 & 1 & 1 \\
+0 & 0 & 4
+\end{bmatrix}
+$$
+to solve $\textbf{Ax}=\textbf{b}$ where $\textbf{b} = [1, 2, 3]^T$.
+}
+
+\answer{
+We start by solving \textbf{Ly}=\textbf{b} by forward substitution:
+$$
+y_1 = 1
+$$
+$$
+-3 y_1 + y_2 = 2 \Rightarrow y_2 = 5
+$$
+$$
+6y_1 + y_2 + y_3 = 3 \Rightarrow y_3 = -8
+$$
+
+Then we solve \textbf{Ux}=\textbf{y} by back substitution:
+$$
+4x_3 = -8 \Rightarrow x_3 = -2
+$$
+$$
+x_2 + x_3 = 5 \Rightarrow x_2 = 7
+$$
+$$
+-2x_1 = 1 \Rightarrow x_1 = -1/2
+$$
+
+
+Grading:
+\begin{itemize}
+\item 1pt for the method (no partial mark).
+\item 1pt for the numerical result (partial mark for correct y but incorrect x)
+\end{itemize}
+}
+
+
+\newpage
+%%% Chapter 3
+% 4. Lagrange interpolation
+\question{Given the data points:\\
+\begin{tabular}{|c||c|c|c|}
+\hline
+x & 0 & 1 & 2 \\
+\hline
+y & 1 & 0 & 2\\
+\hline
+\end{tabular}\\
+determine y at x=0.5 using Lagrange's method.
+}
+
+\answer{
+We use Lagrange's formula, which we retrieve as follows: it's a linear combination
+of polynomials $l_i$ where $l_i$ is 0 on all the $x_j$ for $j \neq i$ and 
+1 at $x_i$. The linear combination is weighted by the $y_i$ to respect
+the interpolation condition:
+
+$$
+P(x) = y_0 \frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)} +
+       y_1 \frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)} +
+       y_2 \frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}
+$$
+It gives:
+$$
+P(x) = \frac{(x-1)(x-2)}{2} + x(x-1)
+$$
+We check that P respects the interpolation conditions: P(0)=1, P(1)=0 and P(2)=2. 
+Since the interpolant is unique, we can't be wrong!
+
+We then obtain:
+$$
+P(0.5) = \frac{-0.5*(-1.5)}{2} + 0.5*(-0.5) = 1/8
+$$
+
+Grading:
+\begin{itemize}
+\item 1pt for the method (with partial mark for a formula that ``looks good").
+\item 1pt for the numerical result (no partial mark).
+\end{itemize}
+}
+
+\newpage
+% 5. Least-square regression
+\question{Fill the missing part of the following Python function, between
+the assignment of variable \texttt{x\_bar} and the \texttt{return} statement:}
+
+\begin{minted}{python}
+from numpy import array, mean, sum
+
+def linear_regression(x_data, y_data):
+    '''
+    Returns a tuple (a, b) representing the straight line of equation
+    y = a + bx that fits, in the least-squares sense, the points 
+    represented by arrays x_data and y_data. 
+    '''
+
+    x_bar = mean(x_data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return (a, b)
+
+\end{minted}
+\answer{See lecture notes. 
+
+Grading:
+\begin{itemize}
+\item 2/3 pts for each missing line: y\_bar, b, a. Partial marks for approximate answers for b or a.
+\end{itemize}
+}
+
+
+%%% Chapter 4 (x2)
+
+\newpage
+% 6. Bisection
+\question{\underline{Using the bisection method}, find a zero of function $f(x)=\cos(x/2)$ assuming an initial bracket of [2.5, 3.5],
+and using an accuracy of 0.1.}
+
+\answer{
+We start by noting that the zero of $f$ is $\pi \approx 3.14159$. This 
+will help us check that our 
+bracket is correct at each iteration (of course an algorithm couldn't use
+this information, we will only use it to check our calculations!). We will define c=(a+b)/2 
+throughout the solution.
+
+\emph{Iteration 1:} a = 2.5, b=3.5, accuracy = 1\\
+f(a) $>$ 0 ; f(b) $<$ 0.
+f(c) = f(3) $>$ 0 $\Rightarrow$ a $\leftarrow$ 3
+
+\emph{Iteration 2:} a = 3, b=3.5, accuracy = 0.5 \\
+f(c) = f(3.25) $<$ 0 $\Rightarrow$ b $\leftarrow$ 3.25
+
+\emph{Iteration 3:} a = 3, b=3.25, accuracy = 0.25\\
+f(c) = f(3.125) $>$ 0 $\Rightarrow$ a $\leftarrow$ 3.125
+
+\emph{Iteration 4:} a = 3.125, b=3.25, accuracy = 0.125\\
+f(c) = f(3.1875) $<$ 0 $\Rightarrow$ b $\leftarrow$ 3.1875
+
+\emph{Iteration 5:} a=3.125, b=3.1875, accuracy = 0.0625 $<$ 0.1.
+$\Rightarrow$ $x^*=c=3.15625$
+
+Grading:
+\begin{itemize}
+\item 1pt for method (no partial marks).
+\item 1pt for numerical result (partial marks at each iteration. At iteration 5, any combination of a and b is accepted as solution).
+\end{itemize}
+}
+
+\newpage
+% 7. False position
+\question{\underline{Using the false position (regula falsi) method}, find a zero of function $f(x)=\cos(x/2)$ assuming an initial bracket of [2.5, 3.5],
+and using an accuracy of 0.01.}
+
+\answer{
+The false position method iterates as follows:
+$$
+c = \frac{af(b)-bf(a)}{f(b)-f(a)}
+$$
+This can be retrieved from the equation of the straight line passing by (a, f(a)) and (b, f(b)).
+
+\emph{Iteration 1:}
+
+$c_1 = \frac{2.5\cos(3.5/2)-3.5\cos(2.5/2)}{\cos(3.5/2)-\cos(2.5/2)} \approx 3.1389$.
+f($c_1$) $>$ 0 so we replace a by $c_1$ in the next iteration.
+
+\emph{Iteration 2:} a = 3.1389, b=3.5
+$c_2 \approx 3.1416$.
+$|c_1 - c_2| < 0.01$, the method has converged, our estimate is $c_2 \approx 3.1416$.
+
+Grading:
+\begin{itemize}
+\item 1pt for method (partial marks if the formula ``looks good").
+\item 1pt for numerical result (partial marks at each iteration).
+\end{itemize}
+}
+
+\newpage
+% 8. Newton-Raphson (1 equation)
+\question{\underline{Using the Newton-Raphson method}, find a zero of function $f(x)=\cos(x/2)$ assuming an initial estimate of 3,
+and using an accuracy of 0.01.}
+
+\answer{We recall the Newton-Raphson iteration from the lectures:
+$$
+x_{i+1} = x_i - \frac{f(x)}{f'(x)}
+$$
+(Remember, f' is in the denominator, ``we have a problem when f'(x) is 
+0".) The formula can be retrieved by approximating f by the straight 
+line of slope f'(x) passing by (x, f(x)), and finding $x_{i+1}$ where 
+this line crosses $y=0$.
+
+Here we have: $f'(x) = -\frac{1}{2}sin(x/2)$.
+
+\emph{Iteration 1:} $x_0$=3
+$$
+x_1 = 3 + 2\frac{cos(1.5)}{sin(1.5)} = 3 + \frac{2}{\tan(1.5)} \approx 3.1418
+$$
+Accuracy = 0.1418, we keep going.
+
+\emph{Iteration 2:}
+$$
+x_2 = x_1 + \frac{2}{\tan(x_1/2)} \approx 3.141592
+$$
+Accuracy $<$ 0.01, method converged.
+
+Grading:
+\begin{itemize}
+\item 1pt for method (partial marks if the formula ``looks good").
+\item 1pt for numerical result (partial marks at each iteration.)
+\end{itemize}
+}
+
+\newpage
+\question{Fill the missing part of the following Python function, between
+the start of the \texttt{for} loop and the \texttt{raise} statement:}
+
+\begin{minted}{python}
+def newton_raphson(f, diff, init_x, tol, max_iter=1000):
+    '''
+    Returns a zero of function f.
+    diff is the derivative of the f.
+    init_x is the initial estimate.
+    tol is the tolerance (accuracy) of the solution.
+    max_iter is the desired maximal number of iterations.
+    '''
+
+    x = init_x
+    for i in range(max_iter):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    raise Exception("Unable to find a root")
+\end{minted}
+
+\answer{
+As in the lecture notes.
+
+Grading:
+\begin{itemize}
+\item 2/3pt for expression of delta (partial marks if it ``looks good")
+\item 2/3pt for assignment of x (no partial mark)
+\item 2/3pt for stop condition (no partial mark)
+\end{itemize}
+}
+
+%%% Chapter 5
+
+\newpage
+% 10. Derivative (central)
+\question{Given the data:\\
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+x    & 0.1 & 0.2 & 0.3 & 0.4 & 0.5\\
+\hline
+f(x) & 0.01 & 0.04 & 0.09 & 0.16 & 0.25\\
+\hline
+\end{tabular}\\
+calculate f'(0.3) using an $\mathcal{O}(h^2)$ approximation.
+}
+
+\answer{
+The points are evenly spaced, so we can use finite differences. Here, $h=0.1$.
+
+We recall the expression of the central difference approximation of f':
+$$
+f'(x) = \frac{f(x+h)-f(x-h)}{2h} + \mathcal{O}(h^2)
+$$
+This expression is easy to remember as it is the slope of the straight line
+passing by (x-h, f(x-h)) and (x+h, f(x+h)). It can also be retrieved by subtracting the
+Taylor development of f in (x+h) and in (x-h).
+
+We get:
+$$
+f'(0.3) = \frac{f(0.4)-f(0.2)}{0.2} = \frac{0.16 - 0.04}{0.2} = \frac{0.12}{0.2} = 0.6
+$$
+To check our result, we note from the data that f(x) = 2x, which gives 
+f'(x)=2x (approximation in $\mathcal{O}(h^2)$ or even $\mathcal{O}(h)$ 
+are exact in this case). 
+
+
+Grading:
+\begin{itemize}
+\item 1pt for method (partial marks if the formula ``looks good").
+\item 1pt for result (no partial marks)
+\end{itemize}
+}
+
+\newpage
+% 11. Derivative (forward)
+\question{Given the data in the previous question, calculate f'(0.1) using an
+$\mathcal{O}(h^2)$ approximation.
+}
+
+\answer{
+We cannot use central differences since there is no data before 0.1. We will use
+forward differences instead.
+
+We recall that the formula for forward differences in $\mathcal{O}(h^2)$
+is based on the Taylor development of f in (x+h) and in (x+2h):
+$$
+f(x+h) = f(x) + hf'(x) + \frac{h^2}{2}f''(x) + \ldots
+$$
+and
+$$
+f(x+2h) = f(x) + 2hf'(x) + \frac{4h^2}{2}f''(x) + \ldots
+$$
+
+To eliminate the term in $h^2$, we have to consider $f(x+2h)-4f(x+h)$:
+$$
+f(x+2h) - 4f(x+h) = f(x) - 4f(x) + 2hf'(x) - 4hf'(x) + \ldots
+$$
+
+It gives:
+$$
+f'(x) = \frac{-f(x+2h)+4f(x+h)-3f(x)}{2h} + \mathcal{O}(h^2)
+$$
+Note: to retrieve the formula, we don't bother with $\mathcal{O}$s, we just 
+remember that this approximation is in $\mathcal{O}(h^2)$. 
+
+The equation gives:
+$$
+f'(0.1) = \frac{-f(0.3)+4f(0.2)-3f(0.1)}{0.2} = \frac{-0.09 + 4*0.04 - 3*0.01}{0.2} = \frac{0.04}{0.2} = 0.2
+$$
+
+Grading:
+\begin{itemize}
+\item 1pt for method (partial marks if the formula ``looks good").
+\item 1pt for result (no partial marks)
+\end{itemize}
+}
+
+
+\end{document}
