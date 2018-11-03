@@ -196,31 +196,22 @@ $(3) \leftarrow (3) - \frac{1}{2}(1)$
 $\begin{bmatrix}
 2&0&7 &\aug& 6&2\\
 0&1&4 &\aug&-1&3\\ 
-0&4&-\frac{7}{2} &\aug& -3&0
+0&0&\frac{1}{2} &\aug& -3&0
 \end{bmatrix}
 $
 \end{center}
-$(3) \leftarrow (3) - 4(2)$
-\begin{center}
-\textbf{[$A \vert B$]}= 
-$\begin{bmatrix}
-2&0&7 &\aug& 6&2\\
-0&1&4 &\aug&-1&3\\ 
-0&0&-\frac{39}{2} &\aug&1&-12
-\end{bmatrix}
-$ 
-\end{center}
+
 Back substitution
 \begin{multicols}{2}
 \begin{itemize}
-\item $-\frac{39}{2}x_{31} = 1 \Rightarrow x_{31} = -\frac{2}{39}$
-\item $x_{21}+4x_{31} = -1 \Rightarrow x_{21} = -\frac{31}{39}$
-\item $2x_{11}+7x_{31} = 6 \Rightarrow x_{11} = -\frac{124}{39}$
+\item $\frac{1}{2}x_{31} = -3 \Rightarrow x_{31} = -6$
+\item $x_{21}+4x_{31} = -1 \Rightarrow x_{21} = 23$
+\item $2x_{11}+7x_{31} = 6 \Rightarrow x_{11} = 24$
 \end{itemize}
 \begin{itemize}
-\item $-\frac{39}{2}x_{32} = -12 \Rightarrow x_{32} = \frac{8}{13}$
-\item $x_{22}+4x_{32} = 3 \Rightarrow x_{22} = \frac{7}{13}$
-\item $2x_{12}+7x_{32} = 2 \Rightarrow x_{12} = -\frac{15}{13}$
+\item $\frac{1}{2}x_{32} = 0 \Rightarrow x_{32} = 0$
+\item $x_{22}+4x_{32} = 3 \Rightarrow x_{22} = 3$
+\item $2x_{12}+7x_{32} = 2 \Rightarrow x_{12} = 1$
 \end{itemize}
 \end{multicols}
 \end{exercise}

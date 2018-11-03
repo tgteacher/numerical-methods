@@ -65,7 +65,7 @@ And the deflated polynomial is
 P_2(x) &= 3x^2 - 8x + 4 \notag 
 \end{align}
 
-2. First, verify r = -1 is indeed a zero
+2. First, verify r = 1 is indeed a zero
 \begin{align}
 P_4(1) &= (1)^4 - 3*1^2 + 3* 1 - 1 \notag \\
 &= 0 \notag
@@ -73,21 +73,21 @@ P_4(1) &= (1)^4 - 3*1^2 + 3* 1 - 1 \notag \\
 
 The coefficients of $P_4(x)$ are:
 \begin{align}
-a_4 = 1, a_3 = -3, a_2 = 0, a_1 = 3, a_0 = -1 \notag 
+a_4 = 1, a_3 = 0, a_2 = -3, a_1 = 3, a_0 = -1 \notag 
 \end{align}
 
 Now the deflation of $P_4(x)$ is done as: 
 \begin{align}
 b_3 &= a_4 = 1 \notag \\ 
-b_2 &= a_3 + rb_3 = -3 + 1*1 = -2 \notag \\ 
-b_1 &= a_2 + rb_2 = 0 + 1*(-2) = -2 \notag \\
+b_2 &= a_3 + rb_3 = 0 + 1*1 = 1 \notag \\ 
+b_1 &= a_2 + rb_2 = -3 + 1*1 = -2 \notag \\
 b_0 &= a_1 + rb_1 = 3 + 1*(-2) = 1 \notag
 \end{align}
 
 
 And the deflated polynomial is
 \begin{align}
-P_3(x) &= x^3 - 2x^2 - 2x + 1 \notag 
+P_3(x) &= x^3 + x^2 - 2x + 1 \notag 
 \end{align}
 \end{exercise}
 
