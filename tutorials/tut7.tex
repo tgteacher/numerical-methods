@@ -171,24 +171,27 @@ Consider the problem $$ y^\prime = x-10y, y(0) = 10 $$ \\
 (a) Verify that the analytical solution is $y(x) = 0.1x-0.001 + 10.01e^{-10x}$.\\ (b) Determine the step size \textit{h} that you would use in numerical solution with the (nonadaptive) Runge-Kutta method.
 
 \textbf{Solution.}
-
-a. $$y^\prime = x-10y$$
-$$\frac{dy}{dx} + 10y = x$$
-Multiply both side by $e^{10x}$    
-$$\frac{dy}{dx}e^{10x} + 10ye^{10x} = xe^{10x}$$
-Contract left side by derivative of product rule
-$$\frac{d(ye^{10x})}{dx} = xe^{10x}$$
-Take integral on both side
-$$ye^{10x}=\int xe^{10x}dx=\frac{xe^{10x}}{10} - \int \frac{e^{10x}}{10}dx = 
-\frac{xe^{10x}}{10} - \frac{e^{10x}}{100} + C$$
-Therefore
-$$y(x)=0.1x-0.01 + Ce^{-10x}$$
-Given $y(0) = 10$:
-$$y(0)=-0.01 + Ce^0=10$$
-$$C=10.01$$
-Finally,
-$$y(x)=0.1x-0.01 + 10.01e^{-10x}$$
 Note: there seems to be a typo in the question, the answer should be $y(x)=0.1x-\textbf{0.01} + 10.01e^{-10x}$ \textbf{not} $y(x)=0.1x-\textbf{0.001} + 10.01e^{-10x}$
+
+
+a. First, let's verify $$ y^\prime = x-10y$$
+
+or the equivalent equation
+$$ y^\prime - x+10y = 0$$
+
+We have 
+\begin{align}
+   y^\prime - x+10y &= 0.1 + 10.01*(-10)e^{-10x} - x +10(0.1x-0.01 + 10.01e^{-10x}) \notag \\
+   &=0.1 - 100.1e^{-10x} - x + x - 0.1 + 100.1e^{-10x} \notag \\
+   &=0 \notag
+\end{align}
+
+We also have 
+$$y(0) = 0.1*0 - 0.01 + 10.01e^{-10*0} = -0.01 + 10.01 = 10$$ 
+
+which satisfy the initial condition.
+
+Therefore $y(x)=0.1x-\textbf{0.01} + 10.01e^{-10x}$ is indeed the solution of the given problem
 
 b. The Runge-Kutta is stable for this problem if
 $$h<\frac{2}{\lambda_{max}}=2/10=0.2$$
