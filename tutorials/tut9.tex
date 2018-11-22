@@ -1,0 +1,329 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+%\renewcommand{\qedsymbol}{\filledbox}
+
+\title{TUTORIAL 9 - Recap}%replace X with the appropriate number
+\author{TRISTAN GLATARD\\ %replace with your name
+COMP 361 Numerial Methods} %if necessary, replace with your course title
+\date{November 16, 2018} 
+\maketitle
+
+\begin{exercise}{1} %You can use theorem, proposition, exercise, or reflection here. 
+Use Gauss elimination to solve $\textbf{AX}=\textbf{B}$, where:
+\begin{center}
+\textbf{A}= 
+$\begin{bmatrix}
+2&0&-1&0\\ 
+0&1&2&0\\
+-1&2&0&1\\
+0&0&1&-2
+\end{bmatrix}
+$ 
+\textbf{B}= 
+$\begin{bmatrix}
+1&0\\ 0&0\\ 0&1 \\ 0&0
+\end{bmatrix}
+$ 
+\end{center}
+
+\textbf{Solution.} 
+
+$(3) \longleftarrow (1) + 2*(3)$
+
+\begin{center}
+\textbf{[$A \vert B$]}= 
+$\begin{bmatrix}
+2&0&-1&0 &\aug & 1 & 0\\ 
+0&1&2&0 &\aug & 0 & 0\\
+0&4&-1&2&\aug & 1 & 2\\
+0&0&1&-2&\aug & 0 & 0
+\end{bmatrix}
+$ 
+\end{center}
+
+$(3) \longleftarrow 4*(2) - (3)$
+\begin{center}
+\textbf{[$A \vert B$]}= 
+$\begin{bmatrix}
+2&0&-1&0 &\aug & 1 & 0\\ 
+0&1&2&0 &\aug & 0 & 0\\
+0&0&9&-2&\aug & -1 & -2\\
+0&0&1&-2&\aug & 0 & 0
+\end{bmatrix}
+$ 
+\end{center}
+
+$(4) \longleftarrow (3) - 9*(4)$
+\begin{center}
+\textbf{[$A \vert B$]}= 
+$\begin{bmatrix}
+2&0&-1&0 &\aug & 1 & 0\\ 
+0&1&2&0 &\aug & 0 & 0\\
+0&0&9&-2&\aug & -1 & -2\\
+0&0&0&16&\aug & -1 & -2
+\end{bmatrix}
+$ 
+\end{center}
+
+First solve $Ax_1=B_1$, where 
+
+$$B_1= 
+\begin{bmatrix}
+1\\ 0\\ -1 \\ -1
+\end{bmatrix}
+$$ 
+
+\begin{itemize}
+    \item $16x_{41} = -1 \Longrightarrow x_{41} = -\frac{1}{16}$ 
+    \item $9x_{31} - 2x_{41} = -1 \Longrightarrow x_{31} = -\frac{1}{8}$ 
+    \item $x_{21} + 2x_{31} = 0 \Longrightarrow x_{21} = \frac{1}{4}$ 
+    \item $2x_{11} - x_{31} = 1 \Longrightarrow x_{11} = \frac{7}{16}$ 
+\end{itemize}
+
+Then solve $Ax_1=B_2$, where 
+
+$$B_2= 
+\begin{bmatrix}
+0\\ 0\\ -2 \\ -2
+\end{bmatrix}
+$$ 
+
+\begin{itemize}
+    \item $16x_{42} = -2 \Longrightarrow x_{41} = -\frac{1}{8}$ 
+    \item $9x_{32} - 2x_{42} = -2 \Longrightarrow x_{32} = -\frac{1}{4}$ 
+    \item $x_{22} + 2x_{32} = 0 \Longrightarrow x_{22} = \frac{1}{2}$ 
+    \item $2x_{12} - x_{32} = 1 \Longrightarrow x_{11} = \frac{3}{8}$ 
+\end{itemize}
+
+Finally the solution is
+$$x= 
+\begin{bmatrix}
+\frac{7}{16} & \frac{3}{8}\\ 
+\frac{1}{4} & \frac{1}{2}\\ 
+-\frac{1}{8} & -\frac{1}{4}\\ 
+-\frac{1}{16} & -\frac{1}{8}
+\end{bmatrix}
+$$ 
+
+\end{exercise}
+
+%EXERCISE 2-----------------------------------------------------
+\begin{exercise}{2} %You can use theorem, proposition, exercise, or reflection here.  
+Using Doolittle\textquotesingle s decomposition, find L and U so that
+\begin{center}
+\textbf{A = LU = }
+$\begin{bmatrix}
+4&-1&0\\ 
+-1&4&-1\\
+0&-1&4
+\end{bmatrix}
+$ 
+\end{center}
+
+\textbf{Solution.}
+Doolittle\textquotesingle s decomposition is obtained through Gauss elimination by storing multipliers in the lower part of A \\
+$
+(2) \longleftarrow (2) + \frac{1}{4} *(1)\\
+$
+$$\textbf{A = LU = }
+\begin{bmatrix}
+4&-1&0\\ 
+\boxed{-\frac{1}{4}}&\frac{15}{4}&-1\\
+0&-1&4
+\end{bmatrix}
+$$ 
+
+$
+(3) \longleftarrow (3) + \frac{4}{15}*(2)\\
+$
+$$\textbf{A = LU = }
+\begin{bmatrix}
+4&-1&0\\ 
+\boxed{-\frac{1}{4}}&\frac{15}{4}&-1\\
+0&\boxed{-\frac{4}{15}} & \frac{56}{15}
+\end{bmatrix}
+$$ 
+Then we have
+
+$$\textbf{L =}
+\begin{bmatrix}
+1&0&0\\ 
+-\frac{1}{4}&1&0\\
+0&-\frac{4}{15} & 1
+\end{bmatrix}
+\textbf{U = }
+\begin{bmatrix}
+4&-1&0\\ 
+0&\frac{15}{4}&-1\\
+0&0 & \frac{56}{15}
+\end{bmatrix}
+$$ 
+
+\end{exercise}
+
+
+%EXERCISE 3-----------------------------------------------------
+\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.  
+Using Lagrange\textquotesingle s interpolation over three nearest-neighbor data points, find the zero of y(x) from the following data:
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+x & 0 & 0.5 & 1& 1.5& 2& 2.5& 3 \\ \hline
+y & 1.8421& 2.4694 &2.4921& 1.9047& 0.8509 &-0.4112 &-1.5727 \\ \hline
+\end{tabular}
+\end{table}
+
+\textbf{Solution.}
+From the table, we have the root of y(x)=0 lies between [2,2.5].
+Let\textquotesingle s try to use Lagrange\textquotesingle s to interpolate a polynomial that passes three nearest data points in the interval [1.5,2,2.5]
+
+With 3 given data points, we can construct a degree-2 polynomial using the Lagrange formula:\\
+$$P_{2}(x)=\sum_{i=0}^2 y_{i}\ell_{i}(x)$$
+where
+\begin{align}
+\ell_{0}(x)&=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}=\frac{(x-2)(x-2.5)}{(1.5-2)(1.5-2.5)} = 2x^2-9x+10 \notag\\
+\ell_{1}(x)&=\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}=\frac{(x-1.5)(x-2.5)}{(2-1.5)(2-2.5)}= -4x^2 + 16x - 15 \notag\\
+\notag 
+\ell_{2}(x)&=\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}=\frac{(x-1.5)(x-2)}{(2.5-1.5)(2.5-2)} = 2x^2-7x + 7
+\end{align}
+Then
+\begin{align}
+P_{2}(x)&=\sum_{i=0}^2 y_{i}\ell_{i}(x) \notag \\
+&= 1.9047(2x^2-9x+10) \notag \\
+&+ 0.8509(-4x^2 + 16x - 15) \notag \\
+&-0.4112(2x^2-7x + 7) \notag \\
+&=-0.4166x^2-0.6495x+3.4051 \notag
+\end{align}
+The root of $P_2(x) = 0$ in the interval [2,2.5] is \textbf{2.1838}.
+
+\end{exercise}
+
+
+%EXERCISE 4-----------------------------------------------------
+\begin{exercise}{4} %You can use theorem, proposition, exercise, or reflection here.  
+Three tensile tests were carried out on an aluminum bar. In each test the strain was measured at the same values of stress. The results were given in the table where the units of strain are \textit{mm/m}. Use linear regression to estimate the modulus of elasticity of the bar (modulus of elasticity = stress/strain).
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Stress (MPa) & 34.5& 69.0 &103.5 &138.0 \\ \hline
+Strain (Test 1) &0.46& 0.95 &1.48& 1.93 \\ \hline
+Strain (Test 2)& 0.34 &1.02 &1.51& 2.09 \\ \hline
+Strain (Test 3) &0.73& 1.10& 1.62& 2.12 \\ \hline
+\end{tabular}
+\end{table}
+
+\textbf{Solution.}
+If we consider all tests have same weight, we have experiment data for stress and strain as in the Table \ref{tab:stress-strain}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Stress & 34.5& 69.0 &103.5 &138.0 & 34.5& 69.0 &103.5 &138.0 & 34.5& 69.0 &103.5 &138.0\\ \hline
+Strain &0.46& 0.95 &1.48& 1.93 & 0.34 &1.02 &1.51& 2.09 &0.73& 1.10& 1.62& 2.12 \\ \hline
+\end{tabular}
+\caption{My caption}
+\label{tab:stress-strain}
+\end{table}
+Apply linear regression on 12-points in Table \ref{linear-regression-calculation} with $\overline{x} = 86.25$.
+We have $$b=\frac{\sum y_i(x_i-\overline{x})}{\sum x_i(x_i-\overline{x})} = \frac{265.13*10^{-3}}{17853.75} = 1.485*10^{-5}$$
+Then, the modulus of elasticity is
+$$E=\frac{1}{b}=\frac{1}{1.485*10^{-5}} \approx 67,339 (MPa)$$
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|rrrr|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Stress ($x_i$)}} & \multicolumn{1}{c|}{\textbf{Strain($y_i*10^{-3}$)}} & \multicolumn{1}{c|}{\textbf{$y_i(x_i-\overline{x})*10^{-3}$}} & \multicolumn{1}{c|}{\textbf{$x_i(x_i-\overline{x})$}} \\ \hline
+34.50 & 0.46 & -23.81 & -1785.38 \\
+69.00 & 0.95 & -16.39 & -1190.25 \\
+103.50 & 1.48 & 25.53 & 1785.38 \\
+138.00 & 1.93 & 99.88 & 7141.50 \\
+34.50 & 0.34 & -17.60 & -1785.38 \\
+69.00 & 1.02 & -17.60 & -1190.25 \\
+103.50 & 1.51 & 26.05 & 1785.38 \\
+138.00 & 2.09 & 108.16 & 7141.50 \\
+34.50 & 0.73 & -37.78 & -1785.38 \\
+69.00 & 1.10 & -18.98 & -1190.25 \\
+103.50 & 1.62 & 27.95 & 1785.38 \\
+138.00 & 2.12 & 109.71 & 7141.50 \\ \hline
+ &  & 265.13 & 17853.75 \\ \hline
+\end{tabular}
+\caption{Linear regression calculation}
+\label{linear-regression-calculation}
+\end{table}
+
+
+\end{exercise}
+
+
+%EXERCISE 5-----------------------------------------------------
+\begin{exercise}{5} %You can use theorem, proposition, exercise, or reflection here.  
+Using the Newton-Raphson method, determine the two roots of $$sinx + 3cosx-2 = 0$$ that lie in the interval (-2, 2).
+
+\textbf{Solution.}
+
+Here the Newton-Raphson formula is\\
+\begin{align}
+\notag
+x \leftarrow x - \Delta x  
+\end{align}
+
+where
+\begin{align}
+\Delta x = \frac{f(x)}{f^\prime(x)} = \frac{sinx + 3cosx-2}{cosx-3sinx}
+\end{align}
+
+until $|\Delta| \leq \epsilon = 10e^{-4}$\\
+
+Starting with x=-2, the calculations are shown on 
+Table \ref{calculation1}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|r|r|}
+\hline
+\textit{\textbf{Iteration}} & \multicolumn{1}{c|}{\textit{\textbf{x}}} & \multicolumn{1}{c|}{\textit{\textbf{$\Delta x$}}} \\ \hline
+1 & -2.00000 & -1.79853 \\ \hline
+2 & -0.20147 & 0.46782 \\ \hline
+3 & -0.66929 & -0.10117 \\ \hline
+4 & -0.56812 & -0.00379 \\ \hline
+5 & -0.56433 & -0.00001 \\ \hline
+\end{tabular}
+\caption{Calculation starting with x=-2}
+\label{calculation1}
+\end{table}
+
+and we have root $x_1 \approx -0.56433$
+
+Starting with $x=2$, the calculations are shown on Table \ref{calculation2}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|r|r|}
+\hline
+\textit{\textbf{Iteration}} & \multicolumn{1}{c|}{\textit{\textbf{x}}} & \multicolumn{1}{c|}{\textit{\textbf{$\Delta x$}}} \\ \hline
+1 & 2.00000 & 0.74399 \\ \hline
+2 & 1.25601 & 0.04730 \\ \hline
+3 & 1.20870 & 0.00088 \\ \hline
+4 & 1.20783 & 0.00000 \\ \hline
+\end{tabular}
+\caption{Calculation starting with x=2}
+\label{calculation2}
+\end{table}
+and we have root $x_2 \approx 1.2078$
+
+\end{exercise}
+
+
