@@ -101,6 +101,109 @@ for i in range(len(T)):
 print("Time of flight: {}s".format(time_of_flight))
 print("Range: {}m".format(range_x))
 
+# 8.1.19
+
+xdot0 = 800 # m/s
+ydot0 = 800 # m/s
+
+def residual(u):
+    xdot0 = u[0]
+    ydot0 = u[1]
+    y0 = array([
+                    0,
+                    xdot0,
+                    0,
+                    ydot0
+            ])
+    c = 3.2*10**(-4) # kg/m
+    g = 9.8 # m/s**2
+    m = 20 # kg
+    def F(t, y):
+        return array([
+                    y[1],
+                    -c/m*sqrt(y[1]**2+y[3]**2)*y[1],
+                    y[3],
+                    -c/m*sqrt(y[1]**2+y[3]**2)*y[3]-g
+        ])
+    # Solve the IVP
+    T, Y = runge_kutta_4(F, 0, y0, 9.9, 0.1)
+    x10 = Y[-1, 0]
+    y10 = Y[-1, 2]
+    return array([
+                abs(x10-8000),
+                abs(y10-0)
+            ])
+
+# FROM CHAPTER 4
+from numpy import zeros
+
+def jacobian(f, x):
+    '''
+    Returns the Jacobian matrix of f taken in x J(x)
+    '''
+    n = len(x)
+    jac = zeros((n, n))
+    h = 10E-4
+    fx = f(x)
+    # go through the columns of J
+    for j in range(n):
+        # compute x + h ej
+        old_xj = x[j]
+        x[j] += h
+        # update the Jacobian matrix (eq 3)
+        # Now x is x + h*ej
+        jac[:, j] = (f(x)-fx) / h 
+        # restore x[j]
+        x[j] = old_xj
+    return jac
+    
+from numpy.linalg import solve
+from numpy import sqrt
+
+def newton_raphson_system(f, init_x, epsilon=10E-4, max_iterations=100):
+    '''
+    Return a solution of f(x)=0 by Newton-Raphson method.
+    init_x is the initial guess of the solution
+    '''
+    x = init_x
+    for i in range(max_iterations):
+        J = jacobian(f, x)
+        delta_x = solve(J, -f(x)) # we could also use our functions from Chapter 2!
+        x = x + delta_x
+        if sqrt(sum(delta_x**2)) <= epsilon:
+            print("Converged in {} iterations".format(i))
+            return x
+    raise Exception("Could not find root!")
+
+# Shooting method
+u = newton_raphson_system(residual, array([800.0, 800.0]))
+xdot0 = u[0]
+ydot0 = u[1]
+v = sqrt(xdot0**2+ydot0**2)
+theta = atan(ydot0/xdot0)*180/pi
+print("Velocity: {} m/s".format(v))
+print("Theta: {} deg".format(theta))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
