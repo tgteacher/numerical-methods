@@ -1,7 +1,7 @@
 # Numerical Methods
 COMP 361/5611 at Concordia University
 
-Material used in class, including:
+This repository contains the course material, including:
 * `notebooks`: Jupyter notebooks used in the lectures (best viewed with [Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html))
 * `tutorials`: Latex source files for all the tutorials
 * `tests`: Tests with solutions
