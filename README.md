@@ -2,7 +2,7 @@
 COMP 361/5611 at Concordia University
 
 Material used in class, including:
-* `notebooks`: Jupyter notebooks (best viewed with [Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html))
+* `notebooks`: Jupyter notebooks used in the lectures (best viewed with [Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html))
 * `tutorials`: Latex source files for all the tutorials
 * `tests`: Tests with solutions
 * `outline.html`: Course outline
