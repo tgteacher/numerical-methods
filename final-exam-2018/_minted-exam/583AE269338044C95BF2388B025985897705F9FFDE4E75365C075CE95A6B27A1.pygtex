@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{numpy} \PYG{k+kn}{import} \PYG{n}{arange}
+\PYG{k}{def} \PYG{n+nf}{trapezoid}\PYG{p}{(}\PYG{n}{f}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{n}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{l+s+sd}{    Integrates f between a and b using n panels (n+1 points)}
+\PYG{l+s+sd}{    \PYGZsq{}\PYGZsq{}\PYGZsq{}}
+    \PYG{n}{h} \PYG{o}{=} \PYG{p}{(}\PYG{n}{b}\PYG{o}{\PYGZhy{}}\PYG{n}{a}\PYG{p}{)}\PYG{o}{/}\PYG{n}{n}
+    \PYG{n}{x} \PYG{o}{=} \PYG{n}{a}\PYG{o}{+}\PYG{n}{h}\PYG{o}{*}\PYG{n}{arange}\PYG{p}{(}\PYG{n}{n}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{I} \PYG{o}{=} \PYG{n}{f}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])}\PYG{o}{/}\PYG{l+m+mi}{2}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{n}\PYG{p}{):}
+        \PYG{n}{I} \PYG{o}{+=} \PYG{n}{f}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])}
+    \PYG{n}{I} \PYG{o}{+=} \PYG{n}{f}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{n}{n}\PYG{p}{])}\PYG{o}{/}\PYG{l+m+mi}{2}
+    \PYG{k}{return} \PYG{n}{h}\PYG{o}{*}\PYG{n}{I}
+\end{Verbatim}
