@@ -1,0 +1,320 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+%\renewcommand{\qedsymbol}{\filledbox}
+
+\title{TUTORIAL 2}%replace X with the appropriate number
+\author{TRISTAN GLATARD\\ %replace with your name
+COMP 361 Numerial Methods} %if necessary, replace with your course title
+\date{September 21, 2018} 
+\maketitle
+
+\begin{exercise}{1} %You can use theorem, proposition, exercise, or reflection here.  
+Determine y at x = 0 using Lagrange\textquotesingle s method for the given data points:\\
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+x & -1.2 & 0.3 & 1.1 \\ \hline
+y & -5.76 & -5.61 & -3.69 \\ \hline
+\end{tabular}
+\end{table}
+
+\textbf{Solution.} With 3 given data points, we can construct a degree-2 polynomial using the Lagrange formula:\\
+$$P_{2}(x)=\sum_{i=0}^2 y_{i}\ell_{i}(x)$$
+where
+\begin{align}
+\ell_{0}(0)&=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_1-x_2)}=\frac{(0-0.3)(0-1.1)}{(-1.2-0.3)(-1.2-1.1)}&\approx 0.9565 \notag\\
+\ell_{1}(0)&=\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}=\frac{(0+1.2)(0-1.1)}{(0.3+1.2)(0.3-1.1)}&= 1.1 \notag\\
+\notag 
+\ell_{2}(0)&=\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}=\frac{(0+1.2)(0-0.3)}{(1.1+1.2)(1.1-0.3)}&\approx -0.1956
+\end{align}
+Thus,
+\begin{align}
+\notag
+y(0) = P_{2}(0) &=y_0\ell_0(0) + y_1\ell_2(0) + y_0\ell_2(0)\\ 
+\notag
+&\approx -5.76*0.9565 + (-5.61)*1.1+(-3.69)(-0.1956) 
+\notag
+\\&=-10.8726
+\notag
+\end{align}
+\end{exercise}
+
+%EXERCISE 2-----------------------------------------------------
+\begin{exercise}{2} %You can use theorem, proposition, exercise, or reflection here.  
+Use Newton\textquotesingle s method to find the polynomial that fits the following points:\\
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+x & -3 & 2 & -1 & 3 & 1 \\ \hline
+y & 0 & 5 & -4 & 12 & 0 \\ \hline
+\end{tabular}
+\end{table}
+
+\textbf{Solution.} Construct the tableau for Newton\textquotesingle s as follow
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textit{i} & $x_i$ & $y_i$ & $\nabla y_i$ & $\nabla ^2 y_i$ & $\nabla ^3 y_i$ & $\nabla ^4 y_i$ \\ \hline
+0 & -3 & \textbf{0} &  &  &  &  \\ \hline
+1 & 2 & 5 & \textbf{1} &  &  &  \\ \hline
+2 & -1 & -4 & -2 & \textbf{1} &  &  \\ \hline
+3 & 3 & 12 & 2 & 1 & \textbf{0} &  \\ \hline
+4 & 1 & 0 & 0 & 1 & 0 & \textbf{0} \\ \hline
+\end{tabular}
+\end{table}
+
+where elements are calculated as:\\
+\begin{align}
+\notag
+\nabla y_1 &= \frac{y_1-y_0}{x_1-x_0}=\frac{5-0}{2+3}=1\\
+\notag
+\nabla y_2 &= \frac{y_2-y_0}{x_2-x_0}=\frac{-4+0}{-1+3}=-2\\
+\notag
+\nabla y_3 &= \frac{y_3-y_0}{x_3-x_0}=\frac{12-0}{3+3}=2\\
+\notag
+\nabla y_4 &= \frac{y_4-y_0}{x_4-x_0}=0\\
+\notag
+\nabla ^2 y_2 &= \frac{\nabla y_2-\nabla y_1}{x_2-x_1}=\frac{-2-1}{-1-2}=1\\
+\notag
+\nabla ^2 y_3 &= \frac{\nabla y_3-\nabla y_1}{x_3-x_1}=\frac{2-1}{3-2}=1\\
+\notag
+\nabla ^2 y_4 &= \frac{\nabla y_4-\nabla y_1}{x_4-x_1}=\frac{0-1}{1-2}=1\\
+\notag
+\nabla ^3 y_3 &= \frac{\nabla ^2 y_3-\nabla ^2 y_2}{x_3-x_2}=0\\
+\notag
+\nabla ^3 y_4 &= \frac{\nabla ^2 y_4-\nabla ^2 y_2}{x_4-x_2}=0\\
+\notag
+\nabla ^4 y_4 &= \frac{\nabla ^3 y_4-\nabla ^3 y_3}{x_4-x_3}=0\\
+\notag
+\end{align}
+From the tableau \textquotesingle s diagonal, we have\\
+\begin{align}
+\notag
+a_0&=y_0=0\\
+\notag
+a_1&=\nabla y_1=1\\
+\notag
+a_2&=\nabla ^2 y_2=1
+\end{align}
+and the polynomial fit is degree-2 (parabolic).
+Evaluate backward with recurrence relations:
+\begin{align}
+\notag
+P_0(x) &= a_2 = 1\\
+\notag
+P_1(x) &= a_1 + (x-x_1)P_0(x) = 1 + (x-2) = x-1\\
+\notag
+P_2(x) &= a_0 + (x-x_0)P_1(x) = 0 + (x+3)(x-1) = x^2+2x-3\\
+\notag
+\end{align}
+\end{exercise}
+
+%EXERCISE 2-----------------------------------------------------
+\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.  
+Use linear regression to find the line that fits the following data and determine the standard deviation:\\
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+x & -1.0 & -0.5 & 0 & 0.5 & 1.0 \\ \hline
+y & -1.00 & -0.55 & 0.00 & 0.45 & 1.00 \\ \hline
+\end{tabular}
+\end{table}
+
+\textbf{Solution.} With linear regression, we try to fit the data into a line of form
+\begin{align}
+f(x)=a+bx
+\end{align}
+where parameters a, b are given as
+\begin{align}
+b&=\frac{\sum\limits_{i=0}^{n} y_i(x_i-\overline{x})}{\sum\limits_{i=0}^{n} x_i(x_i-\overline{x})}\\
+a&=\overline{y}-\overline{x}b
+\end{align}
+
+From the data:
+\begin{align}
+\notag
+\overline{x}&=\frac{\sum\limits_{i=0}^{n} x_i}{n+1} = \frac{-1.0-0.5+0+0.5+1.0}{5} = 0 \\
+\notag
+\overline{y}&=\frac{\sum\limits_{i=0}^{n} y_i}{n+1}= \frac{-1.00 - 0.55 + 0.00 + 0.45 + 1.00}{5} = -0.02
+\end{align}
+Apply to (2) and (3)
+\begin{align}
+\notag
+b&= \frac{(-1.00)(-1.0) + (-0.55)(-0.5) + 0.00*0 + 0.45*0.5 + 1.00*1.0}{(-1.0)(-1.0)+(-0.5)(-0.5)+0*0+0.5*0.5+1.0*1.0} = \frac{2.5}{2.5} = 1\\
+\notag
+a&=-0.02-0*1=-0.02
+\end{align}
+Then (1) becomes
+\begin{align}
+\notag
+f(x)=-0.02 + x
+\end{align}
+We start the evaluation of the standard deviation by computing the residuals:
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+x & -1.0 & -0.5 & 0 & 0.5 & 1.0 \\ \hline
+y & -1.00 & -0.55 & 0.00 & 0.45 & 1.00 \\ \hline
+f(x) & -1.02 & -0.52 & -0.02 & 0.48 & 0.98 \\ \hline
+y - f(x) & 0.02 & -0.03 & 0.02 & -0.03 & 0.02 \\ \hline
+\end{tabular}
+\end{table}
+The sum of the squares of the residuals is
+\begin{align}
+\notag
+S&=\sum\limits_{i=0}^4 [y_i-f(x_i)]^2\\
+\notag
+ &=(0.02)^2 + (-0.03)^2 + (0.02)^2 + (-0.03)^2 + (0.02)^2\\
+ \notag
+ &=0.003
+\end{align}
+The standard deviation is given as
+\begin{align}
+\notag
+\sigma=\sqrt[]{\frac{S}{n-m}}
+\end{align}
+where $S$ is the sum of the squares of the residuals calculated above, $n + 1$ is the number of data points (i.e., $n = 4$), $m$ is the degree of the polynomial (1 in this case, since we fit linear regression)\\
+Finally,
+\begin{align}
+\notag
+\sigma=\sqrt[]{\frac{0.003}{4-1}} \approx 0.0316 
+\end{align}
+\end{exercise}
+\begin{exercise}{4} %You can use theorem, proposition, exercise, or reflection here.  
+Determine the natural cubic spline that passes through the data points:\\
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+x & 0 & 1 & 2 \\ \hline
+y & 0 & 2 & 1 \\ \hline
+\end{tabular}
+\end{table}
+
+Note that the interpolant consists of two cubics, one valid in $0 \leq x \leq 1$, the other in $1 \leq x \leq 2$. Verify that these cubics have the same first and second derivatives at $x = 1$.
+
+\textbf{Solution.} With 3 given data points, we want to construct two cubics of the form:
+\begin{align}
+\notag
+f_{0,1}(x) &= a_0x^3 + b_0x^2 + c_0x+d_0\\
+\notag
+f_{1,2}(x) &= a_1x^3 + b_1x^2 + c_1x+d_1
+\end{align}
+
+Interpolation gives us
+\begin{align}
+f_{0,1}(0) = 0 \Rightarrow d_0 = 0\\
+f_{0,1}(1) = 2 \Rightarrow a_0 + b_0 + c_0 + d_0 = 2\\
+f_{1,2}(1) = 2 \Rightarrow a_1 + b_1 + c_1 + d_1 = 2\\
+f_{1,2}(2) = 1 \Rightarrow 8a_1 + 4b_1 + 2c_1 + d_1 = 1
+\end{align}
+
+The derivatives of these cubics are:
+\begin{align}
+\notag
+f\prime_{0,1}(x) &= 3a_0x^2 + 2b_0x + c_0\\
+\notag
+f\prime_{1,2}(x) &= 3a_1x^2 + 2b_1x + c_1
+\end{align}
+
+The slope continuity condition gives us
+\begin{align}
+\notag
+f\prime_{0,1}(1) &= f_{1,2}\prime(1)\\
+3a_0 + 2b_0 + c_0 &= 3a_1 + 2b_1 + c_1
+\end{align}
+
+The second derivatives of these cubics are:
+\begin{align}
+\notag
+f\prime\prime_{0,1}(x) &= 6a_0x + 2b_0\\
+\notag
+f\prime\prime_{1,2}(x) &= 6a_1x + 2b_1
+\end{align}
+
+The boundary conditions of natural spline give us
+\begin{align}
+f\prime\prime_{0,1}(0) &= 2b_0 = 0\\
+f\prime\prime_{1,2}(2) &= 12a_1 + 2b_1 = 0
+\end{align}
+
+The continuity of second derivatives gives us
+\begin{align}
+\notag
+f\prime\prime_{0,1}(1) &= f\prime\prime_{1,2}(1)\\
+ 6a_0 + 2b_0 &= 6a_1 + 2b_1
+\end{align}
+
+Solving the system of 8 equations with 8 unknowns gives us \\
+$$a_0=-\frac{3}{4},b_0=0,c_0=\frac{11}{4},d_0=0$$\\
+$$a_1=\frac{3}{4},b_1=-\frac{9}{2},c_1=\frac{29}{4},d_1=-\frac{3}{2}$$
+
+It is easy to verify that $f\prime\prime_{0,1}(1) = f\prime\prime_{1,2}(1)$
+\begin{align}
+\notag
+f\prime\prime_{0,1}(1) &= 6a_0 + 2b_0 = -\frac{9}{2}\\
+\notag
+f\prime\prime_{1,2}(1) &= 6a_1 + 2b_1 = -\frac{9}{2}
+\end{align}
+
+\textbf{Another solution (a shortcut)}
+
+The three knots are equally spaced at h = 1. Recalling that the second
+derivative of a natural spline is zero at the first and last knot, we have $k_0 = k_2 = 0$. 
+
+The second derivatives at the second knot is obtained from Eq. (3.12) in the textbook:
+$$k_{i-1}+4k_i+k_{i+1}=\frac{6}{h^2}(y_{i-1}-2y_i+y_{i+1}), i=1,2,...n-1$$
+
+Using i = 1 results in
+$$k_0+4k_1+k_2=6(y_0-2y_1+y_2)$$
+$$k_1=-\frac{9}{2}$$
+
+Now we can construct the cubics by applying Eq. (3.10) in the textbook:
+\begin{align}
+\notag
+f_{i,i+1}(x) &= \frac{k_i}{6}\left[\frac{(x-x_{i+1})^3}{x_i-x_{i+1}}-(x-x_{i+1})(x_i-x_{i+1})\right]\\ 
+\notag
+& - \frac{k_{i+1}}{6}\left[\frac{(x-x_i)^3}{x_i-x_{i+1}}-(x-x_i)(x_i-x_{i+1})\right]\\ 
+\notag
+& + \frac{y_i(x-x_{i+1})-y_{i+1}(x-x_i)}{x_i-x_{i+1}}
+\end{align}
+
+With i=0,1 we have two cubics:
+\begin{align}
+\notag
+f_{0,1}(x) &= - \frac{k_1}{6}\left[\frac{(x-x_0)^3}{x_0-x_1}-(x-x_0)(x_0-x_1)\right]
++ \frac{y_0(x-x_1)-y_1(x-x_0)}{x_0-x_1}\\
+\notag
+&=\frac{3}{4}\left[\frac{x^3}{0-1} - (x-1)(0-1)\right] - \frac{2x}{-1}\\
+\notag
+&= -\frac{3}{4}x^3 + \frac{11}{4}x\\ 
+\notag
+f_{1,2}(x) &=\frac{k_1}{6}\left[\frac{(x-x_2)^3}{x_1-x_2}-(x-x_2)(x_1-x_2)\right]
++\frac{y_1(x-x_2)-y_2(x-x_1)}{x_1-x_2}\\
+\notag
+&=-\frac{3}{4}\left[\frac{(x-2)^3}{1-2} - (x-2)(1-2)\right] - \frac{2(x-2)-(x-1)}{1-2}\\
+\notag
+&=\frac{3}{4}x^3-\frac{9}{2}x^2+\frac{29}{4}x-\frac{3}{2}
+\end{align}
+\end{exercise}
+
+
+% --------------------------------------------------------------
+%     You don't have to mess with anything below this line.
+% --------------------------------------------------------------
+ 
+\end{document}

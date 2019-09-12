@@ -1,0 +1,448 @@
+\title{TUTORIAL 1}%replace X with the appropriate number
+\author{TRISTAN GLATARD\\ %replace with your name
+COMP 361 Numerial Methods} %if necessary, replace with your course title
+\date{September 14, 2018} 
+\maketitle
+
+\begin{exercise}{1} %You can use theorem, proposition, exercise, or reflection here.  
+By evaluating the determinant, classify the following matrices as singular, ill-conditioned, or well-conditioned:\\
+\begin{center}
+
+%A
+$\textbf{A}= 
+\begin{bmatrix}
+1&2&3 \\4&5&6 \\ 7&8&9
+\end{bmatrix}$
+%B
+$\textbf{B}= 
+\begin{bmatrix}
+2&-2&1 \\1&0&-1 \\ 4&1&1
+\end{bmatrix}$
+%C
+$\textbf{C}= 
+\begin{bmatrix}
+1&2.0001&3 \\4&5&6 \\ 7&8&9
+\end{bmatrix}$
+\end{center}
+\textbf{Solution}\\
+
+%Calculate det(A)
+$
+\vert A \vert = 1 
+\begin{vmatrix}
+5&6 \\ 8&9
+\end{vmatrix} - 2
+\begin{vmatrix}
+4&6 \\ 7&9
+\end{vmatrix} + 3
+\begin{vmatrix}
+4&5 \\ 7&8
+\end{vmatrix} = 45 - 48 - 2 (36-42) + 3 (32 - 35) = -3 + 2*6 - 3*3 = 0 
+$ 
+
+\textit{A is singular.} \\
+
+%Calculate det(B)
+$
+\vert B \vert = 2 
+\begin{vmatrix}
+0&-1 \\ 1&1
+\end{vmatrix} + 2
+\begin{vmatrix}
+1&-1 \\ 4&1
+\end{vmatrix} + 1
+\begin{vmatrix}
+1&0\\4&1
+\end{vmatrix}=2*1+2*5+1=13
+$ \\
+
+\textit{B is well-conditioned.} \\
+
+%Calculate det(C)
+$
+\vert C \vert = 1 
+\begin{vmatrix}
+5&6 \\ 8&9
+\end{vmatrix} - 2.0001
+\begin{vmatrix}
+4&6 \\ 7&9
+\end{vmatrix} + 3
+\begin{vmatrix}
+4&5 \\ 7&8
+\end{vmatrix} = -3 + 2.0001*6 - 3*3 = 0.0006 \\
+$ \\
+
+As $\vert C \vert << max(c_{ij})$, \textit{C is ill-conditioned.} \\
+\end{exercise}
+
+%EXERCISE 2-----------------------------------------------------
+\begin{exercise}{2} %You can use theorem, proposition, exercise, or reflection here.  
+Find Doolittle's LU decomposition of \textbf{A}:\\
+\begin{center}
+$\textbf{A}= 
+\begin{bmatrix}
+2&-2&1\\1&0&-1\\4&1&1
+\end{bmatrix}$
+\end{center}
+\textbf{Solution}\\
+Doolittle's decomposition is obtained through Gauss elimination by storing multipliers in the lower part of A \\
+$
+(2) \longleftarrow (2) - \frac{1}{2} (1)\\
+(3) \longleftarrow (3) - 2(1)\\
+$
+\begin{center}
+\textbf{A}= 
+$\begin{bmatrix}
+2&-2&1\\ 
+\boxed{\frac{1}{2}}&1&-\frac{3}{2}\\
+\boxed{2}&5&-1
+\end{bmatrix}
+$ 
+\end{center}
+$(3) \Leftarrow (3) - 5(2)\\$
+\begin{center}
+\textbf{[L\textbackslash U]}= 
+$\begin{bmatrix}
+2&-2&1\\ 
+\boxed{\frac{1}{2}}&1&-\frac{3}{2}\\
+\boxed{2}&\boxed{5}&\frac{13}{2}
+\end{bmatrix}
+$ 
+\end{center}
+Thus,
+\begin{center}
+\textbf{L}= 
+$\begin{bmatrix}
+1&0&0\\ 
+\frac{1}{2}&1&0\\
+2&5&1
+\end{bmatrix}
+$ 
+\textbf{U}= 
+$\begin{bmatrix}
+2&-2&1\\ 
+0&1&-\frac{3}{2}\\
+0&0&\frac{13}{2}
+\end{bmatrix}
+$ 
+\end{center}
+\end{exercise}
+
+%EXERCISE 3-----------------------------------------------------
+\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.  
+Using the LU decomposition of $\textbf{A}$ found previously, solve $\textbf{Ax}=\textbf{b}$, where:\\
+\begin{center}
+\textbf{b}= 
+$\begin{bmatrix}
+1\\2\\0 
+\end{bmatrix}
+$ 
+\end{center}
+\textbf{Solution}\\
+1. Solve $Ly = b$ by forward substitution
+\begin{itemize}
+\item $y_1 = 1$
+\item $\frac{1}{2}y_1 + y_2=2 \Rightarrow y_2=\frac{3}{2}$
+\item $2y_1+5y_2+y_3=0 \Rightarrow y_3=-\frac{19}{2}$
+\end{itemize}
+2. Solve $Ux = y$ by forward substitution
+\begin{itemize}
+\item $\frac{13}{2}x_3=-\frac{19}{2} \Rightarrow x_3=-\frac{19}{13}$
+\item $x_2-\frac{3}{2}x_3=\frac{3}{2} \Rightarrow x_2=-\frac{9}{13}$
+\item $2x_1-2x_2+x_3=1 \Rightarrow x_1=\frac{1}{2}(1-\frac{18}{13}+\frac{19}{13})=\frac{7}{13}$
+\end{itemize}
+\end{exercise}
+ 
+%EXERCISE 4-----------------------------------------------------
+\begin{exercise}{4} %You can use theorem, proposition, exercise, or reflection here.  
+Use Gauss elimination to solve $\textbf{AX}=\textbf{B}$, where:
+\begin{center}
+\textbf{A}= 
+$\begin{bmatrix}
+0&1&4\\ 
+2&0&7\\
+1&0&4
+\end{bmatrix}
+$ 
+\textbf{B}= 
+$\begin{bmatrix}
+-1&3\\ 6&2\\ 0&1
+\end{bmatrix}
+$ 
+\end{center}
+\textbf{Solution}\\
+\begin{center}
+\textbf{[$A \vert B$]}= 
+$\begin{bmatrix}
+0&1&4 &\aug&-1&3\\ 
+2&0&7 &\aug& 6&2\\
+1&0&4 &\aug& 0&1
+\end{bmatrix}
+$ 
+\end{center}
+Row 1 needs to be moved, for instance by swapping with Row 2\\
+\begin{center}
+\textbf{[$A \vert B$]}= 
+$\begin{bmatrix}
+2&0&7 &\aug& 6&2\\
+0&1&4 &\aug&-1&3\\ 
+1&0&4 &\aug& 0&1
+\end{bmatrix}
+$ 
+\end{center}
+$(3) \leftarrow (3) - \frac{1}{2}(1)$
+\begin{center}
+\textbf{[$A \vert B$]}= 
+$\begin{bmatrix}
+2&0&7 &\aug& 6&2\\
+0&1&4 &\aug&-1&3\\ 
+0&4&-\frac{7}{2} &\aug& -3&0
+\end{bmatrix}
+$
+\end{center}
+$(3) \leftarrow (3) - 4(2)$
+\begin{center}
+\textbf{[$A \vert B$]}= 
+$\begin{bmatrix}
+2&0&7 &\aug& 6&2\\
+0&1&4 &\aug&-1&3\\ 
+0&0&-\frac{39}{2} &\aug&1&-12
+\end{bmatrix}
+$ 
+\end{center}
+Back substitution
+\begin{multicols}{2}
+\begin{itemize}
+\item $-\frac{39}{2}x_{31} = 1 \Rightarrow x_{31} = -\frac{2}{39}$
+\item $x_{21}+4x_{31} = -1 \Rightarrow x_{21} = -\frac{31}{39}$
+\item $2x_{11}+7x_{31} = 6 \Rightarrow x_{11} = -\frac{124}{39}$
+\end{itemize}
+\begin{itemize}
+\item $-\frac{39}{2}x_{32} = -12 \Rightarrow x_{32} = \frac{8}{13}$
+\item $x_{22}+4x_{32} = 3 \Rightarrow x_{22} = \frac{7}{13}$
+\item $2x_{12}+7x_{32} = 2 \Rightarrow x_{12} = -\frac{15}{13}$
+\end{itemize}
+\end{multicols}
+\end{exercise}
+%EXERCISE 5-----------------------------------------------------
+\begin{exercise}{5} %You can use theorem, proposition, exercise, or reflection here.  
+Compute the condition number of $\textbf{A}$ using the infinity norm:
+\begin{center}
+\textbf{A}= 
+$\begin{bmatrix}
+2&-2&1\\ 
+1&0&-1\\
+4&1&1
+\end{bmatrix}
+$ 
+\end{center}
+\textbf{Solution}\\
+
+cond(A) = $\Vert A \Vert_\infty . \Vert A^{-1} \Vert_\infty = 6 . \Vert A^{-1} \Vert_\infty$ \\
+We need to find $A^{-1}$. We can do it by solving equations $AX = I$ by Gauss elimination. But we already have the LU decomposition of \textbf{A} from \textbf{Excercise 2}: 
+\begin{center}
+\textbf{L}= 
+$\begin{bmatrix}
+1&0&0\\ 
+\frac{1}{2}&1&0\\
+2&5&1
+\end{bmatrix}
+$ 
+\textbf{U}= 
+$\begin{bmatrix}
+2&-2&1\\ 
+0&1&-\frac{3}{2}\\
+0&0&\frac{13}{2}
+\end{bmatrix}
+$ 
+\end{center}
+Now we need to solve $LUX = I$, where I is the identity matrix:
+\begin{center}
+$ I = \begin{bmatrix}
+1&0&0\\ 
+0&1&0\\
+0&0&1
+\end{bmatrix}
+$ 
+\end{center}
+
+1. Solve $LUX=\begin{bmatrix} 1\\0\\0\end{bmatrix}$\\
+
+1.1. Solve $Ly=\begin{bmatrix} 1\\0\\0\end{bmatrix}$ by forward substitution
+\begin{center}
+$y_1 = 1; y_2=-\frac{1}{2};y_3=\frac{1}{2}$
+\end{center}
+
+1.2. Solve $Ux=y=\begin{bmatrix} 1\\-\frac{1}{2}\\\frac{1}{2}\end{bmatrix}$
+by backward substitution
+\begin{center}
+$x_3=\frac{1}{13};x_2=-\frac{5}{13};x_1=\frac{1}{13}$
+\end{center}
+
+2. Solve $LUX=\begin{bmatrix} 0\\1\\0\end{bmatrix}$
+
+2.1 Solve $Ly=\begin{bmatrix} 0\\1\\0\end{bmatrix}$ by forward substitution
+\begin{center}
+$y_1 = 0; y_2=1;y_3=-5$
+\end{center}
+
+2.2 Solve $Ux=y=\begin{bmatrix} 0\\1\\-5\end{bmatrix}$ by backward substitution
+\begin{center}
+$x_3=-\frac{10}{13};x_2=-\frac{2}{13};x_1=\frac{3}{13}$
+\end{center}
+
+3. Solve $LUX=\begin{bmatrix} 0\\0\\1\end{bmatrix}$
+
+3.1. Solve $Ly=\begin{bmatrix} 0\\0\\1\end{bmatrix}$ by forward substitution
+\begin{center}
+$y_1 = 0; y_2=0;y_3=1$
+\end{center}
+
+3.2. Solve $Ux=y=\begin{bmatrix} 0\\0\\1\end{bmatrix}$ by backward substitution
+\begin{center}
+$x_3=-\frac{2}{13};x_2=-\frac{3}{13};x_1=\frac{3}{13}$
+\end{center}
+
+Finally,
+\begin{center}
+$A^{-1} = \begin{bmatrix}
+\frac{1}{13}&\frac{3}{13}&\frac{2}{13}\\ 
+-\frac{5}{13}&-\frac{2}{13}&\frac{3}{13}\\ 
+\frac{1}{13}&-\frac{10}{13}&\frac{2}{13}\\ 
+\end{bmatrix}
+$, and $\Vert A^{-1} \Vert _\infty = 1$ \\
+\end{center}
+
+\textbf{cond(A) = 6}
+\end{exercise}
+%EXERCISE 6-----------------------------------------------------
+\begin{exercise}{6} %You can use theorem, proposition, exercise, or reflection here.  
+Invert the following matrix:
+\begin{center}
+\textbf{A}= 
+$\begin{bmatrix}
+3&1&2\\ 
+1&1&0\\
+5&8&9
+\end{bmatrix}
+$ 
+\end{center}
+\textbf{Solution}\\
+
+We will solve $AX=I$ by Gauss elimination\\
+\begin{center}
+\textbf{[$A \vert I$]}= 
+$\begin{bmatrix}
+3&1&2 &\aug&1&0&0\\ 
+1&1&0 &\aug& 0&1&0\\
+5&8&9 &\aug& 0&0&1
+\end{bmatrix}
+$ \\
+\end{center}
+$(2) \leftarrow (2) - \frac{1}{3}(1)$\\
+$(3) \leftarrow (3) - \frac{5}{3}(1)$\\
+\begin{center}
+$\begin{bmatrix}
+3&1&2 &\aug&1&0&0\\ 
+0&\frac{2}{3}&-\frac{2}{3} &\aug&-\frac{1}{3}&1&0\\
+0&\frac{19}{3}&\frac{17}{3} &\aug& -\frac{5}{3}&0&1
+\end{bmatrix}
+$ \\
+\end{center}
+$(3) \leftarrow (3) - \frac{19}{2}(2)$\\
+\begin{center}
+$\begin{bmatrix}
+3&1&2 &\aug&1&0&0\\ 
+0&\frac{2}{3}&-\frac{2}{3} &\aug&-\frac{1}{3}&1&0\\
+0&0&12 &\aug& \frac{3}{2}&-\frac{19}{2}&1
+\end{bmatrix}
+$ \\
+\end{center}
+
+Back substitution
+\begin{itemize}
+\item $12x_{31} = \frac{3}{2} \Rightarrow x_{31} = -\frac{1}{8}$
+\item $\frac{2}{3}x_{21} = -\frac{1}{3} + \frac{2.1}{3.8} \Rightarrow x_{21} = -\frac{3}{8}$
+\item $x_{11} = \frac{1}{3}(1+\frac{3}{8}-\frac{2}{8}) = \frac{3}{8}$
+\end{itemize}
+
+\begin{itemize}
+\item $12x_{32} = -\frac{19}{2} \Rightarrow x_{32} = -\frac{19}{24}$
+\item $x_{22} = -\frac{3}{2}(1-\frac{2}{3}.\frac{19}{24}) = -\frac{17}{24}$
+\item $x_{12} = \frac{1}{3}(0-\frac{17}{24}+2\frac{19}{24}) = \frac{7}{24}$
+\end{itemize}
+
+\begin{itemize}
+\item $12x_{33} = 1 \Rightarrow x_{33} = \frac{1}{12}$
+\item $x_{23} = -\frac{3}{2}(0+\frac{2}{3}.\frac{1}{12}) = \frac{1}{12}$
+\item $x_{13} = \frac{1}{3}(0-\frac{1}{12}-\frac{2}{12}) = -\frac{1}{12}$
+\end{itemize}
+
+Finally,
+\begin{center}
+$A^{-1} = \begin{bmatrix}
+\frac{3}{8}&\frac{7}{24}&-\frac{1}{12}\\ 
+-\frac{3}{8}&-\frac{17}{24}&\frac{1}{12}\\ 
+\frac{1}{8}&-\frac{19}{24}&\frac{1}{12}\\ 
+\end{bmatrix}
+$
+\end{center}
+\end{exercise}
+%EXERCISE 7-----------------------------------------------------
+\begin{exercise}{7} %You can use theorem, proposition, exercise, or reflection here.  
+Find the Cholesky decomposition of $\textbf{A}$:
+\begin{center}
+\textbf{A}= 
+$\begin{bmatrix}
+1&1&1\\ 
+1&2&2\\
+1&2&3
+\end{bmatrix}
+$ 
+\end{center}
+\textbf{Solution}\\
+\begin{center}
+$\textbf{A}= LL^T =  
+\begin{bmatrix}
+L_{11}&0&0\\ 
+L_{21}&L_{22}&0\\
+L_{31}&L_{32}&L_{33}\\
+\end{bmatrix}
+\begin{bmatrix}
+L_{11}&L_{21}&L_{31}\\ 
+0&L_{22}&L_{32}\\
+0&0&L_{33}\\
+\end{bmatrix}
+$ 
+\end{center}
+
+Identification of column 1:
+\begin{itemize}
+\item $L_{11} = 1$
+\item $L_{11}L_{21} = 1 \Rightarrow L_{21} = 1$
+\item $L_{11}L_{31} = 1 \Rightarrow L_{31} = 1$
+\end{itemize}
+
+Identification of column 2:
+\begin{itemize}
+\item $L_{21}^2 + L_{22}^2 = 2 \Rightarrow L_{22} = 1$
+\item $1+L_{22}L_{32} = 2 \Rightarrow L_{32} = 1$
+\end{itemize}
+
+Identification of column 3:
+\begin{itemize}
+\item $L_{31}^2 + L_{32}^2  + L_{33}^2 = 3 \Rightarrow L_{33} = 1$
+\end{itemize}
+
+Therefore,
+\begin{center}
+\textbf{L}= 
+$\begin{bmatrix}
+1&0&0\\ 
+1&1&0\\
+1&1&1
+\end{bmatrix}
+$ 
+\end{center}
+
+\end{exercise}

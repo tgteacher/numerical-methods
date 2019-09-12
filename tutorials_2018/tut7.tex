@@ -1,0 +1,200 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+%\renewcommand{\qedsymbol}{\filledbox}
+
+\title{TUTORIAL 7}%replace X with the appropriate number
+\author{TRISTAN GLATARD\\ %replace with your name
+COMP 361 Numerial Methods} %if necessary, replace with your course title
+\date{November 2, 2018} 
+\maketitle
+
+\begin{exercise}{1} %You can use theorem, proposition, exercise, or reflection here. 
+Given $$y^\prime + 4y = x^2, y(0) = 1$$ compute y(0.03) using two steps of the second-order Runge-Kutta method. Compare the result with the analytical solution given in Example 7.1 (\textbf{$y(0.03)\approx 0.8869$})
+
+\textbf{Solution.} 
+
+In this problem we try to solve $$y^\prime=F(x,y)$$ where 
+\[F(x,y)=x^2-4y\]With two steps of second-order Runge-Kutta, determine $h=\frac{0.03-0}{2}=0.015$
+
+
+First step:
+\begin{align}
+K_0&=hF(x,y) \notag \\
+&=h(x^2-4y) \notag \\
+&=0.015F(0,1) =0.015(0^2-4*1) \notag \\
+&=-0.06 \notag \\
+K_1&=hF(x+\frac{h}{2},y+\frac{K_0}{2}) \notag \\
+&=0.015F(0.0075,1+\frac{-0.06}{2}) \notag \\
+&=0.015(0.0075^2-4*0.97) \notag \\
+&=-0.058199 \notag
+\end{align}
+Then, $y(0.015) = y(0) + K_1 = 1 -0.058197 = 0.941801$
+
+Second step
+\begin{align}
+x&=0.015, y = 0.941801 \notag \\
+K_0&=hF(x,y) \notag \\
+&=h(x^2-4y) \notag \\
+&=0.015F(0.0075,0.941801) =0.015(0.0075^2-4*0.941801) \notag \\
+&=-0.056505 \notag \\
+K_1&=hF(x+\frac{h}{2},y+\frac{K_0}{2}) \notag \\
+&=0.015F(0.0225,0.941801+\frac{-0.056505}{2}) \notag \\
+&=-0.054805 \notag
+\end{align}
+Then, $y(0.03) = y(0.015) + K_1 = 1 -0.054805 = 0.886996$.
+The result is quite close to analytical caculation. 
+
+\end{exercise}
+
+
+
+%EXERCISE 2-----------------------------------------------------
+\begin{exercise}{2} %You can use theorem, proposition, exercise, or reflection here.  
+Solve Prob. 1 with one step of the fourth-order Runge-Kutta method.
+
+\textbf{Solution.}
+
+The forth-order Runge-Kutta operations are
+
+\begin{align}
+    K_0 &= hF(x, y) \notag \\
+    K_1 &= hF(x+\frac{h}{2}, y+\frac{K_0}{2}) \notag \\
+    K_2 &= hF(x+\frac{h}{2}, y+\frac{K_1}{2}) \notag \\
+    K_3 &= hF(x+h, y+K_2) \notag \\
+    y(x + h) &= y(x) + \frac{1}{6}(K_0 + 2K_1 + 2K_2 + K_3) \notag 
+\end{align}
+
+Starting with $x=0,y=1,h=0.03$
+\begin{align}
+    K_0 &= hF(x, y) \notag \\
+        &=0.03(0^2-4*1) = -0.12 \notag \\
+    K_1 &= hF(x+\frac{h}{2}, y+\frac{K_0}{2}) \notag \\
+        &=0.03(0.015^2-4*(1+\frac{-0.12}{2})) = -0.112793 \notag \\
+    K_2 &= hF(x+\frac{h}{2}, y+\frac{K_1}{2}) \notag \\
+        &=0.03(0.015^2-4*(1+\frac{-0.112793}{2})) = -0.113226 \notag \\
+    K_3 &= hF(x+h, y+K_2) \notag \\
+        &= 0.03(0.03^2-4*(1-0.113226)) = -0.106386 \notag \\
+    y(x + h) &= y(x) + \frac{1}{6}(K_0 + 2K_1 + 2K_2 + K_3) \notag
+\end{align}
+Finally,
+\begin{align}
+    y(0.03) &= y(0) + \frac{1}{6}(-0.12 -0.112793*2 -0.113226*2 -0.106386) \notag \\
+    &=0.886929 \notag
+\end{align}
+Again, this is very close to analytical result.
+
+\end{exercise}
+
+
+%EXERCISE 3-----------------------------------------------------
+\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.  
+Integrate $$y^\prime = siny, y(0) = 1$$
+from x = 0 to 0.5 with Euler’s method using \(h = 0.1\). Compare the result with Example 7.3 (\textbf{1.4664})
+
+\textbf{Solution.}
+
+The Euler's method has the form:
+$$y(x + h) \approx y(x) + y^\prime(x)h$$ 
+
+where $y^\prime=sin y$
+
+Starting at $x=0,y=1$ with $h=0.1$
+\begin{align}
+y(0.1) &= y(0) + y^\prime(0)h \notag \\
+&=1 + sin(1)*0.1 = 1.0841 \notag \\
+y(0.2) &= y(0.1) + y^\prime(0.1)h \notag \\
+&=1.0841 + sin(1.0841)*0.1 = 1.1725 \notag \\
+y(0.3) &= y(0.2) + y^\prime(0.2)h \notag \\
+&=1.1725 + sin(1.1725)*0.1 = 1.2647 \notag \\
+y(0.4) &= y(0.3) + y^\prime(0.3)h \notag \\
+&=1.2647 + sin(1.2647)*0.1 = 1.3601 \notag \\
+y(0.5) &= y(0.4) + y^\prime(0.4)h \notag \\
+&=1.3601 + sin(1.3601)*0.1 = 1.4579 \notag
+\end{align}
+
+The result is quite close to \textbf{1.4664}
+
+\end{exercise}
+
+
+%EXERCISE 4-----------------------------------------------------
+\begin{exercise}{4} %You can use theorem, proposition, exercise, or reflection here.  
+Convert the following differential equations into first-order equations of the
+form \textbf{$y^\prime = F(x, y)$}:
+\begin{enumerate}
+\item $ ln y^\prime + y = sin x$
+\item $ y^{\prime\prime}y - xy^\prime - 2y^2 = 0$
+\item $ y^{(4)} - 4y^{\prime\prime} \sqrt{1-y^2} = 0$
+\item $ (y^{\prime\prime})^2 = \vert 32y^\prime x - y^2 \vert$ 
+\end{enumerate}
+
+\textbf{Solution.}
+\begin{enumerate}
+    \item $lny^\prime = sinx-y$ \\
+    $y^\prime = e^{sinx-y}$
+    \item $ y^{\prime\prime}y - xy^\prime - 2y^2 = 0$\\
+    Let $y_0=y$, $y_1=y^\prime$
+    \begin{itemize}
+        \item $y^\prime_0=y_1$
+        \item $y^\prime_1=y^{\prime\prime}=\frac{xy^\prime+2y^2}{y}=\frac{xy_1+2y_0^2}{y_0}$
+    \end{itemize}
+    \item $ y^{(4)} - 4y^{\prime\prime} \sqrt{1-y^2} = 0$ \\
+    Let $y_0=y$, $y_1=y^\prime$, $y_2=y^{\prime\prime}$, $y_3=y^{(3)}$
+    \begin{itemize}
+        \item $y^\prime_0=y_1$
+        \item $y^\prime_1=y_2$
+        \item $y^\prime_2=y_3$
+        \item $y^\prime_3=y^{(4)}=4y^{\prime\prime}\sqrt{1-y^2}=4y_2\sqrt{1-y_0^2}$
+    \end{itemize}    
+    \item $ (y^{\prime\prime})^2 = \vert 32y^\prime x - y^2 \vert$  \\
+    Let $y_0=y$, $y_1=y^\prime$
+    \begin{itemize}
+        \item $y^\prime_0=y_1$
+        \item $y^\prime_1=y^{\prime\prime}=\sqrt{\vert 32y^\prime x - y^2 \vert}=\sqrt{\vert 32y_1 x - y_0^2 \vert}$
+    \end{itemize}    
+\end{enumerate}
+
+\end{exercise}
+
+
+%EXERCISE 5-----------------------------------------------------
+\begin{exercise}{5} %You can use theorem, proposition, exercise, or reflection here.  
+Consider the problem $$ y^\prime = x-10y, y(0) = 10 $$ \\
+(a) Verify that the analytical solution is $y(x) = 0.1x-0.001 + 10.01e^{-10x}$.\\ (b) Determine the step size \textit{h} that you would use in numerical solution with the (nonadaptive) Runge-Kutta method.
+
+\textbf{Solution.}
+Note: there seems to be a typo in the question, the answer should be $y(x)=0.1x-\textbf{0.01} + 10.01e^{-10x}$ \textbf{not} $y(x)=0.1x-\textbf{0.001} + 10.01e^{-10x}$
+
+
+a. First, let's verify $$ y^\prime = x-10y$$
+
+or the equivalent equation
+$$ y^\prime - x+10y = 0$$
+
+We have 
+\begin{align}
+   y^\prime - x+10y &= 0.1 + 10.01*(-10)e^{-10x} - x +10(0.1x-0.01 + 10.01e^{-10x}) \notag \\
+   &=0.1 - 100.1e^{-10x} - x + x - 0.1 + 100.1e^{-10x} \notag \\
+   &=0 \notag
+\end{align}
+
+We also have 
+$$y(0) = 0.1*0 - 0.01 + 10.01e^{-10*0} = -0.01 + 10.01 = 10$$ 
+
+which satisfy the initial condition.
+
+Therefore $y(x)=0.1x-\textbf{0.01} + 10.01e^{-10x}$ is indeed the solution of the given problem
+
+b. The Runge-Kutta is stable for this problem if
+$$h<\frac{2}{\lambda_{max}}=2/10=0.2$$
+\end{exercise}
+
+
