@@ -1,0 +1,45 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{newton\PYGZus{}raphson}\PYG{p}{(}\PYG{n}{f}\PYG{p}{,} \PYG{n}{diff}\PYG{p}{,} \PYG{n}{init\PYGZus{}x}\PYG{p}{,} \PYG{n}{tol}\PYG{p}{,} \PYG{n}{max\PYGZus{}iter}\PYG{o}{=}\PYG{l+m+mi}{1000}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{l+s+sd}{    Returns a zero of function f.}
+\PYG{l+s+sd}{    diff is the derivative of the f.}
+\PYG{l+s+sd}{    init\PYGZus{}x is the initial estimate.}
+\PYG{l+s+sd}{    tol is the tolerance (accuracy) of the solution.}
+\PYG{l+s+sd}{    max\PYGZus{}iter is the desired maximal number of iterations.}
+\PYG{l+s+sd}{    \PYGZsq{}\PYGZsq{}\PYGZsq{}}
+
+    \PYG{n}{x} \PYG{o}{=} \PYG{n}{init\PYGZus{}x}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{max\PYGZus{}iter}\PYG{p}{):}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    \PYG{k}{raise} \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Unable to find a root\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

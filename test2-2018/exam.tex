@@ -1,0 +1,531 @@
+\documentclass{llncs}
+
+\usepackage{amsmath} % for equation*
+\usepackage{wasysym} % for \Box
+\usepackage{tipa} % for |
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{minted}
+\definecolor{darkgreen}{rgb}{0,0.7,0}
+
+% Fix link colors
+\hypersetup{
+    colorlinks = true,
+    linkcolor=red,
+    citecolor=red,
+    urlcolor=blue,
+    linktocpage % so that page numbers are clickable in toc
+}
+
+\pagestyle{plain}
+
+\newcounter{ques}
+\setcounter{ques}{1}
+
+\newcommand{\todo}[1]{\color{blue}\textbf{TODO:} #1\color{black}}
+\newcommand{\myspace}[0]{\vspace*{0.25cm}}
+
+\renewcommand{\question}[1]{\paragraph{}\textbf{Q\theques} - #1\stepcounter{ques} }
+
+\newcommand{\answer}[1]{\color{red}\textbf{Solution:}\\#1\color{black}}
+\title{COMP 361/5611, Elementary Numerical Methods \\ Test 2 \\ Fall 2018 \\ Friday, November 30, 2018 \\ Duration: 150 minutes}
+
+%\def\arraystretch{2}
+
+\author{Tristan Glatard\\
+  \href{mailto:tristan.glatard@concordia.ca}{tristan.glatard@concordia.ca}\\
+  \vspace*{0.3cm}
+  }
+
+\institute{Concordia University\\
+  Department of Computer Science and Software Engineering}
+
+\begin{document}
+
+\maketitle
+
+\section*{Instructions}
+\begin{itemize}
+\item All questions will receive equal points.
+\item Answer all questions on these sheets in the space provided.
+\item No books, notes or extra paper (except draft paper received from the instructor).
+\item No cell phones, laptops or any other electronic devices except ENCS calculators.
+\item This exam is 15 pages long, including the cover page. It has
+  12 questions labeled from \textbf{Q1} to \textbf{Q12}. Check that your copy
+  is complete.
+%~ \item Grading scheme:
+%~ \begin{itemize}
+%~ \item Good method, good result: 4pts
+%~ \item Good method, wrong result (e.g., calculation error): 3pts
+%~ \item Wrong method, good result: 2pts
+%~ \item Wrong method, wrong result: 0pts
+%~ \end{itemize}
+\end{itemize}
+
+\myspace
+
+\myspace
+
+\hrulefill\\
+
+\myspace
+
+Consistent with the university regulations concerning cheating and plagiarism I will not cheat during this examination:
+
+\myspace
+
+\myspace
+
+Student ID: \dotfill
+
+\myspace
+
+\myspace
+
+First Name / Last Name: \dotfill
+
+\myspace
+
+\myspace
+
+Signature: \dotfill
+
+\myspace
+
+\myspace
+
+\hrulefill
+
+\newpage
+%%% CHAPTER 2
+\question{Compute the inverse of the following matrix using Gauss elimination:
+$$
+\textbf{A}=
+\begin{bmatrix}
+5 & 1 & -2 \\
+10 & 3 & -4 \\
+-5 & 2 & 3
+\end{bmatrix}
+$$
+}
+\answer{
+The inverse of \textbf{A} is obtained by solving the following system of equations:
+$$
+\textbf{A}\textbf{X}=\textbf{I}
+$$
+Using the augmented form:
+$$
+\left[
+\begin{array}{ccc|ccc}
+5  & 1 & -2 & 1 & 0 & 0 \\
+10 & 3 & -4 & 0 & 1 & 0 \\
+-5 & 2 &  3 & 0 & 0 & 1
+\end{array}
+\right]
+$$
+(2) $\leftarrow$ (2) - 2 $\times$ (1)
+(3) $\leftarrow$ (3) + (1):
+$$
+\left[
+\begin{array}{ccc|ccc}
+5  & 1 & -2 & 1  & 0 & 0 \\
+0  & 1 & 0  & -2 & 1 & 0 \\
+0  & 3 &  1 & 1 & 0 & 1
+\end{array}
+\right]
+$$
+(3) $\leftarrow$ (3) - 3 $\times$ (1):
+$$
+\left[
+\begin{array}{ccc|ccc}
+5  & 1 & -2 & 1  & 0 & 0 \\
+0  & 1 & 0  & -2 & 1 & 0 \\
+0  & 0 &  1 & 7 & -3 & 1
+\end{array}
+\right]
+$$
+Finally, by back-substitution, we obtain:
+$$
+\textbf{$A^{-1}$}= 
+\begin{bmatrix}
+17/5 & -7/5 & 2/5 \\
+-2 & 1 & 0 \\
+7 & -3 & 1
+\end{bmatrix}
+$$
+Grading:
+\begin{itemize}
+\item 1pt for method, partial marks if "left side" is fine but right side isn't modified correctly.
+\item 1pt for numerical result, partial marks if some iterations are complete.
+\end{itemize}
+General comments on grading:
+\begin{itemize}
+\item Partial marks mean 0.5, we don't go to 0.25 in any question, unless otherwise mentioned.
+\item Final mark /24 is converted /100 and rounded up to the nearest integer.
+\end{itemize}
+}
+
+\newpage
+(This page left intentionally blank)
+
+\newpage
+
+\question{Use Dolittle's decomposition to find \textbf{L} and \textbf{U} such that: 
+$$
+\textbf{A}=\textbf{LU} =
+\begin{bmatrix}
+2 & 1 & 4 \\
+4 & 3 & 0 \\
+2 & 1 & 7
+\end{bmatrix}
+$$
+}
+
+\answer{
+We perform Gauss elimination and store the multipliers in place of the lower elements of the matrix.
+
+\noindent (2) $\leftarrow$ (2) - 2 $\times$ (1) \\
+(3) $\leftarrow$ (3) - (1)
+
+[\textbf{L}$\backslash$ \textbf{U}] = 
+$
+\begin{bmatrix}
+2 & 1 & 4 \\
+2 & 1 & - 8 \\
+1 & 0 & 3
+\end{bmatrix}
+$
+
+which gives:
+$$
+\textbf{L} = \begin{bmatrix}
+1 & 0 & 0\\
+2 & 1 & 0 \\
+1 & 0 & 1
+\end{bmatrix}
+\quad 
+\textbf{U} = \begin{bmatrix}
+2 & 1 & 4 \\
+0 & 1 & -8 \\
+0 & 0 & 3
+\end{bmatrix}
+$$
+}
+
+\newpage
+
+%% CHAPTER 3
+\question{We are looking for a natural cubic spline $s$ to interpolate \emph{three} 2D points $(x_0, y_0)$, $(x_1 ,y_1)$ and $(x_2, y_2)$.
+\begin{enumerate}
+\item Write the general expression of the natural cubic spline. How many unknowns are there in this expression?
+\item Write the equations that will be used to find these unknowns, as a function of $x_i, y_i$. How many equations are there?
+\end{enumerate}
+}
+
+\answer{
+1. The natural cubic spline is defined by piece-wise cubic polynomials on $[x_0, x_1]$ and $[x_1, x_2]$:
+$$
+s(x)=\begin{cases}
+s_1(x) = a + bx + cx^2 + dx^3 \quad \mathrm{if} \quad x \in [x_0, x_1] \\
+s_2(x) = e + fx + gx^2 + hx^3 \quad \mathrm{if} \quad x \in [x_1, x_2]
+\end{cases}
+$$
+There are 8 unknowns which are the coefficients of the two cubic polynomials.
+2. The following 8 equations can be used to determine the 8 unknowns:
+\begin{itemize}
+\item Cubic spline is \emph{natural}: $s_1''(x_0) = 0$ and $s_2''(x_2)=0$ (2 equations).
+\item Cubic spline \emph{interpolates the data points} and is \emph{continuous}: $s_1(x_0)=y_0$, $s_1(x_1)=y_1$, $s_2(x_1)=y_1$ and $s_2(x_2)=y_2$ (4 equations).
+\item Second derivative is continuous: $s_1''(x_1)=s_2''(x_1)$ (1 equation).
+\item First derivative is continuous: $s_1'(x_1)=s_2'(x_1)$ (1 equation).
+\end{itemize}
+Grading:
+\begin{itemize}
+\item 1pt for sub-question 1., no partial marks.
+\item 1pt for sub-question 2, 1/8 for each equation.
+\end{itemize}
+}
+
+\newpage
+%% CHAPTER 4
+\question{\emph{Using the Newton-Raphson method}, find the positive zero of function $f(x)=x^2-17$ assuming an initial estimate
+of 4 and using an accuracy of 0.001.}
+\answer{
+The Newton-Raphson iteration is defined as follows:
+$$
+x_{i+1} = x_i - \frac{f(x_{i})}{f'(x_{i})}
+$$
+Here, $f'(x)=2x$, thus:
+\begin{itemize}
+\item $x_1$ = $x_0 - \frac{x_0^2-17}{2x_0}$ = 4.125 (accuracy = 0.125)
+\item $x_2$ = $x_1 - \frac{x_1^2-17}{2x_1}$ = 4.123 (accuracy = 0.002)
+\item $x_3$ = $x_1 - \frac{x_1^2-17}{2x_1}$ = 4.123 (accuracy $\leq$ 0.001)
+\end{itemize}
+Grading:
+\begin{itemize}
+\item 1pt for method (Newton-Raphson formula), no partial marks.
+\item 1pt for numerical result, partial marks if some iterations are complete.
+\end{itemize}
+}
+
+\newpage
+%% CHAPTER 5
+\question{Using the central difference approximation in 
+$\mathcal{O}(h^2)$, evaluate the derivative of f(x)=cos(x) at $x=0.1$ with 4 decimal places, 
+for 3 different values of $h$: 0.1, 0.2 and 0.3. Evaluate the error of your 
+approximation with respect to the exact value of f'(x).}
+
+\answer{The central difference approximation of f'(x) in $\mathcal{O}(h^2)$ is given by:
+$$
+f'(x) = \frac{f(x+h)-f(x-h)}{2h}
+$$
+\begin{itemize}
+\item h=0.1: f'(0.1) $\approx \frac{cos(0.2)-cos(0)}{0.2} \approx -0.0997   $
+\item h=0.2: f'(0.1) $\approx \frac{cos(0.3)-cos(-0.1)}{0.4} \approx -0.0992$
+\item h=0.3: f'(0.1) $\approx \frac{cos(0.4)-cos(-0.2)}{0.6} \approx -0.0983$
+\end{itemize}
+
+\textbf{Error}. the exact value of the derivative is given by:
+$$
+f'(x) = -sin(x),
+$$
+which gives $f'(0.1)\approx-0.9983$:
+The error is:
+\begin{itemize}
+\item h=0.1: $E \approx 0.0002$
+\item h=0.2: $E \approx 0.0007$
+\item h=0.3: $E \approx 0.0015$
+\end{itemize}
+
+Grading:
+\begin{itemize}
+\item 1pt for method (central differences formula), no partial marks.
+\item 1pt for numerical result, partial marks if some values are correct.
+\end{itemize}
+}
+
+\newpage
+\question{Using the 2-node Gauss-Legendre method, evaluate the following integral and evaluate the error by comparison to the exact result:
+$$
+\int_0^1 e^{-2t}dt
+$$
+Note: the Gauss-Legendre table is given in Appendix~\ref{app:gl}.
+}
+\answer{First we do the following change of variable to transform the integral to [-1, 1]:
+$$
+t = \frac{1}{2} + \frac{1}{2}x \quad ; \quad
+dt = \frac{1}{2}dx
+$$
+It gives:
+$$
+I = \frac{1}{2}\int_{-1}^1 e^{-1-x}dx
+$$
+We can now apply the 2-node Gauss-Legendre method with $f(x)=\frac{1}{2}e^{-1-x}$:
+$$
+ I \approx f\left(\frac{1}{\sqrt{3}}\right) + f\left(-\frac{1}{\sqrt{3}}\right) \\
+   \approx \frac{1}{2}e^{-1-\frac{1}{\sqrt{3}}} + \frac{1}{2}e^{-1+\frac{1}{\sqrt{3}}}
+   \approx 0.4309
+$$
+
+\textbf{Error.} The exact value of the integral is:
+$$
+\int_0^1 e^{-2t}dt = \left[ \frac{e^{-2t}}{-2}\right]_0^1 \\
+= \frac{e^{-2}}{-2}+ \frac{1}{2} \approx 0.4323
+$$
+The error of the Gauss-Legendre approximation is 0.0014.
+
+Grading:
+\begin{itemize}
+\item 1pt for method, partial marks for change of variable and use of table.
+\item 1pt for numerical result, no partial marks.
+\end{itemize}
+}
+
+\newpage
+\question{Estimate the integral of the previous question using the composite trapezoidal rule with 10 panels (n=10). Estimate the error w.r.t the exact value
+computed in the previous question.}
+
+\answer{The composite trapezoidal rule is given by:
+$$
+I = \frac{h}{2}\left[f(x_0) + 2f(x_1) + 2f(x_2) + \ldots + 2f(x_{n-1}) + f(x_n)\right]
+$$
+Here n=10, $x_0$=0 and $x_n$=$x_{10}$=1. So $h=0.1$ and $x_i$=$0.1i$.
+It gives:
+$$
+I = \frac{0.1}{2}\left( e^{0} + 2e^{-0.2} + 2e^{-0.4} + 2e^{-0.6} + 2 e^{-0.8} + 2e^{-1.0} + 2e^{-1.2} + 2e^{-1.4} + 2e^{-1.6} + 2e^{-1.8} + e^{-2} \right)
+  \approx 0.4338
+$$
+Error is $|0.4338-0.4323|=0.0015$.
+
+Grading:
+\begin{itemize}
+\item 1pt for method, partial marks if formula "looks good".
+\item 1pt for numerical result, no partial marks.
+\end{itemize}
+}
+
+\newpage
+\question{Write the code of the following Python function that implements numerical integration using the composite trapezoidal rule with $n$ panels:}
+\begin{minted}{python}
+from numpy import arange
+def trapezoid(f, a, b, n):
+    '''
+    Integrates f between a and b using n panels (n+1 points)
+    '''
+\end{minted}
+
+\vspace*{2cm}
+\answer{As in the lecture notes, function trapezoid(f, a, b, n) in Ch 6.
+Grading:
+\begin{itemize}
+\item 0.5 for the expression of h
+\item 0.5 for the xi values
+\item 0.5 for the first and last terms in I
+\item 0.5 for the other terms in I (for loop)
+\end{itemize}
+No partial marks.
+}
+
+\newpage
+\question{Consider the following initial-value problem:
+$$
+y'+2y-1=2x \quad ; \quad y(0)=1
+$$
+\begin{enumerate}
+\item Verify that $y(x) = e^{-2x} + x$ is solution of the problem.
+\item Express the problem in the form $y'=f(y, x)$ so that it can be solved by a numerical solver.
+\end{enumerate}
+}
+
+\answer{
+1. If $y = e^{-2x} + x$ then $y' = -2e^{-2x} + 1$ and we have:
+$$
+y'+2y-1 = -2e^{-2x} + 1 + 2e^{-2x} +2x -1 = 2x
+$$
+In addition, $y(0) = e^0 + 0 = 1$.
+So $y$ is solution of the problem.
+
+2. The expression of $f$ is obtained directly from the problem formulation: $f(x, y)=2x-2y+1$.
+
+Grading:
+\begin{itemize}
+\item 1pt for sub-question 1, partial marks for equation and initial condition.
+\item 1pt for sub-question 2, no partial marks.
+\end{itemize}
+}
+\newpage
+
+\question{Write a Python program to solve the initial-value problem (IVP) defined in the previous question using the Euler method. Your program must:
+\begin{itemize}
+\item Implement a function to solve an IVP using the Euler method, starting from the skeleton below.
+\item Use function \texttt{euler} to solve the problem.
+\end{itemize}
+}
+\begin{minted}{python}
+from numpy import array
+def euler(F, x0, y0, x, h):
+    '''
+    Return y(x) given the following initial value problem:
+    y' = F(x, y)
+    y(x0) = y0 # initial conditions
+    h is the increment of x used in integration
+    F = [y'[0], y'[1], ..., y'[n-1]]
+    y = [y[0], y[1], ..., y[n-1]]
+    '''
+    X = [] # will store the value of x0 at each iteration
+    Y = [] # will store the value of y0 at each iteration
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return array(X), array(Y)
+\end{minted}
+
+\answer{Function \texttt{euler} is as in the lecture notes:
+
+It can be used as follows to solve the problem in the previous question:}
+\begin{minted}{python}
+def f(x, y):
+    return 2*x+1-2*y  # as in the second part of the previous question
+X, Y = euler(f, 0, 1, 10, 0.001)
+\end{minted}
+
+\answer{
+\color{red} Grading:
+\begin{itemize}
+\item 1pt for \texttt{euler} function: 0.5pt for overall principle (while loop), 0.5pt for correct update of y using f.
+\item 1pt for using the \texttt{euler} function: 0.5pt for function definition, 0.5pt for correct use with initial condition.
+\end{itemize}
+}
+\newpage
+
+\question{We consider the following two-point boundary problem:
+$$
+y''+2y'+y=1 \quad ; \quad y(0)=0  \quad \mathrm{and} \quad y(1)=1
+$$
+Solve the problem using the \emph{finite difference method} with 3 nodes (m=2). 
+}
+
+\answer{The unknowns of the problem are $y_0$, $y_1$ and $y_2$. We know that $y_0=0$ and $y_2=1$ from the boundary conditions. The finite difference approximation
+of $y_1'$ and $y_1''$ give:
+$$
+y_1''=\frac{y_0-2y_1+y_2}{h^2} \quad \mathrm{and} \quad y_1' = \frac{y_2-y_0}{2h}
+$$
+With $h=1/2$.
+Therefore the problem is expressed as follows:
+$$
+\frac{y_0-2y_1+y_2}{h^2} + 2\frac{y_2-y_0}{2h}+y_1=1
+$$
+which gives:
+$$
+y_1 = \frac{5}{7}
+$$
+
+Grading:
+\begin{itemize}
+\item 1pt for problem formulation, partial marks if principle is good but formulas are approximate.
+\item 1pt for numerical result, no partial marks.
+\end{itemize}
+}
+
+\newpage
+\question{Explain the principle of the shooting method to solve 
+two-point boundary problems, and write the main steps of the 
+algorithm.}
+
+\answer{
+Grading:
+\begin{itemize}
+\item 2/3 pt for expression of residual function,
+\item 2/3 pt for correct mentioning of the IVP problem
+\item 2/3 pt for zero-finding of residual function (False position)
+\end{itemize}
+}
+
+
+\newpage
+\appendix
+
+\section{Gauss-Legendre table}
+\label{app:gl}
+\begin{tabular}{c|c|c|c}
+n & $x_i$                                                                                                          & $A_i$                                                & Error                             \\ 
+\hline                                                                                                                                                                                                         
+1 & $\pm\frac{1}{\sqrt{3}}$                                                                                        & 1                                                    & $\frac{f^{(4)}(\xi)}{135}$        \\
+2 & 0 ; $\pm \sqrt{\frac{3}{5}}$                                                                                   & $\frac{8}{9}$ ; $\frac{5}{9}$                        & $\frac{f^{(6)}(\xi)}{15,750}$     \\
+3 & \parbox{5cm}{$\pm \sqrt{\frac{3}{7}-\frac{2}{7}\sqrt{\frac{6}{5}}}$ \\  $\pm \sqrt{\frac{3}{7}+\frac{2}{7}\sqrt{\frac{6}{5}}}$} & \parbox{5cm}{$\frac{18+\sqrt{30}}{36}$ \\ $\frac{18-\sqrt{30}}{36}$} & $\frac{f^{(8)}(\xi)}{3,472,875}$  \\
+\end{tabular}
+\end{document}

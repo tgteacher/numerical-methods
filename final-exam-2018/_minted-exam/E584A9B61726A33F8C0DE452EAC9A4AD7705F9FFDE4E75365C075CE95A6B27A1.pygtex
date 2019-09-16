@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{numpy} \PYG{k+kn}{import} \PYG{n}{sign}
+\PYG{k}{def} \PYG{n+nf}{root\PYGZus{}find\PYGZus{}incremental}\PYG{p}{(}\PYG{n}{f}\PYG{p}{,} \PYG{n}{xmin}\PYG{p}{,} \PYG{n}{xmax}\PYG{p}{,} \PYG{n}{delta\PYGZus{}x}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{l+s+sd}{    f is the function for which we will find a zero}
+\PYG{l+s+sd}{    xmin and xmax define the bracket}
+\PYG{l+s+sd}{    delta\PYGZus{}x is the step used in incremental search}
+\PYG{l+s+sd}{    Returns (a+b)/2, where the root is in [a, b] and |b\PYGZhy{}a| \PYGZlt{} delta\PYGZus{}x}
+\PYG{l+s+sd}{    \PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\end{Verbatim}

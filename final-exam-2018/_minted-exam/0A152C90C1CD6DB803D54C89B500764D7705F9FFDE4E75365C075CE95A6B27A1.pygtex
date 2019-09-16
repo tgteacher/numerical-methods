@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{numpy} \PYG{k+kn}{import} \PYG{n}{array}
+\PYG{k}{def} \PYG{n+nf}{runge\PYGZus{}kutta\PYGZus{}2}\PYG{p}{(}\PYG{n}{F}\PYG{p}{,} \PYG{n}{x0}\PYG{p}{,} \PYG{n}{y0}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{h}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{l+s+sd}{    Return y(x) given the following initial value problem:}
+\PYG{l+s+sd}{    y\PYGZsq{} = F(x, y)}
+\PYG{l+s+sd}{    y(x0) = y0 \PYGZsh{} initial conditions}
+\PYG{l+s+sd}{    h is the increment of x used in integration}
+\PYG{l+s+sd}{    x is the maximal abscissa until which y will be estimated}
+\PYG{l+s+sd}{    \PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\end{Verbatim}

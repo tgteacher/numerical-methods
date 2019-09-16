@@ -1,0 +1,32 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{numpy} \PYG{k+kn}{import} \PYG{n}{array}
+\PYG{k}{def} \PYG{n+nf}{euler}\PYG{p}{(}\PYG{n}{F}\PYG{p}{,} \PYG{n}{x0}\PYG{p}{,} \PYG{n}{y0}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{h}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{l+s+sd}{    Return y(x) given the following initial value problem:}
+\PYG{l+s+sd}{    y\PYGZsq{} = F(x, y)}
+\PYG{l+s+sd}{    y(x0) = y0 \PYGZsh{} initial conditions}
+\PYG{l+s+sd}{    h is the increment of x used in integration}
+\PYG{l+s+sd}{    F = [y\PYGZsq{}[0], y\PYGZsq{}[1], ..., y\PYGZsq{}[n\PYGZhy{}1]]}
+\PYG{l+s+sd}{    y = [y[0], y[1], ..., y[n\PYGZhy{}1]]}
+\PYG{l+s+sd}{    \PYGZsq{}\PYGZsq{}\PYGZsq{}}
+    \PYG{n}{X} \PYG{o}{=} \PYG{p}{[]} \PYG{c+c1}{\PYGZsh{} will store the value of x0 at each iteration}
+    \PYG{n}{Y} \PYG{o}{=} \PYG{p}{[]} \PYG{c+c1}{\PYGZsh{} will store the value of y0 at each iteration}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    \PYG{k}{return} \PYG{n}{array}\PYG{p}{(}\PYG{n}{X}\PYG{p}{),} \PYG{n}{array}\PYG{p}{(}\PYG{n}{Y}\PYG{p}{)}
+\end{Verbatim}

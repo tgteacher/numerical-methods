@@ -1,0 +1,7 @@
+tutorials/*.pdf
+*.aux
+*.log
+*.out
+.ipynb_checkpoints/
+exam.pdf
+_minted* 

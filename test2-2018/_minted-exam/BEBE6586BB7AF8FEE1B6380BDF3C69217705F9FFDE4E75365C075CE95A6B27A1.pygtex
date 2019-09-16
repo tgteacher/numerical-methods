@@ -1,0 +1,35 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{numpy} \PYG{k+kn}{import} \PYG{n}{array}\PYG{p}{,} \PYG{n}{mean}\PYG{p}{,} \PYG{n+nb}{sum}
+
+\PYG{k}{def} \PYG{n+nf}{linear\PYGZus{}regression}\PYG{p}{(}\PYG{n}{x\PYGZus{}data}\PYG{p}{,} \PYG{n}{y\PYGZus{}data}\PYG{p}{):}
+    \PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{l+s+sd}{    Returns a tuple (a, b) representing the straight line of equation}
+\PYG{l+s+sd}{    y = a + bx that fits, in the least\PYGZhy{}squares sense, the points}
+\PYG{l+s+sd}{    represented by arrays x\PYGZus{}data and y\PYGZus{}data.}
+\PYG{l+s+sd}{    \PYGZsq{}\PYGZsq{}\PYGZsq{}}
+
+    \PYG{n}{x\PYGZus{}bar} \PYG{o}{=} \PYG{n}{mean}\PYG{p}{(}\PYG{n}{x\PYGZus{}data}\PYG{p}{)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    \PYG{k}{return} \PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{)}
+\end{Verbatim}
