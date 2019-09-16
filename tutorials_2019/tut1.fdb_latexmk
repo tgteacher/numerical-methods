@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1568316989 "tut1.tex" "tut1.pdf" "tut1" 1568317023
+["pdflatex"] 1568676561 "tut1.tex" "tut1.pdf" "tut1" 1568676561
   "/home/user/.texlive2018/texmf-var/web2c/pdftex/pdflatex.fmt" 1561246777 789641 18556bb2b16464003d5aaf304afe1847 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1480098666 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map" 1530836625 2850648 765161d183c5509465c2744baf096a7a ""
@@ -81,9 +81,9 @@
   "/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty" 1523050425 12081 a8103ee8653c06c3c5b3fb138f20b5e5 ""
   "/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty" 1525044788 30656 7d3c6c59eec44690b003639abb1d8a90 ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1553009075 33523 3a2c32bd77384f8f4508d61b4be83582 ""
-  "tut1.aux" 1568316989 165 b662302c63b4306ad6771a2300c5d5a9 "pdflatex"
-  "tut1.tex" 1568317023 6969 05978d4daf50edbeda55793093b9f68a ""
+  "tut1.aux" 1568676561 314 981bbe557b1ae31402083c34e3ebede5 "pdflatex"
+  "tut1.tex" 1568676561 9401 3677b04d87122fc57ac5d2690901e09b ""
   (generated)
-  "tut1.log"
-  "tut1.aux"
   "tut1.pdf"
+  "tut1.aux"
+  "tut1.log"
