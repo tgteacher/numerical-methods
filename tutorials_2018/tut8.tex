@@ -1,0 +1,183 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+%\renewcommand{\qedsymbol}{\filledbox}
+
+\title{TUTORIAL 8}%replace X with the appropriate number
+\author{TRISTAN GLATARD\\ %replace with your name
+COMP 361 Numerial Methods} %if necessary, replace with your course title
+\date{November 9, 2018} 
+\maketitle
+
+\begin{exercise}{1} %You can use theorem, proposition, exercise, or reflection here. 
+Numerical integration of the initial value problem
+$$y^{\prime\prime} + y^\prime-y = 0, y(0) = 0, y^\prime(0) = 1$$
+yielded y(1) = 0.741028. What is the value of $y^\prime(0)$ that would result in y(1) = 1, assuming that y(0) is unchanged?
+
+\textbf{Solution.} 
+
+Let's denote $y^\prime(0) = u$, we know that y(1) is a function of u that we denote y(1) = $\theta(u)$.
+
+The approximation by Euler's is:
+$$y(1) = y(0) + y^\prime(0)*h$$
+
+or
+\begin{align}
+ \theta(u_1) = y_0 + u_1*h   
+\end{align}
+
+where h is the step size
+
+Now the same Euler's approximation applies to the second condition
+\begin{align}
+ \theta(u_2) = y_0 + u_2*h   
+\end{align}
+
+Because we use the same h, (1) and (2) becomes
+
+$$\frac{\theta(u_1)-y_0}{u_1} = \frac{\theta(u_2)-y_0}{u_2}$$
+
+or
+
+\begin{align}
+u_2 &= u_1 \frac{\theta(u_2)-y_0}{\theta(u_1)-y_0} \notag \\   
+&=1\frac{1-0}{0.741028-0} \notag \\
+&=1.349477 \notag
+\end{align}
+
+\end{exercise}
+
+%EXERCISE 2-----------------------------------------------------
+\begin{exercise}{2} %You can use theorem, proposition, exercise, or reflection here.  
+The solution of the differential equation
+$$y^{\prime\prime\prime} + y^{\prime\prime} + 2y^{\prime} = 6$$
+with the initial conditions $y(0) = 2, y^\prime(0) = 0$, and $y^{\prime\prime}(0) = 1$ yielded y(1) = 3.03765. When the solution was repeated with $y^{\prime\prime}(0) = 0$ (the other conditions
+being unchanged), the result was $y(1) = 2.72318$. Determine the value of $y^{\prime\prime}(0)$ so that $y(1) = 0$.
+
+\textbf{Solution.}
+
+Let's denote $y^{\prime\prime}(0) = u$, we know that y(1) is a function of u that we denote y(1) = $\theta(u)$.
+
+% We use linear interpolation
+
+
+\end{exercise}
+
+
+%EXERCISE 3-----------------------------------------------------
+\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.  
+Use first central difference approximations to transform the boundary value problem shown into simultaneous equations \textbf{Ay = b}.
+$$y^{\prime\prime} = (2 + x)y, y(0) = 0, y^\prime(1) = 5$$
+
+\textbf{Solution.}
+
+First central difference approximations is given as
+\begin{align}
+y^\prime_i &= \frac{y_{i+1}-y_{i-1}}{2h} \notag \\
+y^{\prime\prime}_i &= \frac{y_{i-1}-2y_i+y_{i+1}}{h^2} \notag
+\end{align}
+where $h=\frac{1}{m}$ (m is to be chosen) is step size
+The problem becomes
+\begin{align}
+\frac{y_{i-1}-2y_i+y_{i+1}}{h^2} = (2+x_i)y_i, i=1,2,...m-1\notag \\
+y_{i-1}-2y_i+y_{i+1} - {h^2}*(2+x_i)y_i = 0, i=1,2,...m-1\notag \\
+y_{i-1} - (2h^2+x_ih^2+2)y_i+y_{i+1} = 0 , i=1,2,...m-1 \label{eq1} 
+\end{align}
+
+and  
+\begin{align}
+y_{m-1} - (2h^2+x_mh^2+2)y_m+y_{m+1} = 0 \label{eq2}
+\end{align}
+
+where $x_i = i*h$
+
+The boundary conditions become
+\begin{align}
+y_0 &= 0 \label{eq4} \\ 
+y^\prime(1) &= \frac{y_{m+1}-y_{m-1}}{2} = 5\notag \\
+y_{m+1}&=10+y_{m-1} \label{eq3}
+\end{align}
+
+Put (\ref{eq3}) into (\ref{eq2}) yields
+\begin{align}
+2*y_{m-1} - (2h^2+x_mh^2+2)y_m= -10 \label{eq5}
+\end{align}
+
+Finally, we have a system of \textit{m+1} equations given by (\ref{eq1}), (\ref{eq4}) and (\ref{eq5}).
+
+\end{exercise}
+
+
+%EXERCISE 4-----------------------------------------------------
+\begin{exercise}{4} %You can use theorem, proposition, exercise, or reflection here.  
+Solve the given boundary value problem with the finite difference
+method using \textit{m} = 5.
+$$y^{\prime\prime} = (2 + x)y, y(0) = 0, y^\prime(1) = 5$$
+
+\textbf{Solution.}
+
+Using the system of equations from previous exercise, with $m=5$, $h =\frac{1}{m}=0.2$:
+\begin{center}
+    $\begin{cases} 
+    y_0 =0 \\ 
+    y_0 - 2.088y_1 + y_2 = 0 \\ 
+    y_1 - 2.096y_2 + y_3 = 0 \\ 
+    y_2 - 2.104y_3 + y_4 = 0 \\ 
+    y_3 - 2.112y_4 + y_5 = 0 \\ 
+    2y_4 - 2.12y_5 = -10
+    \end{cases}$
+\end{center}
+
+or in matrix form
+$$
+ \begin{bmatrix} 
+ 1 & 0 & 0 & 0 & 0 & 0 \\ 
+ 1 & -2.088 & 1 & 0 & 0 & 0 \\ 
+ 0 & 1 & -2.096 & 1 & 0 & 0 \\ 
+ 0 & 0 & 1 & -2.104 & 1 & 0 \\ 
+ 0 & 0 & 0 & 1 & -2.112 & 1 \\ 
+ 0 & 0 & 0 & 0 & 2 & -2.12 & \\ 
+ \end{bmatrix}
+ \begin{bmatrix} 
+ y_0 \\
+ y_1 \\
+ y_2 \\
+ y_3 \\
+ y_4 \\
+ y_5 \\
+ \end{bmatrix}
+ = 
+ \begin{bmatrix} 
+ 0 \\
+ 0 \\
+ 0 \\
+ 0 \\
+ 0 \\
+ -10 \\
+ \end{bmatrix}
+$$
+
+The solutions is
+$$
+y = 
+ \begin{bmatrix} 
+ 0 \\
+ 1.918964 \\
+ 4.006797 \\
+ 6.479282 \\
+ 9.625613 \\
+ 13.850012 \\
+ \end{bmatrix}
+$$
+
+Therefore, $y(1)=y_5 = 13.850012$
+\end{exercise}
+
+
