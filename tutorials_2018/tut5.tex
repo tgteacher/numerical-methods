@@ -1,0 +1,196 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+%\renewcommand{\qedsymbol}{\filledbox}
+
+\title{TUTORIAL 5}%replace X with the appropriate number
+\author{TRISTAN GLATARD\\ %replace with your name
+COMP 361 Numerial Methods} %if necessary, replace with your course title
+\date{October 12, 2018} 
+\maketitle
+
+\begin{exercise}{1} %You can use theorem, proposition, exercise, or reflection here. 
+Use finite difference approximations of \(O(h^2)\) to compute \(f^\prime (2.36)\) and \(f^{\prime \prime} (2.36)\) from the following data:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+x & 2.36 & 2.37 & 2.38 & 2.39 \\ \hline
+f(x) & 0.85866 & 0.86289 & 0.86710 & 0.87129 \\ \hline
+\end{tabular}
+\end{table}
+
+\textbf{Solution.} 
+
+From the forward difference tables we get
+\begin{align}
+f^\prime(2.36) &\approx \frac{-3f(2.36) + 4f(2.37) - f(2.38)}{2(0.01)} \notag \\
+&= \frac{-3*0.85866 + 4*0.86289-0.86710}{0.02} = 0.424 \notag \\
+f^ {\prime \prime}(2.36) &\approx \frac{2f(2.36) -5f(2.37) + 4f(2.38) - f(2.39)}{0.01^2} \notag \\
+&= \frac{2*0.85866 -5*0.86289+4*0.86710-0.87129}{0.0001} = -0.2 \notag
+\end{align}
+\end{exercise}
+
+%EXERCISE 2-----------------------------------------------------
+\begin{exercise}{2} %You can use theorem, proposition, exercise, or reflection here.  
+Estimate \(f^\prime (1)\) and \(f^{\prime \prime} (1)\) from the following data:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+x & 0& 1& 3\\ \hline
+f(x) & -3 &0 &12 \\ \hline
+\end{tabular}
+\end{table}
+
+\textbf{Solution.}
+
+Here we see the \textit{x} points are not evenly spaced, difference approximations cannot be applied.
+Let's do it with polynomial interpolation, i.e. interpolate a polynomial of degree 2 (\textit{why 2?}) $P_2(x)$ and then approximate  \(f^\prime (1)\) and \(f^{\prime \prime} (1)\) by \(P_2^\prime (1)\) and \(P_2^{\prime \prime} (1)\), respectively.
+
+You can use any interpolation method, e.g. Lagrange's, Newton, linear equations ..., to interpolate $P_2(x)$.
+
+Review Tutorial 2 and apply \textit{Newton} we should get
+\begin{align}
+P_2(x)= x^2 + 2x -3 \notag
+\end{align}
+
+Then 
+
+\begin{align}
+P^\prime_2(x)&= 2x+2 \notag \\
+P^{\prime\prime}_2(x)&= 2 \notag
+\end{align}
+
+
+Finally 
+\begin{align}
+f^\prime(1) &\approx P^\prime_2(1)= 2*1+2 = 4 \notag \\
+f^{\prime\prime}(1)& \approx P^{\prime\prime}_2(1)= 2 \notag
+\end{align}
+\end{exercise}
+
+
+%EXERCISE 2-----------------------------------------------------
+\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.  
+Calculate $f^{\prime \prime}(1)$ as accurately as you can given the following data
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+x &0.84& 0.92& 1.00& 1.08& 1.16\\ \hline
+f (x) &0.431711 &0.398519& 0.367879& 0.339596 & 0.313486 \\ \hline
+\end{tabular}
+\end{table}
+
+\textbf{Solution.} 
+
+We start with two central difference approximations $O(h^2)$ for $f^{\prime \prime}(1)$, one using $h_1=0.16$ and the one using $h_2=0.08$.
+\begin{align}
+g(0.16)&=\frac{f(0.84) - 2f(1)+f(1.16)}{0.16^2} \notag \\
+			&=\frac{0.431711 - 2*0.367879+0.313486}{0.16^2} \notag \\
+            &=0.368710937 \notag \\
+g(0.08)&=\frac{f(0.92) - 2f(1)+f(1.08)}{0.08^2} \notag \\
+			&=\frac{0.398519 - 2*0.367879+0.339596}{0.08^2} \notag \\
+            &=0.36828125 \notag
+\end{align}
+
+Recall that the error in both approximations is of the form \(E(h) = c_1h^2 + c_2h^4+c_3h_6 +...\) We can now use Richardson extrapolation to eliminate the dominant error term. With $p = 2$ we obtain 
+\begin{align}
+f^{\prime \prime}(1) \approx G = \frac{2^2g(0.08)-g(0.16)}{2^2-1} = \frac{4*0.36828125-0.368710937}{3}
+= 0.368138021 \notag
+\end{align}
+which is a finite difference approximation of \(O(h^4)\).
+\end{exercise}
+
+\begin{exercise}{4}
+Use the data in the table to compute $f^\prime (0.2)$ as accurately as possible:
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+x &0& 0.1& 0.2& 0.3& 0.4\\ \hline
+f(x)& 0.000 000& 0.078 348 &0.138 910& 0.192 916 &0.244 981 \\ \hline
+\end{tabular}
+\end{table}
+
+We start with two central difference approximations $O(h^2)$ for $f^{\prime}(0.2)$, one using $h_1=0.2$ and the one using $h_2=0.1$.
+\begin{align}
+g(0.2)&=\frac{f(0) - f(0.4)}{2*0.2} \notag \\
+			&=\frac{0 - 0.244981}{0.4} \notag \\
+            &=-0.6124525 \notag \\
+g(0.1)&=\frac{f(0.1) - f(0.3)}{2*0.1} \notag \\
+			&=\frac{0.078348 - 0.192916}{0.2} \notag \\
+            &=-0.57284 \notag
+\end{align}
+
+Recall that the error in both approximations is of the form \(E(h) = c_1h^2 + c_2h^4+c_3h_6 +...\) We can now use Richardson extrapolation to eliminate the dominant error term. With $p = 2$ we obtain 
+\begin{align}
+f^{\prime}(0.2) \approx G = \frac{2^2g(0.1)-g(0.2)}{2^2-1} = \frac{4*(−0.57284)+0.6124525}{3}
+= -0.559635833 \notag
+\end{align}
+which is a finite difference approximation of \(O(h^4)\).
+\end{exercise}
+
+\begin{exercise}{5}
+Using five significant figures in the computations, determine \(d(sin x)/dx\) at \(x = 0.8\) from (a) the first forward difference approximation and (b) the first central difference approximation. In each case, use \textit{h} that gives the most accurate result (this requires experimentation).
+
+\textbf{Solution}
+The following table illustrate calculations approximation of $f^\prime(0.8)$ where $f(x)=sin(x)$ using different \textit{h}.
+The formulas are:
+
+First Forward Difference Approximation (FFDA):
+\begin{align}
+f^\prime(0.8) = \frac{-f(0.8) + f(0.8+h)}{h} \notag    
+\end{align}
+
+First Central Difference Approximation (FCDA):
+\begin{align}
+f^\prime(0.8) = \frac{-f(0.8-h) + f(0.8+h)}{2h} \notag    
+\end{align}
+\begin{longtable}[c]{|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{h}} & \multicolumn{1}{c|}{\textbf{FFDA}} & \multicolumn{1}{c|}{\textbf{FCDA}} \\ \hline
+\endfirsthead
+%
+\endhead
+%
+0.64 & 0.42829 & 0.65011 \\ \hline
+0.32 & 0.57108 & 0.68488 \\ \hline
+0.16 & 0.63647 & 0.69374 \\ \hline
+0.08 & 0.66728 & 0.69596 \\ \hline
+0.04 & 0.68218 & 0.69652 \\ \hline
+0.02 & 0.68949 & 0.69666 \\ \hline
+\textbf{0.01} & 0.69311 & \textbf{0.69670} \\ \hline
+0.005 & 0.69491 & 0.69670 \\ \hline
+0.0025 & 0.69581 & 0.69671 \\ \hline
+0.00125 & 0.69626 &  \\ \hline
+0.000625 & 0.69648 &  \\ \hline
+0.0003125 & \multicolumn{1}{l|}{0.69659} & \multicolumn{1}{l|}{} \\ \hline
+0.00015625 & \multicolumn{1}{l|}{0.69665} & \multicolumn{1}{l|}{} \\ \hline
+0.000078125 & \multicolumn{1}{l|}{0.69668} & \multicolumn{1}{l|}{} \\ \hline
+0.0000390625 & \multicolumn{1}{l|}{0.69669} & \multicolumn{1}{l|}{} \\ \hline
+\textbf{0.00001953125} & \multicolumn{1}{l|}{\textbf{0.69670}} & \multicolumn{1}{l|}{} \\ \hline
+\multicolumn{1}{|l|}{0.000009765625} & \multicolumn{1}{l|}{0.69670} & \multicolumn{1}{l|}{} \\ \hline
+\caption{Approximations of $(sinx)^\prime$ at x=0.8 using First Forward and First Central Difference Approximations}
+
+\label{my-label}\\
+\end{longtable}
+
+Both methods return approximation of $f^\prime(0.8) \approx 0.69670$ with h = 0.00001953125 and 0.01, respectively.
+
+\textit{Last, if you want to play with h and/or other functions, \href{http://bit.ly/2ntOy2m}{here} is the link to the calculation.}
+\end{exercise}
+% --------------------------------------------------------------
+%     You don't have to mess with anything below this line.
+% --------------------------------------------------------------
+ 

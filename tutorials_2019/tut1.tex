@@ -1,0 +1,362 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{longtable}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{reflection}[2][Reflection]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{TUTORIAL 1}%replace X with the appropriate number
+\author{Timothée Guédon \& Tristan Glatard\\ %replace with your name
+COMP 361 Numerical Methods} %if necessary, replace with your course title
+\date{September 13, 2019}
+\maketitle
+
+\section{Exercises for today}
+
+\begin{exercise}{1} %You can use theorem, proposition, exercise, or reflection here.
+Classify the following matrices as singular, ill-conditioned, or well-conditioned using their determinant:\\
+\begin{center}
+
+%A
+$\textbf{A}=
+\begin{bmatrix}
+1&2&3 \\4&5&6 \\ 7&8&9
+\end{bmatrix}$
+%B
+$\textbf{B}=
+\begin{bmatrix}
+2&-2&1 \\1&0&-1 \\ 4&1&1
+\end{bmatrix}$
+%C
+$\textbf{C}=
+\begin{bmatrix}
+1&2.0001&3 \\4&5&6 \\ 7&8&9
+\end{bmatrix}$
+\end{center}
+
+\end{exercise}
+
+\section{Bonus exercises}
+
+You can try the following exercises at home for the next tutorial session.
+
+\begin{exercise}{2} %You can use theorem, proposition, exercise, or reflection here.
+Invert the following matrix using Gauss elimination or Gauss-Jordan elimination:
+\begin{center}
+\textbf{B}=
+$\begin{bmatrix}
+2&-2&1\\
+1&0&-1\\
+4&1&1
+\end{bmatrix}
+$
+\end{center}
+\end{exercise}
+
+\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.
+Invert the following matrix:
+\begin{center}
+\textbf{D}=
+$\begin{bmatrix}
+3&1&2\\
+1&1&0\\
+5&8&9
+\end{bmatrix}
+$
+\end{center}
+\end{exercise}
+
+\break
+
+\section{Solutions}
+
+\subsection{Exercise 1}
+
+They are two methods to find the condition of a matrix:
+\begin{itemize}
+  \item The formal measure of conditioning is the ``matrix condition number". It involves computing the norm of the matrix but also the norm of its inverse. If the condition number is close to 1 then the matrix is well conditioned.
+  \item The second way of measuring the conditioning is the simpler one: By computing the determinant of the matrix and comparing it to the norm of the matrix. As it is a simpler method we shall start by computing it which will immediately show us if the matrix is singular or not.
+\end{itemize}
+Note that you can use the norm you want. You saw in the lecture the L1, L2 and infinity norms. You can use the one you want. \\
+
+\textbf{First method: computing the determinant} \\
+
+%Calculate det(A)
+$
+\vert A \vert = 1
+\begin{vmatrix}
+5&6 \\ 8&9
+\end{vmatrix} - 2
+\begin{vmatrix}
+4&6 \\ 7&9
+\end{vmatrix} + 3
+\begin{vmatrix}
+4&5 \\ 7&8
+\end{vmatrix} = 45 - 48 - 2 (36-42) + 3 (32 - 35) = -3 + 2*6 - 3*3 = 0
+$
+
+\textit{A is singular.} \\
+
+%Calculate det(B)
+$
+\vert B \vert = 2
+\begin{vmatrix}
+0&-1 \\ 1&1
+\end{vmatrix} + 2
+\begin{vmatrix}
+1&-1 \\ 4&1
+\end{vmatrix} + 1
+\begin{vmatrix}
+1&0\\4&1
+\end{vmatrix}=2*1+2*5+1=13
+$ \\
+
+\textit{B is well-conditioned.} \\
+
+%Calculate det(C)
+$
+\vert C \vert = 1
+\begin{vmatrix}
+5&6 \\ 8&9
+\end{vmatrix} - 2.0001
+\begin{vmatrix}
+4&6 \\ 7&9
+\end{vmatrix} + 3
+\begin{vmatrix}
+4&5 \\ 7&8
+\end{vmatrix} = -3 + 2.0001*6 - 3*3 = 0.0006 \\
+$ \\
+
+Remember from the course that the determinant is considered small if it is smaller than the norm of the matrix (L1, L2, infinity). 0.0006 being close to zero we want to know if it can be considered ``ill conditioned". We will speak more about it in lab because this can be tricky. Let's try some norms for matrix C: \\
+
+\textit{L1 norm}
+$$
+\| C \|_1 = \sum_{i=1}^n \sum_{j=1}^n { |A_{ij}^2| } = |1| + |2.0001| + |3| + |4| + ... + |9| = 45.0001
+$$
+
+\textit{L2 norm}
+$$
+\| C \|_2 = \sqrt { \sum_{i=1}^n \sum_{j=1}^n { A_{ij}^2 } } = \sqrt {1^2 + 2.0001^2 + ... + 9^2} = \sqrt {285.001} \approx 16.88
+$$
+
+\textit{Infinity norm}
+
+$$\| C \|_\infty = \max_{1 \leq i \leq n}( { \sum_{j=1}^n { |A_{ij}| } })$$
+
+\noindent $ = \max((|1| + |2.0001| + |3|), (|4| + |5| + |6|), (|7| + |8| + |9|))
+\\ = \max (3*2 + 0.0001, 3*5, 3*8)
+\\ = \max (6.0001, 15, 24)
+\\ = 24
+$
+
+\hfill \break As $|C| << \| C \|$, C is ill-conditioned. Remember that $|C|$ is the determinant of C. \\
+
+Although matrix $B$ seems well conditioned, we can verify it by comparing it to the norm of matrix $B$ too. Insure that you are able to find the following values for the norms of $B$:
+
+$$\| B \|_1 = 13 $$
+
+$$\| B \|_2 \approx 5.38$$
+
+$$\| B \|_\infty = 6$$
+
+We can see that $\| B \|$ is less than or equal to the determinant of $B$ Therefore, it confirms us that $B$ is well conditioned. \\
+
+\textbf{Second method: computing the condition number} \\
+
+Remember from the lecture that $cond(A)= \| A \| \| A^{-1} \| $. The condition number of matrix A cannot be computed because A is singular, and therefore non invertible. So let's start with matrix B. We will see in the next tutorial how to compute its inverse using Gauss elimination and Gauss-Jordan elimination. Today, let's just solve the system with the simple substitution method and compute the condition number of B: \\
+
+Remember that inverting a matrix $B$ is equivalent to seeking $X = B^{-1}$, the inverse of matrix $B$ such that $BX=I$ (indeed, we know that $ BB^{-1} = I $) with $I$ being the identity matrix. We know how to solve a system with 3 unknowns for a given vector $b$. We can break the identity matrix $I$ into three vectors $b$:\\
+
+$$ b = \begin{bmatrix}
+  1 \\
+  0 \\
+  0
+\end{bmatrix} b = \begin{bmatrix}
+  0 \\
+  1 \\
+  0
+\end{bmatrix} b = \begin{bmatrix}
+  0 \\
+  0 \\
+  1
+\end{bmatrix} $$
+
+We want to solve following the system for each vector $b$ :
+$$\begin{cases}
+  2x - 2y + z = b_1 \\
+  x - z = b_2 \\
+  4x + y + z = b_3
+\end{cases}$$
+
+\textit{Solving for} $b = \begin{bmatrix}
+  1 \\
+  0 \\
+  0
+\end{bmatrix}$
+
+$$\begin{cases}
+  2x - 2y + z = 1 \\
+  x - z = 0 \\
+  4x + y + z = 0
+\end{cases}$$
+
+$$\begin{cases}
+  2x - 2y + z = 1 \\
+  x = z \\
+  4x + y + z = 0
+\end{cases}$$
+
+$$\begin{cases}
+  2x - 2y + z = 1 \\
+  x = z \\
+  y = -5z
+\end{cases}$$
+
+By solving equation 1 we get $z = \frac{1}{13} $ which gives us the values of $x$ and $y$ as well.
+
+$$\begin{cases}
+  x = \frac{1}{13} \\
+  y = \frac{1}{13} \\
+  z = \frac{-5}{13}
+\end{cases}$$
+
+\textit{Solving for} $b = \begin{bmatrix}
+  0 \\
+  1 \\
+  0
+\end{bmatrix}$
+
+$$\begin{cases}
+  2x - 2y + z = 0 \\
+  x - z = 1 \\
+  4x + y + z = 0
+\end{cases}$$
+
+$$\begin{cases}
+  2x - 2y + z = 0 \\
+  x = 1 + z \\
+  4x + y + z = 0
+\end{cases}$$
+
+$$\begin{cases}
+  2x - 2y + z = 0 \\
+  x = 1 + z \\
+  4(1 + z) + y + z = 0
+\end{cases}$$
+
+$$\begin{cases}
+  2x - 2y + z = 0 \\
+  x = 1 + z \\
+  y = -4 -5z
+\end{cases}$$
+
+Again, by solving equation 1 we get $z = \frac{-10}{13} $ which gives us the values of $x$ and $y$ as well.
+
+$$\begin{cases}
+  x = \frac{3}{13} \\
+  y = \frac{-2}{13} \\
+  z = \frac{-10}{13}
+\end{cases}$$
+
+\textit{Solving for} $b = \begin{bmatrix}
+  0 \\
+  0 \\
+  1
+\end{bmatrix}$
+
+$$\begin{cases}
+  2x - 2y + z = 0 \\
+  x - z = 0 \\
+  4x + y + z = 1
+\end{cases}$$
+
+$$\begin{cases}
+  2x - 2y + z = 0 \\
+  x = z \\
+  4x + y + z = 1
+\end{cases}$$
+
+$$\begin{cases}
+  2x - 2y + z = 0 \\
+  x = z \\
+  y = 1 - 5z
+\end{cases}$$
+
+$$\begin{cases}
+  x = \frac{2}{13} \\
+  y = \frac{3}{13} \\
+  z = \frac{2}{13}
+\end{cases}$$
+
+By combining the three vectors we found, we get the following inverse matrix:
+
+$$ B^{-1} = \frac{1}{13} \begin{bmatrix}
+  1 & 3 & 2 \\
+  -5 & -2 & 3 \\
+  1 & -10 & 2
+\end{bmatrix}$$
+
+We can verify that the solution is correct:
+
+$$
+BB^{-1} = \begin{bmatrix}
+  2 & -2 & 1 \\
+  1 & 0 & -1 \\
+  4 & 1 & 1
+\end{bmatrix}
+\frac{1}{13} \begin{bmatrix}
+  1 & 3 & 2 \\
+  -5 & -2 & 3 \\
+  1 & -10 & 2
+\end{bmatrix}
+= \frac{1}{13} \begin{bmatrix}
+  13 & 0 & 0 \\
+  0 & 13 & 0 \\
+  0 & 0 & 13
+\end{bmatrix}
+= \begin{bmatrix}
+  1 & 0 & 0 \\
+  0 & 1 & 0 \\
+  0 & 0 & 1
+\end{bmatrix} = I
+$$
+
+Now than we have the inverse of $B$ we can compute its condition number using the norm we want, for example the infinity norm: \\
+$ \| B \|_\infty = \max (5, 2, 6) = 6 $ \\
+$ \| B^{-1} \|_\infty = \max (\frac{6}{13}, \frac{10}{13}, \frac{13}{13}) = \frac{13}{13} = 1 $ \\
+$$ cond(B) = \| B \|_\infty  \| B^{-1} \|_\infty = 1.6 = 6 $$
+
+We could do the exact same process on matrix $C$ to get $cond(C)$. You will find something like: \\
+$$
+C^{-1} = \begin{bmatrix}
+  -5000 & 9998.5 & -4999 \\
+  10000 & -20000 & 10000 \\
+  -5000 & 10001.1667 & -5000.67
+\end{bmatrix}
+$$ \\
+
+Resulting in $cond(C) = \| C \|_\infty  \| C^{-1} \|_\infty = 24 * 40,000 = 960,000$. As expected, $cond(C)$ is much greater than 1.
+
+\end{document}

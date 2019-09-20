@@ -1,0 +1,180 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+%\renewcommand{\qedsymbol}{\filledbox}
+
+\title{TUTORIAL 3}%replace X with the appropriate number
+\author{TRISTAN GLATARD\\ %replace with your name
+COMP 361 Numerial Methods} %if necessary, replace with your course title
+\date{September 28, 2018} 
+\maketitle
+
+\begin{exercise}{1} %You can use theorem, proposition, exercise, or reflection here. 
+Use Newton-Raphson method to compute $\sqrt[3]{75}$ with four significant figure accuracy.
+
+\textbf{Solution.} The problem is equivalent to finding the root of $f(x) = x^3-75 = 0$. Here the Newton-Raphson formula is\\
+\begin{align}
+\notag
+x \leftarrow x - \Delta x  
+\end{align}
+where
+\begin{align}
+\Delta x = \frac{f(x)}{f\prime(x)} = \frac{x^3-75}{3x^2} = \frac{x}{3} + \frac{25}{x^2}
+\end{align}
+until $|\Delta| \leq \epsilon = 10e^{-4}$\\
+Starting with $x=5$\\
+
+Iteration 1
+\begin{align}
+\Delta x &= \frac{5}{3} - \frac{25}{5^2} = \frac{2}{3} \approx 0.6666\\
+x &\leftarrow 5 - 0.6666 = 4.3333   
+\end{align}
+
+Iteration 2
+\begin{align}
+\Delta x &= \frac{4.3333}{3} - \frac{25}{4.3333^2} = \frac{2}{3} \approx 0.6666\\
+x &\leftarrow 5 - 0.6666 = 4.3333   
+\end{align}
+\end{exercise}
+
+%EXERCISE 2-----------------------------------------------------
+\begin{exercise}{2} %You can use theorem, proposition, exercise, or reflection here.  
+Find the smallest positive (real) root of $x^3-3.23x^2-5.54x+9.84 = 0$ by the
+method of bisection.
+
+\textbf{Solution.}
+
+We first need to find brackets for the root. One of them is zero since we are asked to find a positive root. Observe that \(f(0) = 9.84 > 0\), we need to find the right bracket $x_0$ so that \(f(x_0) < 0\). Let's take 2: $f(2) = 2^3 - 3.23*2^2 - 5.44*2 + 9.84 = - 6.16 < 0$
+Then we need to find the root in [0,2].
+
+Apply the bisection method in the table.
+\begin{table}[h]
+\begin{tabular}{|c|r|r|r|r|r|r|}
+\hline
+\textbf{Iteration} & \multicolumn{1}{c|}{\textbf{\(x_1\)}} & \multicolumn{1}{c|}{\textbf{\(x_2\)}} & \multicolumn{1}{c|}{\textbf{\(x_3\)}} & \multicolumn{1}{c|}{\textbf{\(f(x_1)\)}} & \multicolumn{1}{c|}{\textbf{\(f(x_2)\)}} & \multicolumn{1}{c|}{\textbf{\(f(x_3)\)}} \\ \hline
+\textit{1} & 0 & 2 & 1 & 9.84E+00 & -6.16E+00 & 2.07E+00 \\ \hline
+\textit{2} & 1 & 2 & 1.5 & 2.07E+00 & -6.16E+00 & -2.36E+00 \\ \hline
+\textit{3} & 1 & 1.5 & 1.25 & 2.07E+00 & -2.36E+00 & -1.79E-01 \\ \hline
+\textit{4} & 1 & 1.25 & 1.125 & 2.07E+00 & -1.79E-01 & 9.43E-01 \\ \hline
+\textit{5} & 1.125 & 1.25 & 1.1875 & 9.43E-01 & -1.79E-01 & 3.81E-01 \\ \hline
+\textit{6} & 1.1875 & 1.25 & 1.21875 & 3.81E-01 & -1.79E-01 & 1.01E-01 \\ \hline
+\textit{7} & 1.21875 & 1.25 & 1.234375 & 1.01E-01 & -1.79E-01 & -3.91E-02 \\ \hline
+\textit{8} & 1.21875 & 1.234375 & 1.2265625 & 1.01E-01 & -3.91E-02 & 3.08E-02 \\ \hline
+\textit{9} & 1.2265625 & 1.234375 & 1.23046875 & 3.08E-02 & -3.91E-02 & -4.19E-03 \\ \hline
+\textit{10} & 1.2265625 & 1.23046875 & 1.228515625 & 3.08E-02 & -4.19E-03 & 1.33E-02 \\ \hline
+\textit{11} & 1.228515625 & 1.23046875 & 1.229492188 & 1.33E-02 & -4.19E-03 & 4.54E-03 \\ \hline
+\textit{12} & 1.229492188 & 1.23046875 & 1.229980469 & 4.54E-03 & -4.19E-03 & 1.75E-04 \\ \hline
+\textit{13} & 1.229980469 & 1.23046875 & 1.230224609 & 1.75E-04 & -4.19E-03 & -2.01E-03 \\ \hline
+\textit{14} & 1.229980469 & 1.230224609 & 1.230102539 & 1.75E-04 & -2.01E-03 & -9.17E-04 \\ \hline
+\textit{15} & 1.229980469 & 1.230102539 & 1.230041504 & 1.75E-04 & -9.17E-04 & -3.71E-04 \\ \hline
+\textit{16} & 1.229980469 & 1.230041504 & 1.230010986 & 1.75E-04 & -3.71E-04 & -9.83E-05 \\ \hline
+\end{tabular}
+\end{table}
+
+At each iteration, we evaluate \(x_3 = \frac{1}{2}(x_1+x_2)\) and \(f(x_3)\). If \(f(x_3)\) has the same sign as \(f(x_1)\), replace \(x_1\) by \(x_3\). Otherwise replace \(x_2\) by \(x_3\).
+We stop when \(|x_1-x_2| \leq \epsilon = 10^{-4}\).
+Finally we have the root of \textbf{1.230010986}.
+\end{exercise}
+
+%EXERCISE 2-----------------------------------------------------
+\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.  
+The smallest positive, non-zero root of $cosh(x)cos(x)-1=0$ lies in the interval
+(4, 5). Compute this root by \textit{falsi} method.
+
+\textbf{Solution.} 
+
+Similarly to bisection method seen in previous exercise, we estimate the root with
+\begin{align}
+x_3 = x_2 - f_2 \frac{x_2-x_1}{f_2-f_1} \notag
+\end{align}
+
+At each iteration, we evaluate \(x_3\) and \(f(x_3)\). If \(f(x_3)\) has the same sign as \(f(x_1)\), replace \(x_1\) by \(x_3\). Otherwise replace \(x_2\) by \(x_3\).
+We stop when \(|x_3^{(k+1)}-x_3^{(k)}| \leq \epsilon = 10^{-4}\) where \(x_3^{(k)}\)is the approximation of root at iteration \textit{k}. The table below lists the calculation of each iteration.
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|r|r|r|r|r|r|}
+\hline
+\textbf{Iteration} & \multicolumn{1}{c|}{\textbf{\(x_1\)}} & \multicolumn{1}{c|}{\textbf{\(x_2\)}} & \multicolumn{1}{c|}{\textbf{\(x_3\)}} & \multicolumn{1}{c|}{\textbf{\(f(x_1)\)}} & \multicolumn{1}{c|}{\textbf{\(f(x_2)\)}} & \multicolumn{1}{c|}{\textbf{\(f(x_3)\)}} \\ \hline
+\textit{1} & 4.00000 & 5 & 4.48457 & -18.8499 & 20.0506 & -11.0111 \\ \hline
+\textit{2} & 4.48457 & 5 & 4.66728 & -11.0111 & 20.0506 & -3.3992 \\ \hline
+\textit{3} & 4.66728 & 5 & 4.71551 & -3.3992 & 20.0506 & -0.8256 \\ \hline
+\textit{4} & 4.71551 & 5 & 4.72676 & -0.8256 & 20.0506 & -0.1883 \\ \hline
+\textit{5} & 4.72676 & 5 & 4.72931 & -0.1883 & 20.0506 & -0.0423 \\ \hline
+\textit{6} & 4.72931 & 5 & 4.72988 & -0.0423 & 20.0506 & -0.0095 \\ \hline
+\textit{7} & 4.72988 & 5 & 4.73000 & -0.0095 & 20.0506 & -0.0021 \\ \hline
+\textit{8} & 4.73000 & 5 & 4.73003 & -0.0021 & 20.0506 & -0.0005 \\ \hline
+\end{tabular}
+\end{table}
+
+The estimated root is \textbf{4.73003} .
+\end{exercise}
+\begin{exercise}{4} %You can use theorem, proposition, exercise, or reflection here.  
+Solve Exercise 3 by the Newton-Raphson method.
+
+\textbf{Solution.} 
+$f(x) = cosh(x)cos(x)-1=0$ \\
+
+For the Newton-Raphson method, we need the first derivative of f(x):
+\begin{align}
+f^\prime(x) = -cosh(x)sin(x) + sinh(x)cos(x) \notag
+\end{align}
+
+Steps of Newton-Raphson are in the following table, stopping condition is $|\Delta| \leq \epsilon = 10e^{-4}$ 
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|r|r|}
+\hline
+\textbf{Iteration} & \multicolumn{1}{c|}{\textbf{x}} & \multicolumn{1}{c|}{\textbf{\(\Delta\)}} \\ \hline
+\textit{1} & 5.00000 & 0.21744 \\ \hline
+\textit{2} & 4.78256 & 0.04998 \\ \hline
+\textit{3} & 4.73258 & 0.00253 \\ \hline
+\textit{4} & 4.73000 & 0.000006 \\ \hline
+\end{tabular}
+\end{table}
+
+The approximated root is  \textbf{4.73}.
+\end{exercise}
+
+\begin{exercise}{5} %You can use theorem, proposition, exercise, or reflection here.  
+A root of the equation $tan(x)-tanh(x)=0$ lies in (7.0, 7.4). Find this root with three
+decimal place accuracy by the method of bisection.
+
+\textbf{Solution.} 
+
+Similarly to Exercise 2, we have the following table.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|r|r|r|r|r|r|}
+\hline
+\textbf{Iteration} & \multicolumn{1}{c|}{\textbf{\(x_1\)}} & \multicolumn{1}{c|}{\textbf{\(x_2\)}} & \multicolumn{1}{c|}{\textbf{\(x_3\)}} & \multicolumn{1}{c|}{\textbf{\(f(x_1)\)}} & \multicolumn{1}{c|}{\textbf{\(f(x_2)\)}} & \multicolumn{1}{c|}{\textbf{\(f(x_3)\)}} \\ \hline
+\textit{1} & 7.0000 & 7.4000 & 7.2000 & -0.12855 & 1.04928 & 0.30462 \\ \hline
+\textit{2} & 7.0000 & 7.2000 & 7.1000 & -0.12855 & 0.30462 & 0.06489 \\ \hline
+\textit{3} & 7.0000 & 7.1000 & 7.0500 & -0.12855 & 0.06489 & -0.03649 \\ \hline
+\textit{4} & 7.0500 & 7.1000 & 7.0750 & -0.03649 & 0.06489 & 0.01292 \\ \hline
+\textit{5} & 7.0500 & 7.0750 & 7.0625 & -0.03649 & 0.01292 & -0.01209 \\ \hline
+\textit{6} & 7.0625 & 7.0750 & 7.0688 & -0.01209 & 0.01292 & 0.00033 \\ \hline
+\textit{7} & 7.0625 & 7.0688 & 7.0656 & -0.01209 & 0.00033 & -0.00590 \\ \hline
+\textit{8} & 7.0656 & 7.0688 & 7.0672 & -0.00590 & 0.00033 & -0.00279 \\ \hline
+\textit{9} & 7.0672 & 7.0688 & 7.0680 & -0.00279 & 0.00033 & -0.00123 \\ \hline
+\textit{10} & 7.0680 & 7.0688 & 7.0684 & -0.00123 & 0.00033 & -0.00045 \\ \hline
+\end{tabular}
+\end{table}
+
+We stopped at iteration 10 when \(|x_1-x_2| \leq \epsilon = 10^{-3}\) and have the estimated root of \textbf{7.0686}.
+
+\end{exercise}
+
+
+% --------------------------------------------------------------
+%     You don't have to mess with anything below this line.
+% --------------------------------------------------------------
+ 
