@@ -1,0 +1,438 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{longtable}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{reflection}[2][Reflection]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{TUTORIAL 2}
+\author{Timothée Guédon \& Tristan Glatard\\
+COMP 361 Numerical Methods}
+\date{September 20, 2019}
+\maketitle
+
+\section{Exercises for today}
+
+\begin{exercise}{1}
+Invert the following matrix using Gauss elimination or Gauss-Jordan elimination:
+\begin{center}
+\textbf{B}=
+$
+\begin{bmatrix}
+2 & -2 & 1 \\
+1 & 0 & -1 \\
+4 & 1 & 1
+\end{bmatrix}
+$
+\end{center}
+\end{exercise}
+
+\begin{exercise}{2}
+Find Doolittle's LU decomposition of \textbf{B}:\\
+\begin{center}
+\textbf{B}=
+$
+\begin{bmatrix}
+2 & -2 & 1 \\
+1 & 0 & -1 \\
+4 & 1 & 1
+\end{bmatrix}$
+\end{center}
+Then solve $Bx=b$ for $b = \begin{bmatrix}
+  1 \\ 2 \\ 0
+\end{bmatrix}$
+\end{exercise}
+
+\begin{exercise}{3}
+Find the Cholesky decomposition of \textbf{A}: \\
+\begin{center}
+\textbf{A}=
+$
+\begin{bmatrix}
+1 & 1 & 1 \\
+1 & 2 & 2 \\
+1 & 2 & 3
+\end{bmatrix}
+$
+\end{center}
+\end{exercise}
+
+\begin{exercise}{4} (As a training)
+Invert the following matrix:
+\begin{center}
+\textbf{D}=
+$
+\begin{bmatrix}
+3 & 1 & 2 \\
+1 & 1 & 0 \\
+5 & 8 & 9
+\end{bmatrix}
+$
+\end{center}
+\end{exercise}
+
+\break
+
+\section{Solutions}
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 1}
+%-------------------------------------------------------------------------------------------------------
+
+\textbf{Gauss elimination} \\
+
+\begin{center}
+\textbf{[$B \vert I$]}=
+$\begin{bmatrix}
+2 & -2 & 1 & \aug & 1 & 0 & 0 \\
+1 & 0 & -1 & \aug & 0 & 1 & 0 \\
+4 & 1 & 1 & \aug & 0 & 0 & 1 \\
+\end{bmatrix}
+$
+\end{center}
+
+\noindent $L_1 \gets L_3$ \\
+$L_3 \gets L_1$ \\
+\begin{center}
+$\begin{bmatrix}
+4 & 1 & 1 & \aug & 0 & 0 & 1 \\
+1 & 0 & -1 & \aug & 0 & 1 & 0 \\
+2 & -2 & 1 & \aug & 1 & 0 & 0 \\
+\end{bmatrix}$
+\end{center}
+
+\noindent $L_1 \gets L_1/4$ \\
+\begin{center}
+$\begin{bmatrix}
+1 & \frac{1}{4} & \frac{1}{4} & \aug & 0 & 0 & \frac{1}{4} \\
+1 & 0 & -1 & \aug & 0 & 1 & 0 \\
+2 & -2 & 1 & \aug & 1 & 0 & 0 \\
+\end{bmatrix}$
+\end{center}
+
+\noindent $L_2 \gets L_2 - L_1$ \\
+$L_3 \gets L_3 - 2 * L_2$ \\
+\begin{center}
+$\begin{bmatrix}
+1 & \frac{1}{4} & \frac{1}{4} & \aug & 0 & 0 & \frac{1}{4} \\
+0 & \frac{-1}{4} & \frac{-5}{4} & \aug & 0 & 1 & \frac{-1}{4} \\
+0 & \frac{-10}{4} & \frac{2}{4} & \aug & 1 & 0 & \frac{-2}{4} \\
+\end{bmatrix}$
+\end{center}
+
+\noindent $L_3 \gets L_3 - 10 * L_2$ \\
+\begin{center}
+$\begin{bmatrix}
+1 & \frac{1}{4} & \frac{1}{4} & \aug & 0 & 0 & \frac{1}{4} \\
+0 & \frac{-1}{4} & \frac{-5}{4} & \aug & 0 & 1 & \frac{-1}{4} \\
+0 & 0 & 13 & \aug & 1 & -10 & \frac{8}{4} \\
+\end{bmatrix}$
+\end{center}
+
+
+\noindent $L_3 \gets L_3/13$ \\
+\begin{center}
+$\begin{bmatrix}
+1 & \frac{1}{4} & \frac{1}{4} & \aug & 0 & 0 & \frac{1}{4} \\
+0 & \frac{-1}{4} & \frac{-5}{4} & \aug & 0 & 1 & \frac{-1}{4} \\
+0 & 0 & 1 & \aug & \frac{1}{13} & \frac{-10}{13} & \frac{2}{13} \\
+\end{bmatrix}$
+\end{center}
+
+\noindent For the Gauss elimination method, we stop here and we solve the following system of equations by backward substitution for each vector $b$ in the augmented matrix: \\
+$$\begin{cases}
+  a + \frac{1}{4}b + \frac{1}{4}c = b_1 \\
+  \frac{-1}{4}b + \frac{-5}{4}c = b_2 \\
+  c = b_3
+\end{cases}$$ \\
+
+with $$ b = \begin{bmatrix}
+  0 \\
+  0 \\
+  \frac{1}{13}
+\end{bmatrix} b = \begin{bmatrix}
+  0 \\
+  1 \\
+  \frac{-10}{13}
+\end{bmatrix} b = \begin{bmatrix}
+  \frac{1}{4} \\
+  \frac{-1}{4} \\
+  \frac{2}{13}
+\end{bmatrix} $$ \\
+
+You should then find: \\
+
+$$B^{-1} = \frac{1}{52}
+\begin{bmatrix}
+4 & 12 & 8 & \\
+-20 & -8 & 12 \\
+4 & -40 & 8
+\end{bmatrix}$$ \\
+
+\noindent \textbf{Gauss-Jordan elimination} \\
+Gauss-Jordan elimination is just the Gauss elimination taken to its limit: When $U$ is found, you can continue the elimination on $U$ with pivots from $U_{N, N}$ to $U_{N-1, N-1}$.\\
+
+\noindent $L_2 \gets L_2 + \frac{5}{4}L_3$ \\
+$L_1 \gets L_1 - \frac{1}{4}L_3$ \\
+\begin{center}
+$\begin{bmatrix}
+1 & \frac{1}{4} & 0 & \aug & \frac{-1}{52} & \frac{10}{52} & \frac{11}{52} \\
+0 & \frac{-1}{4} & 0 & \aug & \frac{5}{52} & \frac{2}{52} & \frac{-3}{52} \\
+0 & 0 & 1 & \aug & \frac{1}{13} & \frac{-10}{13} & \frac{2}{13} \\
+\end{bmatrix}$
+\end{center}
+
+\noindent $L_1 \gets L_1 + L_2$ \\
+\begin{center}
+$\begin{bmatrix}
+1 & 0 & 0 & \aug & \frac{4}{52} & \frac{12}{52} & \frac{8}{52} \\
+0 & \frac{-1}{4} & 0 & \aug & \frac{5}{52} & \frac{2}{52} & \frac{-3}{52} \\
+0 & 0 & 1 & \aug & \frac{1}{13} & \frac{-10}{13} & \frac{2}{13} \\
+\end{bmatrix}$
+\end{center}
+
+\noindent $L_2 \gets (-4)*L_2$ \\
+\begin{center}
+\textbf{[$I \vert B^{-1}$]}=$\begin{bmatrix}
+1 & 0 & 0 & \aug & \frac{4}{52} & \frac{12}{52} & \frac{8}{52} \\
+0 & 1 & 0 & \aug & \frac{-20}{52} & \frac{-8}{52} & \frac{12}{52} \\
+0 & 0 & 1 & \aug & \frac{4}{52} & \frac{-40}{52} & \frac{8}{52} \\
+\end{bmatrix}$
+\end{center}
+
+We have found the same $B^{-1}$ as with the Gauss elimination. Let's test if our solution is right: \\
+
+\begin{center}
+$BB^{-1}=\begin{bmatrix}
+2 & -2 & 1 \\
+1 & 0 & -1 \\
+4 & 1 & 1
+\end{bmatrix}\frac{1}{52}
+\begin{bmatrix}
+4 & 12 & 8 & \\
+-20 & -8 & 12 \\
+4 & -40 & 8
+\end{bmatrix} = \frac{1}{52}
+\begin{bmatrix}
+52 & 0 & 0 \\
+0 & 52 & 0 \\
+0 & 0 & 52
+\end{bmatrix} = I
+$
+\end{center}
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 2}
+%-------------------------------------------------------------------------------------------------------
+
+\begin{center}
+\textbf{B}=$\begin{bmatrix}
+2 & -2 & 1 \\
+1 & 0 & -1 \\
+4 & 1 & 1
+\end{bmatrix}$
+\end{center}\\
+
+Doolittle's decomposition is obtained through Gauss elimination by storing multipliers in the lower part of B. \\
+$L_2 \gets L_2 - \frac{1}{2} L_1 \\
+L_3 \gets L_3 - 2L_1 $ \\
+\begin{center}
+\textbf{B}=
+$\begin{bmatrix}
+2&-2&1\\
+\boxed{\frac{1}{2}}&1&-\frac{3}{2}\\
+\boxed{2}&5&-1
+\end{bmatrix}
+$
+\end{center}
+$L_3 \gets L_3 - 5L_2 \\$
+\begin{center}
+\textbf{[L\textbackslash U]}=
+$\begin{bmatrix}
+2&-2&1\\
+\boxed{\frac{1}{2}}&1&-\frac{3}{2}\\
+\boxed{2}&\boxed{5}&\frac{13}{2}
+\end{bmatrix}
+$
+\end{center}
+Thus,
+\begin{center}
+\textbf{L}=
+$\begin{bmatrix}
+1&0&0\\
+\frac{1}{2}&1&0\\
+2&5&1
+\end{bmatrix}
+$
+\textbf{U}=
+$\begin{bmatrix}
+2&-2&1\\
+0&1&-\frac{3}{2}\\
+0&0&\frac{13}{2}
+\end{bmatrix}
+$
+\end{center}
+
+\noindent Now we can solve for $b$: \\
+1. Solve $Ly = b$ by forward substitution
+\begin{itemize}
+\item $y_1 = 1$
+\item $\frac{1}{2}y_1 + y_2=2 \Rightarrow y_2=\frac{3}{2}$
+\item $2y_1+5y_2+y_3=0 \Rightarrow y_3=-\frac{19}{2}$
+\end{itemize}
+2. Solve $Ux = y$ by backward substitution
+\begin{itemize}
+\item $\frac{13}{2}x_3=-\frac{19}{2} \Rightarrow x_3=-\frac{19}{13}$
+\item $x_2-\frac{3}{2}x_3=\frac{3}{2} \Rightarrow x_2=-\frac{9}{13}$
+\item $2x_1-2x_2+x_3=1 \Rightarrow x_1=\frac{1}{2}(1-\frac{18}{13}+\frac{19}{13})=\frac{7}{13}$
+\end{itemize}
+
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 3}
+%-------------------------------------------------------------------------------------------------------
+
+\begin{center}
+\textbf{A}=
+$\begin{bmatrix}
+1&1&1\\
+1&2&2\\
+1&2&3
+\end{bmatrix}
+$
+\end{center}
+
+\begin{center}
+$\textbf{A}= LL^T =
+\begin{bmatrix}
+L_{11}&0&0\\
+L_{21}&L_{22}&0\\
+L_{31}&L_{32}&L_{33}\\
+\end{bmatrix}
+\begin{bmatrix}
+L_{11}&L_{21}&L_{31}\\
+0&L_{22}&L_{32}\\
+0&0&L_{33}\\
+\end{bmatrix}
+$
+\end{center}
+
+Identification of column 1:
+\begin{itemize}
+\item $L_{11} = 1$
+\item $L_{11}L_{21} = 1 \Rightarrow L_{21} = 1$
+\item $L_{11}L_{31} = 1 \Rightarrow L_{31} = 1$
+\end{itemize}
+
+Identification of column 2:
+\begin{itemize}
+\item $L_{21}^2 + L_{22}^2 = 2 \Rightarrow L_{22} = 1$
+\item $1+L_{22}L_{32} = 2 \Rightarrow L_{32} = 1$
+\end{itemize}
+
+Identification of column 3:
+\begin{itemize}
+\item $L_{31}^2 + L_{32}^2  + L_{33}^2 = 3 \Rightarrow L_{33} = 1$
+\end{itemize}
+
+Therefore,
+\begin{center}
+\textbf{L}=
+$\begin{bmatrix}
+1&0&0\\
+1&1&0\\
+1&1&1
+\end{bmatrix}
+$
+\end{center}
+
+\subsection{Exercise 4}
+\textbf{Using Gauss elimination}
+
+\noindent We will solve $DX=I$ by Gauss elimination \\
+
+\begin{center}
+\textbf{[$D \vert I$]}=
+$\begin{bmatrix}
+3&1&2 &\aug&1&0&0\\
+1&1&0 &\aug& 0&1&0\\
+5&8&9 &\aug& 0&0&1
+\end{bmatrix}
+$ \\
+\end{center}
+
+\noindent $L_2 \leftarrow L_2 - \frac{1}{3}L_1$\\
+$L_3 \leftarrow L_3 - \frac{5}{3}L_1$\\
+
+\begin{center}
+$\begin{bmatrix}
+3&1&2 &\aug&1&0&0\\
+0&\frac{2}{3}&-\frac{2}{3} &\aug&-\frac{1}{3}&1&0\\
+0&\frac{19}{3}&\frac{17}{3} &\aug& -\frac{5}{3}&0&1
+\end{bmatrix}
+$ \\
+\end{center}
+
+$L_3 \leftarrow L_3 - \frac{19}{2}L_2$\\
+
+\begin{center}
+$\begin{bmatrix}
+3&1&2 &\aug&1&0&0\\
+0&\frac{2}{3}&-\frac{2}{3} &\aug&-\frac{1}{3}&1&0\\
+0&0&12 &\aug& \frac{3}{2}&-\frac{19}{2}&1
+\end{bmatrix}
+$ \\
+\end{center}
+
+Back substitution
+\begin{itemize}
+\item $12x_{31} = \frac{3}{2} \Rightarrow x_{31} = -\frac{1}{8}$
+\item $\frac{2}{3}x_{21} = -\frac{1}{3} + \frac{2.1}{3.8} \Rightarrow x_{21} = -\frac{3}{8}$
+\item $x_{11} = \frac{1}{3}(1+\frac{3}{8}-\frac{2}{8}) = \frac{3}{8}$
+\end{itemize}
+
+\begin{itemize}
+\item $12x_{32} = -\frac{19}{2} \Rightarrow x_{32} = -\frac{19}{24}$
+\item $x_{22} = -\frac{3}{2}(1-\frac{2}{3}.\frac{19}{24}) = -\frac{17}{24}$
+\item $x_{12} = \frac{1}{3}(0-\frac{17}{24}+2\frac{19}{24}) = \frac{7}{24}$
+\end{itemize}
+
+\begin{itemize}
+\item $12x_{33} = 1 \Rightarrow x_{33} = \frac{1}{12}$
+\item $x_{23} = -\frac{3}{2}(0+\frac{2}{3}.\frac{1}{12}) = \frac{1}{12}$
+\item $x_{13} = \frac{1}{3}(0-\frac{1}{12}-\frac{2}{12}) = -\frac{1}{12}$
+\end{itemize}
+
+Finally,
+\begin{center}
+$C^{-1} = \begin{bmatrix}
+\frac{3}{8} & \frac{7}{24} & \frac{-1}{12} \\
+\frac{-3}{8} & \frac{17}{24} & \frac{1}{12} \\
+\frac{1}{8} & \frac{-19}{24} & \frac{1}{12} \\
+\end{bmatrix}
+$
+\end{center}
+
+\end{document}
