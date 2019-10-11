@@ -195,3 +195,104 @@ def bisection_iter2():
     rect = graph.Rectangle([3.5, -5], 0.5, 10, color='gray')
     graph.gca().add_patch(rect)
     graph.show()
+
+def plot_false_position():
+    plt = intro_plot()
+    label_size = 'x-large'
+    a = 2 ; b = 4
+    plt.plot([a, b], [tan(a), tan(b)], '-')
+    plt.plot([a, b], [tan(a), tan(b)], 'o', color='darkorange')
+    plt.annotate("Linear interpolation", xy=(2.5, -2), fontsize=label_size, color='darkorange')
+    x = (a*tan(b)-b*tan(a))/(tan(b)-tan(a))
+    plt.plot([x], [0], 'x', color='blue')
+    plt.annotate("Linear interpolation", xy=(2.5, -2), fontsize=label_size, color='darkorange')
+    plt.show()
+
+def difftan(x): # derivative
+     from math import sin, cos
+     return sin(x)**2/cos(x)**2 + 1
+
+def newton_plot(f, diff, xmin, xmax, ymin, ymax, xi, root=True):
+
+
+    x = arange(xmin, xmax, 0.01)
+    vals = zeros(x.size)
+    for i in range(x.size):
+        vals[i] = f(x[i])
+    plt.plot(x, vals, '-')
+    plt.plot(x, zeros(x.size), '-', color='black')
+    miny = ymin
+    maxy = ymax
+    plt.ylim(miny, maxy)
+    plt.xlim(xmin, xmax)
+
+    # Annotation
+    label_size = 'x-large'
+    plt.annotate("f(x)", xy=(0.5, 2), fontsize=label_size, color='royalblue')
+
+    # Root
+    if root:
+        from math import pi
+        #plt.plot([0, 6], [0, 0], '--', color='black')
+        plt.plot([pi], [0], 'o', color='red')
+        plt.annotate("Root", xy=(2.8, -1), color='red', fontsize=label_size)
+
+    #xi
+    plt.plot([xi], [0], 'o', color='blue')
+    plt.plot([xi], [f(xi)], 'o', color='blue')
+    plt.annotate("$x_i$", xy=(xi-.05, -.7), color='blue', fontsize=label_size)
+    plt.plot([xi, xi], [0, f(xi)], '--', color='blue')
+
+    # tangent line
+    plt.plot([xi-1, xi, xi+1], [f(xi)-diff(xi), f(xi), f(xi)+diff(xi)], color='darkorange')
+    plt.annotate("$y=f'(x_i)x+cte$", xy=(xi+0.3, tan(xi)+1), color='darkorange', fontsize=label_size)
+    # xi+1
+    xi=4.3
+    plt.annotate("$f(x_i)$", xy=(xi+0.05, tan(xi)/2), color='blue', fontsize=label_size)
+    x2 = xi-tan(xi)/diff(xi)
+    plt.plot([x2], [0], 'o', color='blue')
+    plt.annotate("$x_{i+1}$", xy=(x2-.2, -.7), color='blue', fontsize=label_size)
+    plt.title("Newton-Raphson Method: i -> i+1")
+    return plt
+
+def plot_newton_raphson_1():   
+    xmin=2
+    xmax=5
+    ymin=-5
+    ymax=5
+    xi=4.3
+    return newton_plot(tan, difftan, xmin, xmax, ymin, ymax, xi, True)
+
+
+def plot_newton_raphson_2():
+    # xi+2
+    label_size = 'x-large'
+    graph = plot_newton_raphson_1()
+    xi = 4.3
+    x2 = xi-tan(xi)/difftan(xi)
+    x3 = x2-tan(x2)/difftan(x2)
+
+    # tangent line at xi+1
+    graph.plot([x2], [0], 'o', color='blue')
+    graph.annotate("$x_{i+1}$", xy=(x2-.2, -.7), color='blue', fontsize=label_size)
+    plt.plot([x2, x2], [0, tan(x2)], '--', color='blue')
+    graph.plot([x2], [tan(x2)], 'o', color='blue')
+    graph.plot([x3], [0], 'o', color='blue')
+    graph.annotate("$x_{i+2}$", xy=(x3-.2, -.7), color='blue', fontsize=label_size)
+    graph.plot([x2-1, x2, x2+1], [tan(x2)-difftan(x2), tan(x2), tan(x2)+difftan(x2)], color='green')
+    graph.annotate("$y=f'(x_{i+1})x+cte$", xy=(x2-1, tan(x2)+0.5), color='green', fontsize=label_size)
+    graph.title("Newton-Raphson Method: i+1 -> i+2")
+    graph.show()
+
+def plot_function(f):
+    from numpy import arange
+    x = arange(0, 15, 0.1)
+    
+    from matplotlib import pyplot as plt
+    y = zeros(x.size)
+    for i in range(x.size):
+        y[i] = f(x[i])
+    plt.plot(x, y)
+    plt.plot(x, zeros(x.size), color='black')
+    plt.title("f(x)")
+    plt.show()
