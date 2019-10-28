@@ -1,0 +1,372 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{longtable}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{reflection}[2][Reflection]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{TUTORIAL 3}
+\author{Timothée Guédon \& Tristan Glatard\\
+COMP 361 Numerical Methods}
+\date{September 27, 2019}
+\maketitle
+
+\section{Exercises for today}
+
+\begin{exercise}{1}
+
+  Determine y at x = 0 using Lagrange\textquotesingle s method for the given data points: \\
+  \begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    x & -1.2 & 0.3 & 1.1 \\ \hline
+    y & -5.76 & -5.61 & -3.69 \\ \hline
+  \end{tabular}
+  \end{table}
+
+\end{exercise}
+
+\begin{exercise}{2}
+
+  Find the Doolittle's LU decomposition of the following matrix: \\
+
+  $$A=\begin{bmatrix}
+    2 & 1 & 0 & 0 & 0 \\
+    -1 & 2 & 2 & 0 & 0 \\
+    0 & -1 & 2 & 3 & 0 \\
+    0 & 0 & -1 & 2 & 4 \\
+    0 & 0 & 0 & -1 & 2
+  \end{bmatrix}$$
+
+\end{exercise}
+
+\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.
+  Use Newton\textquotesingle s method to find the polynomial that fits the following points:\\
+  \begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+      \hline
+      x & -5 & -1 & 0 & 2 \\ \hline
+      y & -2 & 6 & 1 & 3 \\ \hline
+    \end{tabular}
+  \end{table}
+\end{exercise}
+
+\begin{exercise}{4} %You can use theorem, proposition, exercise, or reflection here.
+  Use Newton\textquotesingle s method to find the polynomial that fits the following points:\\
+  \begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+      \hline
+      x & -3 & 2 & -1 & 3 & 1 \\ \hline
+      y & 0 & 5 & -4 & 12 & 0 \\ \hline
+    \end{tabular}
+  \end{table}
+\end{exercise}
+
+\break
+
+\section{Solutions}
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 1}
+%-------------------------------------------------------------------------------------------------------
+
+With 3 given data points, we can construct a degree-2 polynomial using the Lagrange formula:\\
+$$P_{2}(x)=\sum_{i=0}^2 y_{i}\ell_{i}(x)$$
+where
+\begin{align}
+\ell_{0}(x)&=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}=\frac{(x-0.3)(x-1.1)}{3.45} \\
+\ell_{1}(x)&=\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}=\frac{(x+1.2)(x-1.1)}{-1.2} \\
+\ell_{2}(x)&=\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}=\frac{(x+1.2)(x-0.3)}{1.84}
+\end{align} \\
+Thus,
+\begin{align}
+\notag
+P_{n}(x) &=y_0\ell_0(x) + y_1\ell_1(x) + y_2\ell_2(x) \\ \notag
+P_{n}(0) &=y_0\ell_0(0) + y_1\ell_1(0) + y_2\ell_2(0) \\ \notag
+P_{n}(0) &=-5.76 \frac{(-0.3)(-1.1)}{3.45} -5.61 \frac{(1.2)(-1.1)}{-1.2} - 3.69 \frac{(1.2)(-0.3)}{1.84} \\ \notag
+P_{n}(0) &= -0.55-6.171+782 = -5.939 \notag
+\end{align}
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 2}
+%-------------------------------------------------------------------------------------------------------
+
+The matrix is in the form:
+$$\begin{bmatrix}
+  d_1 & e_1 & 0 & 0 & 0 \\
+  c_1 & d_2 & e_2 & 0 & 0 \\
+  0 & c_2 & d_3 & e_3 & 0 \\
+  0 & 0 & c_3 & d_4 & e_4 \\
+  0 & 0 & 0 & c_4 & d_5
+\end{bmatrix}$$ \\
+
+\noindent Let's take the first step of Gauss elimination:
+
+$$ c_1 - \lambda_1 d_1 = 0 $$
+$$ \lambda = \frac{c_1}{d_1} $$
+$$ L_2 \gets L_2 - \lambda_1 L_1 $$
+
+$\begin{cases}
+  c_1 \gets 0 \\
+  d_2 \gets d_2 - \lambda_1 e_1 \\
+  e_1 \gets e1  \\
+\end{cases}$ \\
+
+Like before, we can store the lambdas in $c_1$. It will be the same pattern to update each $d_{k+1}$, $e_k$ and $c_k$ for $k$ in $[1, n-1]$: \\
+
+$\begin{cases}
+  c_k \gets \lambda_k \\
+  d_{k+1} \gets d_{k+1} - \lambda_k e_k \\
+  e_k \gets e_k  \\
+\end{cases}$ \\
+
+We can therefore use a simple algorithm by storing the coefficients in three vectors instead of storing the whole matrix:
+
+$$c = \begin{bmatrix}
+  -1 \\
+  -1 \\
+  -1 \\
+  -1
+\end{bmatrix}, d = \begin{bmatrix}
+  2 \\
+  2 \\
+  2 \\
+  2 \\
+  2
+\end{bmatrix}, e = \begin{bmatrix}
+  1 \\
+  2 \\
+  3 \\
+  4
+\end{bmatrix}$$ \\
+
+\textbf{Step 1} ($k=1$): \\
+$ \lambda_1 = \frac{c_1}{d_1} = \frac{-1}{2} $ \\
+$ c_1 \gets \frac{-1}{2} $ \\
+$ d_2 \gets 2 - \frac{-1}{2} 1 = \frac{5}{2} $ \\
+
+
+$$c = \begin{bmatrix}
+  \frac{-1}{2} \\
+  -1 \\
+  -1 \\
+  -1
+\end{bmatrix}, d = \begin{bmatrix}
+  2 \\
+  \frac{5}{2} \\
+  2 \\
+  2 \\
+  2
+\end{bmatrix}$$
+
+\textbf{Step 2} ($k=2$): \\
+$ \lambda_2 = \frac{c_2}{d_2} = \frac{-1}{\frac{5}{2}} = \frac{-2}{5} $ \\
+$ c_2 \gets \frac{-2}{5} $ \\
+$ d_3 \gets 2 - \frac{-2}{5} * 2 = \frac{14}{5} $ \\
+
+$$c = \begin{bmatrix}
+  \frac{-1}{2} \\
+  \frac{-2}{5} \\
+  -1 \\
+  -1
+\end{bmatrix}, d = \begin{bmatrix}
+  2 \\
+  \frac{5}{2} \\
+  \frac{14}{5} \\
+  2 \\
+  2
+\end{bmatrix}$$
+
+\textbf{Step 3} ($k=3$): \\
+$ \lambda_3 = \frac{c_3}{d_3} = \frac{-1}{\frac{14}{5}} = \frac{-5}{14} $ \\
+$ c_3 \gets \frac{-5}{14} $ \\
+$ d_4 \gets 2 - \frac{-5}{14} * 3 = \frac{43}{14} $ \\
+
+$$c = \begin{bmatrix}
+  \frac{-1}{2} \\
+  \frac{-2}{5} \\
+  \frac{-5}{14} \\
+  -1
+\end{bmatrix}, d = \begin{bmatrix}
+  2 \\
+  \frac{5}{2} \\
+  \frac{14}{5} \\
+  \frac{43}{14} \\
+  2
+\end{bmatrix}$$
+
+\textbf{Step 4} ($k=4$): \\
+$ \lambda_4 = \frac{c_4}{d_4} = \frac{-1}{\frac{43}{14}} = \frac{-14}{43} $ \\
+$ c_4 \gets \frac{-14}{43} $ \\
+$ d_5 \gets 2 - \frac{-14}{43} * 4 = \frac{86 + 56}{43} = \frac{142}{43} $ \\
+
+$$c = \begin{bmatrix}
+  \frac{-1}{2} \\
+  \frac{-2}{5} \\
+  \frac{-5}{14} \\
+  \frac{-14}{43}
+\end{bmatrix}, d = \begin{bmatrix}
+  2 \\
+  \frac{5}{2} \\
+  \frac{14}{5} \\
+  \frac{43}{14} \\
+  \frac{142}{43}
+\end{bmatrix}$$ \\
+
+$$L = \begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 \\
+  \frac{-1}{2} & 1 & 0 & 0 & 0 \\
+  0 & \frac{-2}{5} & 1 & 0 & 0 \\
+  0 & 0 & \frac{-5}{14} & 1 & 0 \\
+  0 & 0 & 0 & \frac{-14}{43} & 1
+\end{bmatrix}, U = \begin{bmatrix}
+  2 & 1 & 0 & 0 & 0 \\
+  0 & \frac{5}{2} & 2 & 0 & 0 \\
+  0 & 0 & \frac{14}{5} & 3 & 0 \\
+  0 & 0 & 0 & \frac{43}{14} & 4 \\
+  0 & 0 & 0 & 0 & \frac{142}{43}
+\end{bmatrix}$$ \\
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 3}
+%-------------------------------------------------------------------------------------------------------
+
+Construct the table of divided differences as follow: \\
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textit{i} & $x_i$ & $y_i$ & $\nabla y_i$ & $\nabla ^2 y_i$ & $\nabla ^3 y_i$ \\ \hline
+0 & -5 & -2  &  &  & \\ \hline
+1 & -1 & 6 & 2 &  &   \\ \hline
+2 & 0 & 1 & $\frac{3}{5}$ & $\frac{-7}{5}$ &  \\ \hline
+3 & 2 & 3 & $\frac{5}{7}$ & $\frac{-3}{7}$ & $\frac{17}{35}$  \\ \hline
+\end{tabular}
+\end{table}
+
+where elements are calculated as:\\
+\begin{align}
+\notag
+\nabla y_1 &= \frac{y_1-y_0}{x_1-x_0}=\frac{6+2}{-1+5}=2 \\
+\notag
+\nabla y_2 &= \frac{y_2-y_0}{x_2-x_0}=\frac{1+2}{0+5}=\frac{3}{5} \\
+\notag
+\nabla y_3 &= \frac{y_3-y_0}{x_3-x_0}=\frac{3+2}{2+5}=\frac{5}{7} \\
+\notag
+\nabla ^2 y_2 &= \frac{\nabla y_2-\nabla y_1}{x_2-x_1}=\frac{\frac{3}{5} - 2}{0+1}=\frac{\frac{3}{5} - \frac{10}{5}}{1}=\frac{-7}{5} \\
+\notag
+\nabla ^2 y_3 &= \frac{\nabla y_3-\nabla y_1}{x_3-x_1}=\frac{\frac{5}{7} - 2}{2+1}=\frac{-9}{21}=\frac{-3}{7} \\
+\notag
+\nabla ^3 y_3 &= \frac{\nabla ^2 y_3-\nabla ^2 y_2}{x_3-x_2}=\frac{\frac{-3}{7} + \frac{7}{5}}{2-0}=\frac{17}{35} \\
+\notag
+\end{align}
+
+The formula used to do the calculations of the divided differences above is: \\
+
+$ \nabla ^n y_i = \frac{\nabla ^{n-1} y_i - \nabla ^{n-1} y_{n-1}}{x_i-x_{n-1}} $ \\
+
+For the first $n$ values we get: \\
+
+$ \nabla ^1 y_i = \nabla y_i = \frac{\nabla ^0 y_i - \nabla ^0 y_{0}}{x_i-x_{0}} = \frac{y_i-y_0}{x_i-x_0} $ \\
+
+$ \nabla ^2 y_i = \frac{\nabla y_i - \nabla y_1}{x_i-x_1} $ \\
+
+$ \nabla ^3 y_i = \frac{\nabla ^2 y_i - \nabla ^2 y_2}{x_i-x_2} $ \\
+
+Etc.
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 4}
+%-------------------------------------------------------------------------------------------------------
+
+Construct the table for Newton\textquotesingle s as follow
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textit{i} & $x_i$ & $y_i$ & $\nabla y_i$ & $\nabla ^2 y_i$ & $\nabla ^3 y_i$ & $\nabla ^4 y_i$ \\ \hline
+0 & -3 & \textbf{0} &  &  &  &  \\ \hline
+1 & 2 & 5 & \textbf{1} &  &  &  \\ \hline
+2 & -1 & -4 & -2 & \textbf{1} &  &  \\ \hline
+3 & 3 & 12 & 2 & 1 & \textbf{0} &  \\ \hline
+4 & 1 & 0 & 0 & 1 & 0 & \textbf{0} \\ \hline
+\end{tabular}
+\end{table}
+
+where elements are calculated as:\\
+\begin{align}
+\notag
+\nabla y_1 &= \frac{y_1-y_0}{x_1-x_0}=\frac{5-0}{2+3}=1\\
+\notag
+\nabla y_2 &= \frac{y_2-y_0}{x_2-x_0}=\frac{-4+0}{-1+3}=-2\\
+\notag
+\nabla y_3 &= \frac{y_3-y_0}{x_3-x_0}=\frac{12-0}{3+3}=2\\
+\notag
+\nabla y_4 &= \frac{y_4-y_0}{x_4-x_0}=0\\
+\notag
+\nabla ^2 y_2 &= \frac{\nabla y_2-\nabla y_1}{x_2-x_1}=\frac{-2-1}{-1-2}=1\\
+\notag
+\nabla ^2 y_3 &= \frac{\nabla y_3-\nabla y_1}{x_3-x_1}=\frac{2-1}{3-2}=1\\
+\notag
+\nabla ^2 y_4 &= \frac{\nabla y_4-\nabla y_1}{x_4-x_1}=\frac{0-1}{1-2}=1\\
+\notag
+\nabla ^3 y_3 &= \frac{\nabla ^2 y_3-\nabla ^2 y_2}{x_3-x_2}=0\\
+\notag
+\nabla ^3 y_4 &= \frac{\nabla ^2 y_4-\nabla ^2 y_2}{x_4-x_2}=0\\
+\notag
+\nabla ^4 y_4 &= \frac{\nabla ^3 y_4-\nabla ^3 y_3}{x_4-x_3}=0\\
+\notag
+\end{align}
+From the tableau \textquotesingle s diagonal, we have\\
+\begin{align}
+\notag
+a_0&=y_0=0\\
+\notag
+a_1&=\nabla y_1=1\\
+\notag
+a_2&=\nabla ^2 y_2=1 \\
+\notag
+a_3&=\nabla ^3 y_3=0 \\
+\notag
+a_4&=\nabla ^4 y_4=0 \\
+\end{align}
+and the polynomial fit is degree-2 (parabolic).
+Evaluate backward with recurrence relations:
+\begin{align}
+\notag
+P_0(x) &= a_2 = 1\\
+\notag
+P_1(x) &= a_1 + (x-x_1)P_0(x) = 1 + (x-2) = x-1\\
+\notag
+P_2(x) &= a_0 + (x-x_0)P_1(x) = 0 + (x+3)(x-1) = x^2+2x-3\\
+\notag
+\end{align}
+
+\end{document}
