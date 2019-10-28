@@ -2,21 +2,21 @@
 % This is all preamble stuff that you don't have to worry about.
 % Head down to where it says "Start here"
 % --------------------------------------------------------------
- 
+
 
 % --------------------------------------------------------------
 %                         Start here
 % --------------------------------------------------------------
- 
+
 %\renewcommand{\qedsymbol}{\filledbox}
 
 \title{TUTORIAL 5}%replace X with the appropriate number
 \author{TRISTAN GLATARD\\ %replace with your name
 COMP 361 Numerial Methods} %if necessary, replace with your course title
-\date{October 12, 2018} 
+\date{October 12, 2018}
 \maketitle
 
-\begin{exercise}{1} %You can use theorem, proposition, exercise, or reflection here. 
+\begin{exercise}{1} %You can use theorem, proposition, exercise, or reflection here.
 Use finite difference approximations of \(O(h^2)\) to compute \(f^\prime (2.36)\) and \(f^{\prime \prime} (2.36)\) from the following data:
 
 \begin{table}[h]
@@ -28,7 +28,7 @@ f(x) & 0.85866 & 0.86289 & 0.86710 & 0.87129 \\ \hline
 \end{tabular}
 \end{table}
 
-\textbf{Solution.} 
+\textbf{Solution.}
 
 From the forward difference tables we get
 \begin{align}
@@ -40,7 +40,7 @@ f^ {\prime \prime}(2.36) &\approx \frac{2f(2.36) -5f(2.37) + 4f(2.38) - f(2.39)}
 \end{exercise}
 
 %EXERCISE 2-----------------------------------------------------
-\begin{exercise}{2} %You can use theorem, proposition, exercise, or reflection here.  
+\begin{exercise}{2} %You can use theorem, proposition, exercise, or reflection here.
 Estimate \(f^\prime (1)\) and \(f^{\prime \prime} (1)\) from the following data:
 
 \begin{table}[h]
@@ -64,7 +64,7 @@ Review Tutorial 2 and apply \textit{Newton} we should get
 P_2(x)= x^2 + 2x -3 \notag
 \end{align}
 
-Then 
+Then
 
 \begin{align}
 P^\prime_2(x)&= 2x+2 \notag \\
@@ -72,7 +72,7 @@ P^{\prime\prime}_2(x)&= 2 \notag
 \end{align}
 
 
-Finally 
+Finally
 \begin{align}
 f^\prime(1) &\approx P^\prime_2(1)= 2*1+2 = 4 \notag \\
 f^{\prime\prime}(1)& \approx P^{\prime\prime}_2(1)= 2 \notag
@@ -81,7 +81,7 @@ f^{\prime\prime}(1)& \approx P^{\prime\prime}_2(1)= 2 \notag
 
 
 %EXERCISE 2-----------------------------------------------------
-\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.  
+\begin{exercise}{3} %You can use theorem, proposition, exercise, or reflection here.
 Calculate $f^{\prime \prime}(1)$ as accurately as you can given the following data
 \begin{table}[h]
 \centering
@@ -92,7 +92,7 @@ f (x) &0.431711 &0.398519& 0.367879& 0.339596 & 0.313486 \\ \hline
 \end{tabular}
 \end{table}
 
-\textbf{Solution.} 
+\textbf{Solution.}
 
 We start with two central difference approximations $O(h^2)$ for $f^{\prime \prime}(1)$, one using $h_1=0.16$ and the one using $h_2=0.08$.
 \begin{align}
@@ -104,7 +104,7 @@ g(0.08)&=\frac{f(0.92) - 2f(1)+f(1.08)}{0.08^2} \notag \\
             &=0.36828125 \notag
 \end{align}
 
-Recall that the error in both approximations is of the form \(E(h) = c_1h^2 + c_2h^4+c_3h_6 +...\) We can now use Richardson extrapolation to eliminate the dominant error term. With $p = 2$ we obtain 
+Recall that the error in both approximations is of the form \(E(h) = c_1h^2 + c_2h^4+c_3h_6 +...\) We can now use Richardson extrapolation to eliminate the dominant error term. With $p = 2$ we obtain
 \begin{align}
 f^{\prime \prime}(1) \approx G = \frac{2^2g(0.08)-g(0.16)}{2^2-1} = \frac{4*0.36828125-0.368710937}{3}
 = 0.368138021 \notag
@@ -133,9 +133,9 @@ g(0.1)&=\frac{f(0.1) - f(0.3)}{2*0.1} \notag \\
             &=-0.57284 \notag
 \end{align}
 
-Recall that the error in both approximations is of the form \(E(h) = c_1h^2 + c_2h^4+c_3h_6 +...\) We can now use Richardson extrapolation to eliminate the dominant error term. With $p = 2$ we obtain 
+Recall that the error in both approximations is of the form \(E(h) = c_1h^2 + c_2h^4+c_3h_6 +...\) We can now use Richardson extrapolation to eliminate the dominant error term. With $p = 2$ we obtain
 \begin{align}
-f^{\prime}(0.2) \approx G = \frac{2^2g(0.1)-g(0.2)}{2^2-1} = \frac{4*(−0.57284)+0.6124525}{3}
+f^{\prime}(0.2) \approx G = \frac{2^2g(0.1)-g(0.2)}{2^2-1} = \frac{4*(-0.57284)+0.6124525}{3}
 = -0.559635833 \notag
 \end{align}
 which is a finite difference approximation of \(O(h^4)\).
@@ -150,12 +150,12 @@ The formulas are:
 
 First Forward Difference Approximation (FFDA):
 \begin{align}
-f^\prime(0.8) = \frac{-f(0.8) + f(0.8+h)}{h} \notag    
+f^\prime(0.8) = \frac{-f(0.8) + f(0.8+h)}{h} \notag
 \end{align}
 
 First Central Difference Approximation (FCDA):
 \begin{align}
-f^\prime(0.8) = \frac{-f(0.8-h) + f(0.8+h)}{2h} \notag    
+f^\prime(0.8) = \frac{-f(0.8-h) + f(0.8+h)}{2h} \notag
 \end{align}
 \begin{longtable}[c]{|r|r|r|}
 \hline
@@ -188,9 +188,8 @@ f^\prime(0.8) = \frac{-f(0.8-h) + f(0.8+h)}{2h} \notag
 
 Both methods return approximation of $f^\prime(0.8) \approx 0.69670$ with h = 0.00001953125 and 0.01, respectively.
 
-\textit{Last, if you want to play with h and/or other functions, \href{http://bit.ly/2ntOy2m}{here} is the link to the calculation.}
+% \textit{Last, if you want to play with h and/or other functions, \href{http://bit.ly/2ntOy2m}{here} is the link to the calculation.}
 \end{exercise}
 % --------------------------------------------------------------
 %     You don't have to mess with anything below this line.
 % --------------------------------------------------------------
- 

@@ -1,0 +1,294 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{longtable}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{reflection}[2][Reflection]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{TUTORIAL 6}
+\author{Timothée Guédon \& Tristan Glatard\\
+COMP 361 Numerical Methods}
+\date{October 25, 2019}
+\maketitle
+
+\section{Exercises for today}
+
+\begin{exercise}{1}
+  A zero $x = r$ of $P_n(x)$ is given. Verify that r is indeed a zero, and then deflate the polynomial; that is, find $P_{n-1}(x)$ so that $P_n(x) = (x-r)P_{n-1}(x)$.
+  \begin{align}
+    1. P_3(x) &= 3x^3 + 7x^2 - 36x + 20, r = -5 \notag \\
+    2. P_4(x) &= x^4 - 3x^2 + 3x - 1, r = 1 \notag
+  \end{align}
+\end{exercise}
+
+\begin{exercise}{2}
+  A zero $x = r$ of $P_n(x)$ is given. Determine all the other zeros of $P_n(x)$ by
+  using a calculator. You should need no tools other than deflation and the quadratic
+  formula.
+  \begin{align}
+    1. P_3(x) &= x^3+1.8x^2-9.01x-13.398, r =-3.3\\
+    2. P_3(x) &= x^3-6.64x^2+16.84x-8.32, r = 0.64
+  \end{align}
+\end{exercise}
+
+\begin{exercise}{3}
+  Find all roots of the following polynomial using Laguerre's method. Use $x_0=1.5$ as a first guess of the first root and an accuracy in the \textit{order} of $10^{-4}$.
+  $$P_n(x) = 3x^3-3x^2-12x+12$$
+\end{exercise}
+
+\noindent \textbf{Credit:} To introduce you to Laguerre's method I used the proof from a video from \textit{Oscar Veliz} channel on \textit{Youtube} called ``Laguerre's Method". Do not hesitate to watch it to find more about this method or to see the proof again. 
+
+\break
+
+\section{Solutions}
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 1}
+%-------------------------------------------------------------------------------------------------------
+
+1. First, verify r = -5 is indeed a zero
+\begin{align}
+P_3(-5) &= 3*(-5)^3 + 7*(-5)^2 - 36*(-5) + 20 \notag \\
+&=-3*125 + 7*25 + 180 + 20 = 0 \notag
+\end{align}
+
+The coefficients of $P_3(x)$ are:
+\begin{align}
+a_3 = 3, a_2 = 7, a_1 = -36, a_0 = 20 \notag
+\end{align}
+
+Now the deflation of $P_3(x)$ is done as:
+\begin{align}
+b_2 &= a_3 = 3 \notag \\
+b_1 &= a_2 + rb_2 = 7 + (-5)*3 = -8 \notag \\
+b_0 &= a_1 + rb_1 = -36 + (-5)(-8) = 4 \notag
+\end{align}
+
+And the deflated polynomial is
+\begin{align}
+P_2(x) &= 3x^2 - 8x + 4 \notag
+\end{align}
+
+2. First, verify r = 1 is indeed a zero
+\begin{align}
+P_4(1) &= (1)^4 - 3*1^2 + 3* 1 - 1 \notag \\
+&= 0 \notag
+\end{align}
+
+The coefficients of $P_4(x)$ are:
+\begin{align}
+a_4 = 1, a_3 = 0, a_2 = -3, a_1 = 3, a_0 = -1 \notag
+\end{align}
+
+Now the deflation of $P_4(x)$ is done as:
+\begin{align}
+b_3 &= a_4 = 1 \notag \\
+b_2 &= a_3 + rb_3 = 0 + 1*1 = 1 \notag \\
+b_1 &= a_2 + rb_2 = -3 + 1*1 = -2 \notag \\
+b_0 &= a_1 + rb_1 = 3 + 1*(-2) = 1 \notag
+\end{align}
+
+
+And the deflated polynomial is
+\begin{align}
+P_3(x) &= x^3 + x^2 - 2x + 1 \notag
+\end{align}
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 2}
+%-------------------------------------------------------------------------------------------------------
+
+\textbf{Reminder}: the quadratic equation of the form $ax^2 + bx +c = 0$ has two roots:
+\begin{align}
+x_{1,2} = \frac{-b \pm \sqrt[]{\Delta}}{2a}
+\end{align}
+
+where $\Delta = b^2 - 4ac$
+
+1. The coefficients of $P_3(x)$ are:
+\begin{align}
+a_3 = 1, a_2 = 1.8, a_1 = -9.01, a_0 = -13.398 \notag
+\end{align}
+
+Now the deflation of $P_3(x)$ is done as:
+\begin{align}
+b_2 &= a_3 = 1 \notag \\
+b_1 &= a_2 + rb_2 = 1.8 + (-3.3)*1 = -1.5 \notag \\
+b_0 &= a_1 + rb_1 = -9.01 + (-3.3)(-1.5) = -4.06 \notag
+\end{align}
+
+And the deflated polynomial is
+\begin{align}
+P_2(x) &= x^2 - 1.5x - 4.06 \notag
+\end{align}
+
+$\Delta = b^2 - 4ac = (-1.5)^2-4*1*(-4.06) = 18.49 > 0 $
+
+The above quadratic has two roots, as shown in (3):
+\begin{align}
+x_{1,2} &= \frac{1.5 \pm \sqrt[]{\Delta}}{2} \notag \\
+x_1 &= -1.4 \notag \\
+x_2 &= 2.9 \notag
+\end{align}
+
+2. The coefficients of $P_3(x)$ are:
+\begin{align}
+a_3 = 1, a_2 = -6.64, a_1 = 16.84, a_0 = -8.32 \notag
+\end{align}
+
+
+Now the deflation of $P_3(x)$ is done as:
+\begin{align}
+b_2 &= a_3 = 1 \notag \\
+b_1 &= a_2 + rb_2 = -6.64 + 0.64*1 = -6 \notag \\
+b_0 &= a_1 + rb_1 = 16.84 + 0.64*(-6) = 13 \notag
+\end{align}
+
+
+And the deflated polynomial is
+\begin{align}
+P_2(x) &= x^2 - 6x + 13 \notag
+\end{align}
+
+
+
+The above quadratic has two roots as shown in (3):
+$delta = (-6)^2-4*13 = -16 < 0$ so there are two complex solutions.
+\begin{align}
+x_{1,2} &= \frac{6 \pm i \sqrt[]{-\Delta}}{2} \notag \\
+&= \frac{6 \pm i \sqrt[]{16}}{2} \notag \\
+&= 3 \pm 2i \notag \\
+x_1 &= 3 + 2i \notag \\
+x_2 &= 3 - 2i \notag
+\end{align}
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 3}
+%-------------------------------------------------------------------------------------------------------
+Let's first recall the formulas of Laguerre's method:
+
+$$ x_{n+1} = x_n - \frac{ n }{ G(x) \pm \sqrt{ (n-1) [nH(x) - G(x)^2] } } $$
+
+$$ G(x) = \frac{ P'_n(x) }{ P_n(x) } $$
+$$ H(x) = G(x)^2 - \frac{ P''_n(x) }{ P_n(x) } $$
+
+We will need the first and second derivatives in order to compute G(x) and H(x):\\
+
+$$ P_n(x) = 3x^3-3x^2-12x+12 $$
+$$ P'_n(x) = 9x^2-6x-12 $$
+$$ P''_n(x) = 18x-6 $$
+
+A good way to store the intermediate results of the computations is to use a table. \\
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+  \hline
+  $i$ & $x_n$ & $P_n(x_n)$ & $P'_n(x_n)$ & $P''_n(x_n)$ & $G(x_n)=\frac{ P'_n(x_n) }{ P_n(x_n) }$ & $\frac{ P''_n(x_n) }{ P_n(x_n) }$ & $H(x_n)$ \\ \hline
+\end{tabular} \\
+
+Let us find the first root using the first guess $x_0 = 1.5$. We compute all the intermediate results as follows: \\
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+  \hline
+  $i$ & $x_n$ & $P_n(x)$ & $P'_n(x)$ & $P''_n(x)$ & $G(x)=\frac{ P'_n(x) }{ P_n(x) }$ & $\frac{ P''_n(x) }{ P_n(x) }$ & $H(x)$ \\ \hline
+  0 & 1.5 & -2.625 & -0.75 & 21 & 0.2857 & -8 & 8.0816 \\ \hline
+\end{tabular} \\
+
+We can now use Laguerre's formula for $x_{n+1}$ in order to get a more accurate estimate of the first root.
+$$ x_1 = x_0 - \frac{ 3 }{ 0.2857 \pm \sqrt{ 3 * [2 * 8.0816 - 0.2857^2] } } $$
+We want to use the $+$ or $-$ sign such that the denominator will have the highest magnitude.
+$$ magnitude(denom) = abs(denom) = |denom| $$
+We can easily compute the two possibilities using our calculator:
+$$ | 0.2857 + \sqrt{ 3 * [2 * 8.0816 - 0.2857^2] } | > | 0.2857 - \sqrt{ 3 * [2 * 8.0816 - 0.2857^2] } | $$
+Therefore we want to keep the $+$ sign on the denominator.
+$$ x_1 = x_0 - \frac{ 3 }{ 0.2857 + \sqrt{ 3 * [2 * 8.0816 - 0.2857^2] } } $$
+$$ x_1 = 1.5 - 0.41451 = 1.0855 $$
+Here $|0.41451|$ is our accuracy which is greater than the $order$ of $10^{-4}$. We shall therefore continue to iterate. Here is the resulting table:
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+  \hline
+  $i$ & $x_n$ & $P_n(x)$ & $P'_n(x)$ & $P''_n(x)$ & $G(x)=\frac{ P'_n(x) }{ P_n(x) }$ & $\frac{ P''_n(x) }{ P_n(x) }$ & $H(x)$ \\ \hline
+  0 & 1.5 & -2.625 & -0.75 & 21 & 0.2857 & -8 & 8.0816 \\ \hline
+  1 & 1.0855 & -0.72376 & -7.9082 & 13.539 & 10.92655 & -15.0969 & 134.4864 \\ \hline
+\end{tabular} \\
+
+$$ x_2 = x_1 - \frac{ 3 }{ 10.92655 + \sqrt{ 3 * [2 * 134.4864 - 10.92655^2] } } $$
+$$ x_2 = 1.0855 - 0.0863 = 0.9992 $$
+
+Here $|0.0863|$ is our accuracy which is greater than the $order$ of $10^{-4}$. We shall therefore continue to iterate. Here is the resulting table:
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+  \hline
+  $i$ & $x_n$ & $P_n(x)$ & $P'_n(x)$ & $P''_n(x)$ & $G(x)=\frac{ P'_n(x) }{ P_n(x) }$ & $\frac{ P''_n(x) }{ P_n(x) }$ & $H(x)$ \\ \hline
+  0 & 1.5 & -2.625 & -0.75 & 21 & 0.2857 & -8 & 8.0816 \\ \hline
+  1 & 1.0855 & -0.72376 & -7.9082 & 13.539 & 10.92655 & -15.0969 & 134.4864 \\ \hline
+  2 & 0.9992 & 0.007238 & -9.009594 & 11.9856 & -1244.7629 & 1655.927052 & 1547778.75 \\ \hline
+\end{tabular} \\
+
+$$ x_3 = x_2 - \frac{ 3 }{ -1244.7629 - \sqrt{ 3 * [2 * 1547778.75 - (-1244.7629)^2] } } $$
+$$ x_3 = 0.9992 + 0.0008038 = 1.0000038 $$
+
+This time $|0.0008038|$ is our accuracy which is in the $order$ of $10^{-4}$ so we stop here and our end estimate for the first root is $1.0000038$ and therefore we can be pretty confident in that the root is $1$. \\
+
+Now that we found the first root, we can deflate the polynomial $P_n(x)$ to continue seeking for the roots of $P_{n-1}(x)$:
+
+\begin{align}
+b_2 &= a_3 = 3 \notag \\
+b_1 &= a_2 + rb_2 = -1+3 = 0 \notag \\
+b_0 &= a_1 + rb_1 = -12 + 0 = -12 \notag
+\end{align}
+
+$$ P_3(x) = (x-1)P_2(x) $$
+$$ P_2(x) = 3x^2-12 $$
+
+We could directly find the other roots because it is a second order polynomial (using the same method as in exercise 2) but for the sake of demonstrating Laguerre's method we will continue using this method here.
+
+$$ P'_2(x) = 6x  $$
+$$ P''_2(x) = 6  $$
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+  \hline
+  $i$ & $x_n$ & $P_n(x)$ & $P'_n(x)$ & $P''_n(x)$ & $G(x)=\frac{ P'_n(x) }{ P_n(x) }$ & $\frac{ P''_n(x) }{ P_n(x) }$ & $H(x)$ \\ \hline
+  0 & 1 & -9 & 6 & 6 & $-\frac{2}{3}$ & $-\frac{2}{3}$ & $\frac{10}{9}$ \\ \hline
+  1 & -1 & -9 & -6 & 6 & $\frac{2}{3}$ & $-\frac{2}{3}$ & $\frac{10}{9}$ \\ \hline
+  2 & -2 & 0 & / & / & / & / & / \\ \hline
+\end{tabular} \\
+
+Using the same process here we can see that we find $P_2(-2) = 0$ (last row of the table above) which means that $-2$ is a root. Let us deflate $P_2(x)$:
+
+\begin{align}
+b_1 &= a_2 = 3 \notag \\
+b_0 &= a_1 + rb_1 = 0 + (-2)*3 = -6 \notag
+\end{align}
+
+$$ P_1(x) = 3x-6 $$
+
+$$ 3x-6 = 0 $$
+$$ x = 2 $$
+
+Therefore, our three roots are $1$, $2$ and $-2$.
+
+$$ P_3(x) = (x-1)(x-2)(x+2) $$
+
+\end{document}

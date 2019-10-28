@@ -1,0 +1,85 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{longtable}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{reflection}[2][Reflection]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{TUTORIAL 4}
+\author{Timothée Guédon \& Tristan Glatard\\
+COMP 361 Numerical Methods}
+\date{October 4, 2019}
+\maketitle
+
+\section{Exercises for today}
+
+\begin{exercise}{1}
+Corrected exercise 3.7 from the textbook (p.123).
+\end{exercise}
+
+\begin{exercise}{2}
+  Determine y at x = 1.5 using Lagrange\textquotesingle s method for the given data points: \\
+  \begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    x & 0 & 3 & 6 \\ \hline
+    y & 1.225 & 0.905 & 0.652 \\ \hline
+  \end{tabular}
+  \end{table}
+\end{exercise}
+
+\break
+
+\section{Solutions}
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 1}
+%-------------------------------------------------------------------------------------------------------
+
+See textbook p.123
+
+%-------------------------------------------------------------------------------------------------------
+\subsection{Exercise 2}
+%-------------------------------------------------------------------------------------------------------
+
+With 3 given data points, we can construct a degree-2 polynomial using the Lagrange formula:\\
+$$P_{2}(x)=\sum_{i=0}^2 y_{i}\ell_{i}(x)$$
+where
+\begin{align}
+\ell_{0}(x)&=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}=\frac{(x-3)(x-6)}{18} \\
+\ell_{1}(x)&=\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}=\frac{(x-0)(x-6)}{-9} \\
+\ell_{2}(x)&=\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}=\frac{(x-0)(x-3)}{18}
+\end{align} \\
+Thus,
+\begin{align}
+\notag
+P_{2}(x) &=y_0\ell_0(x) + y_1\ell_1(x) + y_2\ell_2(x) \\ \notag
+P_{2}(1.5) &=y_0\ell_0(1.5) + y_1\ell_1(1.5) + y_2\ell_2(1.5) \\ \notag
+P_{2}(0) &= 1.225 \frac{(-1.5)(-4.5)}{18} + 0.925 \frac{(1.5)(-4.5)}{-9} + 0.652 \frac{(1.5)(-1.5)}{18} \\ \notag
+P_{2}(0) &= 0.459375 + 0.67875 - 0.0815  = 1.056625 \notag
+\end{align}
+
+\end{document}
