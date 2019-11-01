@@ -1,7 +1,10 @@
 tutorials/*.pdf
+*.fls
 *.aux
 *.log
 *.out
+*.fdb_latexmk
+*.synctex.gz
 .ipynb_checkpoints/
 exam.pdf
 _minted* 

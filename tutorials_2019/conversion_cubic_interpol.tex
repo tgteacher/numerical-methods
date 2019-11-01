@@ -1,0 +1,58 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{longtable}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{reflection}[2][Reflection]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{TUTORIAL 4 - Appendix}
+\author{Timothée Guédon \& Tristan Glatard\\
+COMP 361 Numerical Methods}
+\date{October 3, 2019}
+\maketitle
+
+\section{Conversion of the formula for computing the $z_i$s}
+You saw that the formula from the lecture is not the exact same thing as the one in the textbook.
+In reality both formulas are equivalent. We will briefly see how we can switch from one to the other so that you will not be confused in the future. \\
+
+First of all the most useful formula for the computation of the cubic spline is the following one, which is used to compute the $z_i$s (called $k_i$s in the textbook):
+$$ h_{i-1}z_{i-1} + 2(h_{i-1} + h_i)z_i + h_iz_{i+1} = 6(b_i - b_{i-1}) $$
+
+$$b_i = \frac{y_{i+1} - y_i}{h_i}$$
+$$h_i = x_{i+1} - x_i$$
+
+If we suppose that we are using intervals of equal size between each pair of $x_i$s, we get:
+$$h = h_i = x_{i+1} - x_i, \forall i$$
+
+After replacing the $b_i$s and the $h_i$s we end up with the following equation:
+$$ z_{i+1}.h + 4z_i.h + z_{i+1}.h = 6 [\frac{y_{i+1} - y_i}{h} - \frac{y_{i} - y_{i-1}}{h}] $$
+$$ z_{i+1} + 4z_i + z_{i+1} = \frac{6}{h^2} [y_{i+1} - 2y_i + y_{i-1}] $$ \\
+
+Which is the formula used in the textbook and in the tutorial. Therefore, you can use the formula that you want as they are strictly equivalent. For the tridiagonal system of equations we end up with $u_i = 4h$ and $v_i = \frac{6}{h} [y_{i+1} - 2y_i + y_{i-1}] $. Which is equivalent to using $u_i = 4$ and $v_i = \frac{6}{h^2} [y_{i+1} - 2y_i + y_{i-1}] $. Please remember that you can use this simplification only under the assumption that $h$ is the same distance between each pair of $x_i$s. If not, then you should use the formulas seen in the lecture: \\
+$$u_i = 2(h_{i-1} + h_i)$$
+$$v_i = 6(b_i - b_{i-1})$$
+
+
+\end{document}
