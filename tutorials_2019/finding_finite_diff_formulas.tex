@@ -1,0 +1,149 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{longtable}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{reflection}[2][Reflection]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{TUTORIAL 7 - Appendix}
+\author{Timothée Guédon \& Tristan Glatard\\
+COMP 361 Numerical Methods}
+\date{November 1st, 2019}
+\maketitle
+
+\section{Proof of finite difference approximations}
+\subsection{Central approximations}
+
+\textbf{A - Finding $f'(x)$ using central approximation of the 1st order} \\
+Central approximations as the name indicates uses $x-h$ and $x+h$ so we need to use those formulas: \\
+We know:
+
+$$ f(x+h) = f(x) + hf'(x) + \frac{h^2}{2!}f''(x) + \frac{h^3}{3!}f'''(x) + ... $$
+$$ f(x-h) = f(x) - hf'(x) + \frac{h^2}{2!}f''(x) - \frac{h^3}{3!}f'''(x) + ... $$ \\
+
+We want to find $f'(x)$ with an error of $O(h^2)$ so we cannot just solve for $f'(x)$ using one of those equations. We need combine them to get rid of $f''(x)$ so that the residual error will be: $h^3*something$. This way, by dividing by $h$ (because in the formulas above you can see that it is $hf'(x)$ so you will have to divide by $h$ both sides of the equations to find $f'(x)$) you will find $\frac{h^3*something}{h}$ which will give you a leading error of order $O(h^2)$. We will see that in the following. Let us compute $f(x+h)-f(x-h)$:
+
+$$ f(x+h) - f(x-h) = f(x) + hf'(x) + \frac{h^2}{2!}f''(x) + \frac{h^3}{3!}f'''(x) - (f(x) - hf'(x) + \frac{h^2}{2!}f''(x) - \frac{h^3}{3!}f'''(x) + ... ) + ... $$
+$$ f(x+h) - f(x-h) = hf'(x) + \frac{2h^3}{3!}f'''(x) + ... $$
+$$ f(x+h) - f(x-h) - \frac{2h^3}{3!}f'''(x) - ... = hf'(x)$$
+$$ \frac{f(x+h) - f(x-h)}{h} - \frac{2h^2}{3!}f'''(x) - \frac{...}{h} = f'(x)$$
+$$ \frac{f(x+h) - f(x-h)}{h} +O(h^2) = f'(x)$$
+
+
+Note that you could also have done $f(x-h) - f(x+h)$ and find the exact same result. \\
+
+\break
+
+\textbf{B - Finding $f''(x)$ using central approximation of the 1st order} \\
+
+We know:
+
+$$ f(x+h) = f(x) + hf'(x) + \frac{h^2}{2!}f''(x) + \frac{h^3}{3!}f'''(x) + ... $$
+$$ f(x-h) = f(x) - hf'(x) + \frac{h^2}{2!}f''(x) - \frac{h^3}{3!}f'''(x) + ... $$ \\
+
+We want to find $f''(x)$ using those formulas. Remark that $f''(x)$ is multiplied by $h^2$ so during the process of solving for $f''(x)$ you will have to divide everything by $h^2$. You still want to get a leading error of order $h^2$ so you see that you will need to get rid of both $f'(x)$ and $f'''(x)$ sur that the leading error term that will last will be $h^4*something$ and therefore when you will divide it by $h^2$ you will get an leading error of order $h^2$. Let us see how it is done: You can remark that in $f(x-h)$ there is a $-$ (minus) sign before $f'(x)$ and $f'''(x)$ so for us it will be as easy to find $f''(x)$ as adding $f(x-h)$ to $f(x+h)$ to remove $f'(x)$ and $f'''(x)$:
+
+$$ f(x+h) + f(x-h) = f(x) + hf'(x) + \frac{h^2}{2!}f''(x) + \frac{h^3}{3!}f'''(x) + (f(x) - hf'(x) + \frac{h^2}{2!}f''(x) - \frac{h^3}{3!}f'''(x) + ... ) + ... $$
+$$ f(x+h) + f(x-h) = 2f(x) + \frac{2h^2}{2!}f''(x) + \frac{2h^4}{4!}f^{(4)}(x) + ... $$
+$$ f(x+h) + f(x-h) - 2f(x) - \frac{2h^4}{4!}f^{(4)}(x) + ... = \frac{2h^2}{2!}f''(x)  $$
+$$ \frac{f(x+h) + f(x-h) - 2f(x)}{h^2} - \frac{2h^2}{4!}f^{(4)}(x) + \frac{...}{h^2} = f''(x)  $$
+$$ \frac{f(x+h) + f(x-h) - 2f(x)}{h^2} + O(h^2) = f''(x)  $$
+
+ \break
+
+\textbf{C - Finding $f'''(x)$ using central approximation of the 1st order} \\
+(Pr.Glatard decided that this is out of the scope of the course). Let us consider the different Taylor series expansions that we can use and let us find a way to compute $f'''(x)$ from them. Remind that the goal is to get rid of $f'$ and $f''$ that we cannot compute, but also to get rid of $f^{(4)}$ so that the error will be of order $\frac{h^5f^{(5)}}{h^3} = O(h^2)$ \\
+
+\noindent (a) $ f(x+h) = f(x) + hf'(x) + \frac{h^2}{2!}f''(x) + \frac{h^3}{3!}f'''(x) + ... $ \\
+\noindent (b) $ f(x-h) = f(x) - hf'(x) + \frac{h^2}{2!}f''(x) - \frac{h^3}{3!}f'''(x) + ... $ \\
+\noindent (c) $ f(x+2h) = f(x) + (2h)f'(x) + \frac{(2h)^2}{2!}f''(x) + \frac{(2h)^3}{3!}f'''(x) + ... $ \\
+\noindent (d) $ f(x-2h) = f(x) - (2h)f'(x) + \frac{(2h)^2}{2!}f''(x) - \frac{(2h)^3}{3!}f'''(x) + ... $ \\
+
+And their combinations gives us:\\
+\noindent (e) $ f(x+h) + f(x-h) = 2f(x) + h^2f''(x) + \frac{h^4}{12}f^{(4)}(x) + ... $ \\
+\noindent (f) $ f(x+h) - f(x-h) = 2hf'(x) + \frac{h^3}{3}f'''(x) + ... $ \\
+\noindent (g) $ f(x+2h) + f(x-2h) = 2f(x) + 4h^2f''(x) + \frac{4h^{(4)}}{3}f'''(x) + ... $ \\
+\noindent (h) $ f(x+2h) - f(x-2h) = 4hf'(x) + \frac{8h^3}{3}f'''(x) + ... $ \\
+
+Now from those equations we can try to find the formula for $f'''(x)$. If you cannot find the good formulas to combine to find $f'''$ then you can proceed by elimination: \\
+\begin{itemize}
+  \item Idea 1: We can see in (a) and (b) that $f'$ and $f''$ have different signs so we cannot eliminate both at the same time by adding or subtracting (a) and (b). Using only (a) and (b) is therefore impossible.
+  \item Idea 2: What about using $f(x+h)$ and $f(x+2h)$ ? $f'$ and $f''$ have the same sign but we will need a different coefficient for $f'$ than $f''$ to eliminate them. So we cannot use those two equations together to fing $f'''$.
+  \item Idea 3: We remark that $f'''$ is not in $f(x+h) + f(x-h)$ and $f(x+2h) + f(x-2h)$ so we cannot use them to find $f'''$.
+  \item Idea 4: If we try combining $f(x+h) + f(x-h)$ and $f(x+h) - f(x-h)$ we add $f'$ by removing $f''$ and vice versa.
+\end{itemize}
+
+Therefore it let us with the last choice:  \\ Combining $[f(x+h) - f(x-h)]$ and $f[(x+2h) - f(x-2h)]$:\\
+
+$$ (h) - 2 *(f) $$
+$$ [f(x+2h) - f(x-2h)] - 2*[f(x+h) - f(x-h)] = 4hf'(x) - 4hf'(x) + \frac{8h^3f'''(x)}{3} - \frac{2h^3f'''(x)}{3}  + o(h^5) $$
+$$ f(x+2h) - f(x-2h) - 2*f(x+h) + 2f(x-h) - o(5) = 2h^3f'''(x) $$
+$$ \frac{f(x+2h) - f(x-2h) - 2*f(x+h) + 2f(x-h)}{2h^3} + O(2) = 2h^3f'''(x) $$
+
+\break
+
+\subsection{Non-central approximations}
+\textbf{A - Finding $f'(x)$ using non-central approximation of the 1st order} \\
+We know: \\
+$$ (a) f(x+h) = f(x) + hf'(x) + \frac{h^2}{2!}f''(x) + \frac{h^3}{3!}f'''(x) + ... $$
+Therefore we can find $f'$ as follows (we don't need $f(x-h)$ it is not central).
+$$ f(x+h) = f(x) + hf'(x) + \frac{h^2}{2!}f''(x) + \frac{h^3}{3!}f'''(x) + ... $$
+$$ f(x+h) - f(x) - \frac{h^2}{2!}f''(x) - \frac{h^3}{3!}f'''(x) - ... = hf'(x)  $$
+$$ \frac{f(x+h) - f(x)}{h} - \frac{\frac{h^2}{2!}f''(x) - \frac{h^3}{3!}f'''(x) - ...}{h} = f'(x)  $$
+$$ \frac{f(x+h) - f(x)}{h} + O(h) = f'(x)  $$
+
+\textbf{B - Finding $f'(x)$ using non-central approximation of the 2st order} \\
+We know: \\
+$$ (a) f(x+h) = f(x) + hf'(x) + \frac{h^2}{2!}f''(x) + \frac{h^3}{3!}f'''(x) + ... $$
+$$ (c) f(x+2h) = f(x) + (2h)f'(x) + \frac{(2h)^2}{2!}f''(x) + \frac{(2h)^3}{3!}f'''(x) + ... $$
+
+The idea here to find the second order is that we want to do the exact same thing as for the first order but this time we want the leading error term to be $\frac{h^3}{3!}f'''(x)$ so that by dividing it by $h$ we get a leading error term of order $O(h^2)$ as for the central approximations. For us to get $h^3f'''(x)$ as leading error we need to get rid of $\frac{h^2}{2!}f''(x)$ in the equation (a). To do this we will need to use equation (c).
+
+$$ (c) - 4 *(a) $$
+$$ f(x+2h) - 4f(x+h) = f(x) - 4f(x) + 2hf'(x) - 4hf'(x) + \frac{(2h)^2f''(x)}{2} - \frac{4h^2f''(x)}{2} + \frac{(2h)^3}{3!}f'''(x) - \frac{4h^3}{3!}f'''(x) $$
+$$ f(x+2h) - 4f(x+h) = -3f(x) - 2hf'(x) + \frac{2h^3}{3}f'''(x) + ... $$
+$$ f(x+2h) - 4f(x+h) +3f(x) - \frac{2h^3}{3}f'''(x) - ... = - 2hf'(x)  $$
+$$ \frac{-f(x+2h) + 4f(x+h) -3f(x) + \frac{2h^3}{3}f'''(x) + ...}{2h} = f'(x)  $$
+$$ \frac{-f(x+2h) + 4f(x+h) -3f(x)}{2h} + O(h^2) = f'(x)  $$
+
+\break
+
+\section{Relation between the Richardson formula approximation of the lecture and the one in the textbook}
+You saw in course:  \\
+$$ G(x) = \frac{h_1^p * g(h2) - h_2^p * g(h1)}{h_1^p - h_2^p} $$
+
+If we multiply the numerator and denominator by $ \frac{1}{h2^p} $ we get:
+
+$$ G(x) = \frac{\frac{1}{h2^p}}{\frac{1}{h2^p}} * \frac{[h_1^p g(h2) - h_2^p g(h1)]}{[h_1^p - h_2^p]}  = \frac{\frac{1}{h2^p} * [h_1^p g(h2) - h_2^p g(h1)]}{\frac{1}{h2^p} * [h_1^p - h_2^p]} $$
+
+$$ G(x) = \frac{\frac{h_1^p}{h_2^p} g(h2) - \frac{h_2^p}{h_2^p} g(h1)}{\frac{h_1^p}{h_2^p} - \frac{h_2^p}{h_2^p}} $$
+$$ G(x) = \frac{\frac{h_1^p}{h_2^p} g(h2) - g(h1)}{\frac{h_1^p}{h_2^p} - 1 }$$
+
+Now if $ h_2 = \frac{h_1}{2} $ we find: \\
+$$ G(x) = \frac{2^p g(\frac{h1}{2}) - g(h1)}{2^p - 1 }$$
+
+Which is the formula used in the lab.
+
+\end{document}
