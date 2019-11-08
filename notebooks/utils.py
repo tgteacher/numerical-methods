@@ -296,3 +296,226 @@ def plot_function(f):
     plt.plot(x, zeros(x.size), color='black')
     plt.title("f(x)")
     plt.show()
+
+# Chapter r6
+
+def newton_cotes_plot():
+    from numpy import arange, array
+    from matplotlib import pyplot as plt
+    from scipy.interpolate import lagrange
+    
+    x = arange(5)
+    y = array([1, 2.5, 3.2, 2.1, 6])
+    plt.plot(x, y, 'o')
+    
+    poly = lagrange(x, y)
+    xfine = arange(0, 5, 0.1)
+    yfine = poly(xfine)
+    plt.plot(xfine, yfine)
+    plt.annotate("$P_n(x)$", xy=(2.5, 3.5))
+    plt.annotate(s='', xy=(2.5, 3.4), xytext=(2.5,2.8), arrowprops=dict(arrowstyle='<-'))
+    for i in range(5):
+        plt.plot([x[i], x[i]], [0, y[i]], '--', color='gray')
+    plt.annotate(s='', xy=(x[1], 1), xytext=(x[2],1), arrowprops=dict(arrowstyle='<->'))
+    plt.annotate("h", xy=(1.5, 1.1))
+    
+    xtics = array(["$x_0=a$", "$x_1$", "$x_{...}$", "$x_{n-1}$", "$x_n=b$"])
+    ytics = array(["$f(x_0)$", "$f(x_1)$", "$f(x_{,,,})$", "$f(x_{n-1})$", "$f(x_n)$"])
+    plt.xticks(x, xtics)
+    plt.yticks(y, ytics)
+    plt.xlim(-0.2,4.2)
+    plt.ylim(0,6.2)
+    plt.show()
+    #plt.xtics(values, xticks)
+    
+    plt.show()
+
+def trapezoidal_plot():
+    from numpy import arange, array
+    from matplotlib import pyplot as plt
+    from scipy.interpolate import lagrange
+
+    x = arange(5)
+    y = array([1, 2.5, 3.2, 2.1, 6])
+    #plt.plot(x, y, 'o')
+
+    line = lagrange([0, 4], [1, 6])
+    xfine = arange(0, 5, 0.1)
+    yfine = line(xfine)
+    plt.plot(xfine, yfine)
+
+    poly = lagrange(x, y)
+    f = poly(xfine)
+    plt.plot(xfine, f)
+    plt.annotate("$f(x)$", xy=(2.5, 3.5))
+    plt.annotate(s='', xy=(2.5, 3.4), xytext=(2.5,2.8), arrowprops=dict(arrowstyle='<-'))
+    plt.annotate(s='', xy=(x[0], 1), xytext=(x[4],1), arrowprops=dict(arrowstyle='<->'))
+    plt.annotate("h", xy=(2.5, 1.1))
+    plt.plot([0, 0], [0, y[0]], '--', color='gray')
+    plt.plot([4, 4], [0, y[4]], '--', color='gray')
+    area = plt.Polygon([(0,0), (0, y[0]), (4, y[4]), (4,0), (0,0)], closed=True, color='#EEEEEE')
+    plt.gca().add_patch(area)
+    xtics = array(["$x_0=a$", "$x_1=b$"])
+    plt.xticks([0, 4], xtics)
+    plt.xlim(-0.2,4.2)
+    plt.ylim(0,6.2)
+    plt.show()
+    #plt.xtics(values, xticks)
+
+    plt.show()
+
+def composite_trapezoidal_plot():
+    from numpy import arange, array
+    from matplotlib import pyplot as plt
+    from scipy.interpolate import lagrange
+
+    x = arange(5)
+    y = array([1, 2.5, 3.2, 2.1, 6])
+    #plt.plot(x, y, 'o')
+
+    xfine = arange(0, 5, 0.1)
+
+
+    poly = lagrange(x, y)
+    f = poly(xfine)
+    plt.plot(xfine, f)
+    plt.annotate("$f(x)$", xy=(2.5, 3.5))
+
+    for i in range(4):
+        xfine = arange(x[i], x[i+1], 0.01)
+        line = lagrange([x[i], x[i+1]], [y[i], y[i+1]])
+        yfine = line(xfine)
+        plt.plot(xfine, yfine)
+        area = plt.Polygon([(x[i],0), (x[i], y[i]), (x[i+1], y[i+1]), (x[i+1],0), (x[i],0)], closed=True, color='#EEEEEE')
+        plt.gca().add_patch(area)
+        plt.plot([x[i], x[i]],[0, y[i]], '--', color='gray')
+
+    plt.annotate(s='', xy=(2.5, 3.4), xytext=(2.5,2.8), arrowprops=dict(arrowstyle='<-'))
+    plt.annotate(s='', xy=(x[2], 1), xytext=(x[3],1), arrowprops=dict(arrowstyle='<->'))
+    plt.annotate("h", xy=(2.5, 1.1))
+
+    plt.plot([0, 0], [0, y[0]], '--', color='gray')
+    plt.plot([4, 4], [0, y[4]], '--', color='gray')
+    xtics = array(["$x_0=a$", "$x_1=b$"])
+    plt.xticks([0, 4], xtics)
+    plt.xlim(-0.2,4.2)
+    plt.ylim(0,6.2)
+    plt.show()
+    #plt.xtics(values, xticks)
+
+    plt.show()
+
+# Chapter 7
+
+def plot_euler():
+    from matplotlib import pyplot as plt
+    from numpy import arange, exp
+    x = arange(0, 3.1, 0.1)
+    plt.plot(x, exp(x))
+    plt.annotate(s='$k_0$', xy=(0, 1), xytext=(1, 2), arrowprops=dict(arrowstyle='<-', color='red'))
+    plt.plot([0, 3], [1, 4], '--', color='orange')
+    plt.plot([3, 3], [0, 4], '--', color='orange')
+    plt.annotate("y(x+h)", xy=(3, 4.5), color='orange')
+    plt.plot([3], [4], 'o')
+    plt.xticks([0, 3], ["x", "x+h"])
+    plt.yticks([])
+    plt.ylim(0, exp(3.1))
+    plt.show()
+
+def plot_rk2():
+    from matplotlib import pyplot as plt
+    from numpy import arange, exp
+    x = arange(0, 3.1, 0.1)
+    plt.plot(x, exp(x))
+
+    x0 = 0
+    h = 3
+    y = exp(0)
+    k = y
+    plt.annotate(s='$k_0$', xy=(x0, y), xytext=(x0+1, y + k), arrowprops=dict(arrowstyle='<-', color='red'))
+    plt.plot([x0, x0+h/2], [y, y + h/2*k], '--', color='orange')
+    plt.plot([h/2, h/2], [0, y + h/2*k], '--', color='orange')
+    plt.plot([h/2], [y + h/2*k], 'o', color='orange')
+    plt.annotate("y(x+h/2)", xy=(h/2, y + h/2*k+0.5), color='orange')
+
+    x0 = x0+h/2
+    y = y + h/2*k
+    k = y
+    plt.annotate(s='$k_1$', xy=(x0, y), xytext=(x0+1, y + k), arrowprops=dict(arrowstyle='<-', color='green'))
+    plt.plot([0, h], [exp(0), exp(0) + h*k], '--', color='orange')
+    plt.plot([h, h], [0, exp(0) + h*k], '--', color='orange')
+    plt.plot([h], [exp(0) + h*k], 'o', color='orange')
+    plt.annotate("y(x+h)", xy=(h, exp(0) + h*k + 0.5), color='orange')
+    plt.annotate(s='', xy=(0, exp(0)), xytext=(1, exp(0) + k), arrowprops=dict(arrowstyle='<-', color='green'))
+
+    plt.xticks([0, 1.5, 3], ["x", "x+h/2", "x+h"])
+    plt.yticks([])
+    plt.ylim(0, exp(3.1))
+    plt.show()
+
+def plot_rk4():
+    from matplotlib import pyplot as plt
+    from math import sqrt
+    from numpy import arange, exp
+    x = arange(0, 3.1, 0.1)
+    plt.plot(x, exp(x))
+    
+    sumk = 0
+    # k0
+    x0 = 0
+    h = 3
+    y = exp(0)
+    k = y
+    sumk += k
+    step = 1 # so that the vector has a unit norm
+    plt.annotate(s='$k_0$', xy=(x0, y), xytext=(x0+step, y + step*k), arrowprops=dict(arrowstyle='<-', color='red'))
+    plt.plot([x0, x0+h/2], [y, y + h/2*k], '--', color='orange')
+    plt.plot([h/2, h/2], [0, y + h/2*k], '--', color='orange')
+    plt.plot([h/2], [y + h/2*k], 'o', color='orange')
+    plt.annotate("y(x+h/2)", xy=(h/2, y + h/2*k+0.5), color='orange')
+    
+    # k1
+    x0 = x0+h/2
+    y = y + h/2*k
+    k = y
+    sumk += 2*k
+    step =  1
+    plt.annotate(s='$k_1$', xy=(x0, y), xytext=(x0+step, y + step*k), arrowprops=dict(arrowstyle='<-', color='green'))
+    plt.plot([0, h/2], [exp(0), exp(0) + h/2*k], '--', color='orange')
+    plt.plot([h/2, h/2], [0, exp(0) + h/2*k], '--', color='orange')
+    plt.plot([h/2], [exp(0) + h/2*k], 'o', color='orange')
+    plt.annotate("y(x+h/2)", xy=(h/2, exp(0) + h/2*k + 0.5), color='orange')
+    plt.annotate(s='', xy=(0, exp(0)), xytext=(step, exp(0) + step*k), arrowprops=dict(arrowstyle='<-', color='green'))
+    
+    # k2
+    x0 = h/2
+    y = exp(0) + h/2*k
+    k = y
+    sumk += 2*k
+    step = 1
+    plt.annotate(s='$k_2$', xy=(x0, y), xytext=(x0+step, y + step*k), arrowprops=dict(arrowstyle='<-', color='blue'))
+    plt.plot([0, h], [exp(0), exp(0) + h*k], '--', color='orange')
+    plt.plot([h, h], [0, exp(0) + h*k], '--', color='orange')
+    plt.plot([h], [exp(0) + h*k], 'o', color='orange')
+    plt.annotate("y(x+h)", xy=(h, exp(0) + h*k + 0.5), color='orange')
+    plt.annotate(s='', xy=(0, exp(0)), xytext=(step, exp(0) + step*k), arrowprops=dict(arrowstyle='<-', color='blue'))
+    
+    # k3
+    x0 = h
+    y = exp(0) + h*k
+    k = y
+    sumk += k
+    step = 1
+    plt.annotate(s='$k_3$', xy=(x0, y), xytext=(x0+step, y + step*k), arrowprops=dict(arrowstyle='<-', color='black'))
+    
+    k=sumk/6
+    plt.annotate(s='$k$', xy=(0, exp(0)), xytext=(1, exp(0) + k), arrowprops=dict(arrowstyle='<-', color='chocolate'))
+    plt.plot([0, h], [exp(0), exp(0) + h*k], '--', color='orange')
+    plt.plot([h, h], [0, exp(0) + h*k], '--', color='orange')
+    plt.plot([h], [exp(0) + h*k], 'o', color='orange')
+    plt.annotate("y(x+h)", xy=(h, exp(0) + h*k + 0.5), color='orange')
+    
+    plt.xticks([0, 1.5, 3], ["x", "x+h/2", "x+h"])
+    plt.yticks([])
+    plt.ylim(0, exp(3.1))
+    plt.show()

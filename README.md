@@ -2,7 +2,7 @@
 COMP 361/5611 at Concordia University
 
 This repository contains the course material, including:
-* `notebooks`: Jupyter notebooks used in the lectures (best viewed with [Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html)). If you don't want or can't install Jupyter, Google Collab is a nice alternate:
+* `notebooks`: Jupyter notebooks used in the lectures (best viewed with [Jupyter](https://jupyter.org/install)). If you don't want or can't install Jupyter, Google Collab is a nice alternate:
   - [Chapter 1](https://colab.research.google.com/github/tgteacher/numerical-methods/blob/master/notebooks/Chapter1.ipynb)
   - [Chapter 2](https://colab.research.google.com/github/tgteacher/numerical-methods/blob/master/notebooks/Chapter2.ipynb)
   - [Chapter 3](https://colab.research.google.com/github/tgteacher/numerical-methods/blob/master/notebooks/Chapter3.ipynb)
