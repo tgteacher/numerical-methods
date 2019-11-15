@@ -519,3 +519,21 @@ def plot_rk4():
     plt.yticks([])
     plt.ylim(0, exp(3.1))
     plt.show()
+
+def bp_fd_plot():
+    from numpy import arange, log
+    from matplotlib import pyplot as plt
+    x = arange(1,10)
+    y = log(x)
+    plt.plot(x, y, x[1:-1], y[1:-1], 'o')
+    xtics = ["$x_{-1}$", "$x_0$=a", "$x_1$", "$x_2$", "", "$x_{m-2}$", "$x_{m-1}$", "$x_m$=b", "$x_{m+1}$"]
+    ytics = ["$y_{-1}$", "$y_0$", "$y_1$", "$y_2$", "", "$y_{m-2}$", "$y_{m-1}$", "$y_m$", "$y_{m+1}$"]
+    plt.xticks([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], xtics)
+    plt.yticks(log([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), ytics)
+    for i in x:
+        plt.plot([i, i], [0, log(i)], '--', color='orange')
+    plt.annotate(s='', xy=(3, 1), xytext=(4, 1), arrowprops=dict(arrowstyle='<->', color='green'))
+    plt.annotate(s='h', xy=(3.5, 1.1), color='green')
+    
+    plt.ylim(0)
+    plt.show()
